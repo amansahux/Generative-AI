@@ -1,0 +1,21 @@
+{
+  "name": "tools-in-gen-ai",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "dependencies": {
+    "@langchain/mistralai": "^1.2.0",
+    "dotenv": "^17.4.2",
+    "langchain": "^1.5.2",
+    "nodemailer": "^9.0.1",
+    "readline-sync": "^1.4.10",
+    "zod": "^4.4.3"
+  }
+}

@@ -12,8 +12,8 @@ const transporter = nodemailer.createTransport({
 })
 
 transporter.verify()
-    .then(() => { return("Email transporter is ready to send emails"); })
-    .catch((err) => { console.error("Email transporter verification failed:", err); });
+    .then(() => { return("Email transporter is ready to send emails..."); })
+    .catch((err) => { console.error("Email transporter verification failed...:", err); });
 
 export async function sendEmail({ to, subject, html, text = "" }) {
 

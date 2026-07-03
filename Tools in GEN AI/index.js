@@ -2,7 +2,7 @@ import "dotenv/config";
 import readline from "readline/promises";
 import { ChatMistralAI } from "@langchain/mistralai";
 import * as z from "zod";
-import { createAgent, HumanMessage, Tool, tool } from "langchain";
+import { createAgent, HumanMessage, tool } from "langchain";
 import { sendEmail } from "./mail.service.js";
 
 const emailTool = tool(sendEmail, {

@@ -2,7 +2,11 @@ import { PDFParse } from "pdf-parse";
 import dotenv from "dotenv";
 dotenv.config();
 import { RecursiveCharacterTextSplitter } from "@langchain/textsplitters";
+import { Pinecone } from "@pinecone-database/pinecone";
 import fs from "fs";
+
+const pc = new Pinecone({ apiKey: process.env.PINECONE_API_KEY });
+const index = pc.index("cohort2-rag");
 
 const pdfData = fs.readFileSync("./story.pdf");
 
@@ -27,5 +31,21 @@ const embeddings = new MistralAIEmbeddings({
   apiKey: process.env.MISTRAL_APUI_KEY,
 });
 
-const embeddedTexts = await embeddings.embedDocuments(chunks);
-// console.log(embeddedTexts);
+const docs = await Promise.all(
+  chunks.map(async (chunk) => {
+    const embedding = await embeddings.embedQuery(chunk);
+    return {
+      text: chunk,
+      embedding,
+    };
+  }),
+);
+console.log(docs);
+
+await index.upsert({
+  records: docs.map((doc, i) => ({
+    id: `doc-${i}`,
+    values: doc.embedding,
+    metadata: { text: doc.text },
+  })),
+});

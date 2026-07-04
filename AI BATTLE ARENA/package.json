@@ -1,0 +1,29 @@
+{
+  "name": "ai-battle-arena",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "tsx server.ts "
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "devDependencies": {
+    "tsx": "^4.23.0",
+    "typescript": "^5.8.3"
+  },
+  "dependencies": {
+    "@langchain/cohere": "^1.1.0",
+    "@langchain/core": "^1.2.1",
+    "@langchain/google-genai": "^2.2.0",
+    "@langchain/langgraph": "^1.4.7",
+    "@langchain/mistralai": "^1.2.0",
+    "@types/express": "^5.0.6",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "langchain": "^1.5.2"
+  }
+}

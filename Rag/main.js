@@ -16,7 +16,7 @@ const splitter = new RecursiveCharacterTextSplitter({
   chunkSize: 600,
   chunkOverlap: 0,
 });
-const texts = await splitter.splitText(data.text);
+const chunks = await splitter.splitText(data.text);
 // console.log(texts)
 // console.log(texts.length)
 
@@ -27,5 +27,5 @@ const embeddings = new MistralAIEmbeddings({
   apiKey: process.env.MISTRAL_APUI_KEY,
 });
 
-const embeddedTexts = await embeddings.embedDocuments(texts);
-console.log(embeddedTexts);
+const embeddedTexts = await embeddings.embedDocuments(chunks);
+// console.log(embeddedTexts);

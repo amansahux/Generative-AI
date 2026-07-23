@@ -108,3 +108,10 @@ LLM ek bahut bada AI model hai jo billions of text examples padhkar language ke 
 Technical Definition
 
 A Large Language Model is a deep neural network trained on massive text datasets to predict the next token in a sequence.
+
+🚀 Chapter 4: GPT (Generative Pre-trained Transformer)
+
+G = Generative --->  Naya content banana.
+P = Pre-trained --->  Pehle se train kiya hua.
+T = Transformer ---> AI architecture.
+

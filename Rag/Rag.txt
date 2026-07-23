@@ -158,6 +158,35 @@ React
 
 Embeddings represent
 
+🧠 Chapter 7: Transformer
+
+Pipeline
+
+Sentence
+
+↓
+
+Tokenizer
+
+↓
+
+Token IDs
+
+↓
+
+Embeddings
+
+↓
+
+Transformer
+
+↓
+
+Next Token
+
+↓
+
+Repeat
 
 
 🚀 Chapter 10: Attention (The Superpower Behind ChatGPT)

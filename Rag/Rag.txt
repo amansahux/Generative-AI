@@ -189,7 +189,7 @@ Next Token
 Repeat
 
 
-🚀 Chapter 10: Attention (The Superpower Behind ChatGPT)
+🚀 Chapter 8: Attention (The Superpower Behind ChatGPT)
 
 Attention Kya Hai?
 
@@ -202,3 +202,22 @@ Attention ka matlab ye nahi hai ki model human ki tarah sochta hai.
 Reality me:
 
 Har token baaki tokens ko numerical scores deta hai.
+
+🧠 Chapter 9: Q K V ---->
+ Query
+
+Key
+
+Value
+
+Query
+
+"What am I looking for?"
+
+Key
+
+"What information do I have?"
+
+Value
+
+"The actual information."

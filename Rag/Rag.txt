@@ -52,3 +52,20 @@ self driving car
 ChatGPT
 Gemini
 Claude
+
+
+4️⃣ Generative AI
+
+Human Definition :- Ye deep learning ka branch h jo ki sirf response generate ni krna balki naya content generate krta h  like 
+
+- Text
+- Images
+- Code
+- Audio
+- Video
+- Generate Music
+- Create Video
+- Create Resume
+
+
+

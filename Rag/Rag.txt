@@ -21,3 +21,15 @@ AI ki 3 Categories Hoti Hai:
 1️⃣ Artificial Narrow Intelligence (ANI)
 2️⃣ Artificial General Intelligence (AGI)
 3️⃣ Artificial Superintelligence (ASI)
+
+
+2️⃣ Machine Learning (ML)
+
+Human Defination 
+
+Machine ko itna capable banana ki wo khud se seekh sake. use bs data dedo wo khud rules bana lega like if u give 1000 cats and 1000 dogs then yr automatically difference pata kr legga 
+
+Technical Definition 
+
+Machine Learning is a subset of AI that focuses on the development of algorithms that allow computers to learn from data and make predictions or decisions without being explicitly programmed.
+

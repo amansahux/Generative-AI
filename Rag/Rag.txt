@@ -99,3 +99,12 @@ NLP kya kya karta hai?
 3. Analyze
 4. Generate
 
+📚 Chapter 3: LLM (Large Language Models)
+Bhai, ye pura GenAI ka heart hai. ❤️
+
+Human Definition
+
+LLM ek bahut bada AI model hai jo billions of text examples padhkar language ke patterns seekhta hai aur next token predict karke text generate karta hai.
+Technical Definition
+
+A Large Language Model is a deep neural network trained on massive text datasets to predict the next token in a sequence.

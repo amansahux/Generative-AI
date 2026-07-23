@@ -136,7 +136,31 @@ Tokenizer
 
 [.]
 
-🚀 Chapter 6: Attention (The Superpower Behind ChatGPT)
+🧠 Chapter 6: Embeddings
+
+Token IDs become
+
+Vectors
+
+Example
+
+React
+
+↓
+
+[0.32
+
+-1.11
+
+5.44
+
+...]
+
+Embeddings represent
+
+
+
+🚀 Chapter 10: Attention (The Superpower Behind ChatGPT)
 
 Attention Kya Hai?
 

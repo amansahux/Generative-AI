@@ -33,3 +33,22 @@ Technical Definition
 
 Machine Learning is a subset of AI that focuses on the development of algorithms that allow computers to learn from data and make predictions or decisions without being explicitly programmed.
 
+
+3️⃣ Deep Learning (DL)
+
+Human Definition 
+
+Ye Machine Learning ka advanced form hai jisme hum neurons ka use krte hai jisse wo sikh sake. ye human brain ki copy krta h 
+
+Technical Defination
+
+Deep Learning uses Artificial Neural Networks having multiple hidden layers.
+
+Examples 
+
+Image Recognition
+Speech Recognition
+self driving car
+ChatGPT
+Gemini
+Claude

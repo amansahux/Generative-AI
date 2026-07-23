@@ -1,0 +1,23 @@
+1️⃣ Artificial Intelligence (AI)
+Human Definition
+
+Machine ko itna intelligent banana ki wo insaan ki tarah decisions le sake.
+
+Technical Definition
+
+Artificial Intelligence is a branch of Computer Science that focuses on creating systems capable of performing tasks that normally require human intelligence.
+
+Examples
+
+Decision making
+Reasoning
+Planning
+Problem solving
+Language understanding
+Vision
+
+
+AI ki 3 Categories Hoti Hai:
+1️⃣ Artificial Narrow Intelligence (ANI)
+2️⃣ Artificial General Intelligence (AGI)
+3️⃣ Artificial Superintelligence (ASI)

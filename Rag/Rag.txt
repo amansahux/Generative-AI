@@ -109,9 +109,23 @@ Technical Definition
 
 A Large Language Model is a deep neural network trained on massive text datasets to predict the next token in a sequence.
 
+
 🚀 Chapter 4: GPT (Generative Pre-trained Transformer)
 
 G = Generative --->  Naya content banana.
 P = Pre-trained --->  Pehle se train kiya hua.
 T = Transformer ---> AI architecture.
 
+🚀 Chapter 5: Attention (The Superpower Behind ChatGPT)
+
+Attention Kya Hai?
+
+Human definition:
+
+Sentence me kaunse words important hain, un par zyada focus karna.
+
+Attention ka matlab ye nahi hai ki model human ki tarah sochta hai.
+
+Reality me:
+
+Har token baaki tokens ko numerical scores deta hai.

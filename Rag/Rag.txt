@@ -1,3 +1,5 @@
+📚 Chapter 1:AI vs ML vs Deep Learning vs Generative AI (Foundation)
+
 1️⃣ Artificial Intelligence (AI)
 Human Definition
 
@@ -68,4 +70,32 @@ Human Definition :- Ye deep learning ka branch h jo ki sirf response generate ni
 - Create Resume
 
 
+📚 Chapter 2: NLP (Natural Language Processing)
+Human Definition
+
+Natural Language Processing (NLP) ek AI field hai jo computer ko human language ko read, understand, analyze aur generate karna sikhati hai.
+
+Simple words me:
+NLP = Human Language + Computer
+
+Technical Definition
+
+NLP is a branch of Artificial Intelligence that enables computers to process, understand, interpret and generate natural human language.
+
+Natural Language ka matlab?
+
+English
+Hindi
+Urdu
+Bengali
+Japanese
+French
+
+Programming language nahi.
+
+NLP kya kya karta hai?
+1. Read
+2. Understand
+3. Analyze
+4. Generate
 

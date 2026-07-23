@@ -116,7 +116,27 @@ G = Generative --->  Naya content banana.
 P = Pre-trained --->  Pehle se train kiya hua.
 T = Transformer ---> AI architecture.
 
-🚀 Chapter 5: Attention (The Superpower Behind ChatGPT)
+🧠 Chapter 5: Tokenization
+
+Sentence
+
+I love React.
+
+↓
+
+Tokenizer
+
+↓
+
+[I]
+
+[love]
+
+[React]
+
+[.]
+
+🚀 Chapter 6: Attention (The Superpower Behind ChatGPT)
 
 Attention Kya Hai?
 

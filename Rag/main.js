@@ -28,7 +28,7 @@ import { MistralAIEmbeddings } from "@langchain/mistralai";
 
 const embeddings = new MistralAIEmbeddings({
   model: "mistral-embed",
-  apiKey: process.env.MISTRAL_APUI_KEY,
+  apiKey: process.env.MISTRAL_API_KEY,
 });
 
 // const docs = await Promise.all(

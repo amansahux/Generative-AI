@@ -1,6 +1,9 @@
 import fs from "fs";
+import dotenv from "dotenv";
+dotenv.config();
 import { PDFParse } from "pdf-parse";
 import { RecursiveCharacterTextSplitter } from "@langchain/textsplitters";
+import { MistralAIEmbeddings } from "@langchain/mistralai";
 
 const buffer = fs.readFileSync("story.pdf");
 const parser = new PDFParse({ data: buffer });
@@ -14,5 +17,22 @@ const splitter = new RecursiveCharacterTextSplitter({
 });
 const chunks = await splitter.splitText(text);
 
-console.log(chunks);
-console.log(chunks.length);
+// console.log(chunks);
+// console.log(chunks.length);
+
+
+const embeddings = new MistralAIEmbeddings({
+  model: "mistral-embed",
+  apiKey:process.env.MISTRAL_API_KEY
+});
+
+const docs = await Promise.all(
+  chunks.map(async (chunk) => {
+    const embedding = await embeddings.embedQuery(chunk);
+    return {
+      text: chunk,
+      embedding,
+    };
+  }),
+);
+console.log(docs)

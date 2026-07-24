@@ -2,3 +2,54 @@ LangGraph lets you build AI systems that can think in multiple steps, make decis
 
 LangChain = LLM ko use karna aasaan banata hai.
 LangGraph = Complex AI workflows aur agents banane ka framework hai.
+
+LangGraph is a framework to create AI workflows using nodes and edges.
+
+Node kya hota hai?
+
+Node = ek kaam.
+Example:
+
+Read PDF
+
+ya
+
+Call Gemini
+
+ya
+
+Search Database
+
+
+Edge kya hota hai?
+
+Edge decide karta hai
+
+Next node kaunsa hoga.
+
+Example
+
+Read PDF
+
+↓
+
+Chunk PDF
+
+↓
+
+Embeddings
+
+↓
+
+Pinecone
+
+↓
+
+LLM
+
+↓
+
+Answer
+
+Ye pura graph hai.
+

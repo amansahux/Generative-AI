@@ -1,12 +1,18 @@
 import fs from "fs";
-import { PDFParse } from 'pdf-parse';
+import { PDFParse } from "pdf-parse";
 import { RecursiveCharacterTextSplitter } from "@langchain/textsplitters";
 
-const buffer = fs.readFileSync('story.pdf');
+const buffer = fs.readFileSync("story.pdf");
 const parser = new PDFParse({ data: buffer });
-const document = await parser.getText()
+const document = await parser.getText();
+// console.log(document.text)
+const text = String(document.text);
 
+const splitter = new RecursiveCharacterTextSplitter({
+  chunkSize: 500,
+  chunkOverlap: 0,
+});
+const chunks = await splitter.splitText(text);
 
-const splitter = new RecursiveCharacterTextSplitter({ chunkSize: 500, chunkOverlap: 0 })
-const texts = await splitter.splitText(document)
-console.log(texts)
+console.log(chunks);
+console.log(chunks.length);

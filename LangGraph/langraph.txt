@@ -53,3 +53,31 @@ Answer
 
 Ye pura graph hai.
 
+State kya hota hai?
+
+Sabse important concept.
+
+State matlab
+
+Shared Memory
+
+Example
+
+{
+    question:"",
+    pdf:"",
+    embeddings:[],
+    answer:"",
+    score:0
+}
+
+Har node isi object ko update karta rehta hai.
+
+
+
+LangGraph SuperPoewrs :--
+
+    1 Decision Making
+    2 Loops
+    3 Memory
+    4 Multiple Agents

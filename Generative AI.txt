@@ -221,3 +221,7 @@ Key
 Value
 
 "The actual information."
+
+chapter 10 Self Attention kya hai?
+
+Ek mechanism jahan sentence ka har token sentence ke har doosre token ko context samajhne ke liye attend karta hai.

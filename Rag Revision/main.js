@@ -53,7 +53,16 @@ const embeddings = new MistralAIEmbeddings({
 // );
 // console.log(res)
 
-const query = "How is the internship experience?";
+// const query = "How is the internship experience?";
+// const queryEmbedding = await embeddings.embedQuery(query);
+
+// const queryResponse = await index.query({
+//   vector: queryEmbedding,
+//   topK: 3,
+//   includeMetadata: true,
+// });
+// console.log(JSON.stringify(queryResponse));
+const query = "What arav relized after listening the advice of senior?";
 const queryEmbedding = await embeddings.embedQuery(query);
 
 const queryResponse = await index.query({

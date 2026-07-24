@@ -1,0 +1,30 @@
+{
+  "matches": [
+    {
+      "id": "doc-1",
+      "score": 0.761516,
+      "values": [],
+      "metadata": {
+        "text": "He often felt busy, but rarely felt clear.\nChapter 2: The First Internship\nIn his final semester, Aarav got a 3-month internship at a small software company.\nOn the first day, his manager said something that stuck with him:\n“We don’t care how many languages you know.\nWe care if you can debug when things break.”\nDuring the internship:\n• Aarav struggled to understand an existing codebase\n• He was afraid to ask questions\n• He copied solutions without fully understanding them"
+      }
+    },
+    {
+      "id": "doc-3",
+      "score": 0.70320785,
+      "values": [],
+      "metadata": {
+        "text": "Once, he fixed a bug by trial and error — but couldn’t explain why it worked.\nThat feedback hurt more than the bug itself.\nChapter 3: Transition to Full-Time Job\nAfter graduation, Aarav joined a mid-sized tech company as a junior developer.\nThe environment was different:\n• Deadlines were real\n• Bugs affected users\n• Mistakes showed up in production\nIn his first month:\n• He broke a feature while fixing another\n• He misunderstood a requirement\n• He pushed code without testing edge cases"
+      }
+    },
+    {
+      "id": "doc-4",
+      "score": 0.699716,
+      "values": [],
+      "metadata": {
+        "text": "His senior didn’t scold him.\nInstead, he said:\n“You’re coding like a student.\nYou need to start thinking like a system.”\nAarav didn’t fully understand that sentence at the time.\nChapter 4: The Reality of Office Life\nOffice life was not about:\n• Writing fresh code every day\n• Using the latest frameworks"
+      }
+    }
+  ],
+  "namespace": "",
+  "usage": { "readUnits": 1 }
+}

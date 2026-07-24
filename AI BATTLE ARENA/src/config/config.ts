@@ -3,10 +3,10 @@ dotenv.config();
 
 
 type CONFIG = {
-    PORT: string | undefined;
-    GEMINI_API_KEY: string | undefined;
-    MISTRAL_API_KEY: string | undefined;
-    COHERE_API_KEY: string | undefined;
+  readonly  PORT: string | undefined;
+  readonly  GEMINI_API_KEY: string | undefined;
+  readonly  MISTRAL_API_KEY: string | undefined;
+  readonly  COHERE_API_KEY: string | undefined;
 }
 const config: CONFIG = {
     PORT: process.env.PORT,

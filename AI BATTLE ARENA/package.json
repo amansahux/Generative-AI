@@ -24,6 +24,7 @@
     "@types/express": "^5.0.6",
     "dotenv": "^17.4.2",
     "express": "^5.2.1",
-    "langchain": "^1.5.2"
+    "langchain": "^1.5.2",
+    "zod": "^4.4.3"
   }
 }

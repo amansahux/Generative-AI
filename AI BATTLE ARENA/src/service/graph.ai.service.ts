@@ -19,9 +19,7 @@ export default async function (userMessage:string) {
     const res = await graph.invoke({
         messages:[new HumanMessage(userMessage)]
     })
-    console.log(res)
     return res.messages
-    
 }
 
 

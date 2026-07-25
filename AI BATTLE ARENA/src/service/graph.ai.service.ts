@@ -1,25 +1,27 @@
+import { HumanMessage } from "@langchain/core/messages";
 import { StateSchema, MessagesValue, StateGraph, START, END } from "@langchain/langgraph";
+import type { GraphNode } from "@langchain/langgraph";
 
-type JUDGEMENT = {
-    winner: "solution_1" | "solution_2" | null;
-    solution_1_score: number;
-    solution_2_score: number;
-}
 
-type AIBATTLESTATE = {
-    messages: typeof MessagesValue;
-    solution_1: string;
-    solution_2: string;
-    judgement: JUDGEMENT;
-};
-
-const state: AIBATTLESTATE = {
+const State = new StateSchema({
     messages: MessagesValue,
-    solution_1: "",
-    solution_2: "",
-    judgement: {
-        winner: null,
-        solution_1_score: 0,
-        solution_2_score: 0
+});
+const solutionNode: GraphNode<typeof State.State> = (state) => {
+    console.log(state.messages)
+    return {
+        messages: state.messages
     }
 }
+
+const graph = new StateGraph(State).addNode("solution", solutionNode).addEdge(START, "solution").compile()
+
+export default async function (userMessage:string) {
+    const res = await graph.invoke({
+        messages:[new HumanMessage(userMessage)]
+    })
+    console.log(res)
+    return res.messages
+    
+}
+
+

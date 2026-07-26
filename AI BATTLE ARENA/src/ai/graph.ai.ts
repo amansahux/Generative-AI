@@ -63,3 +63,13 @@ const judge_node: GraphNode<typeof state> = async (state) => {
         }
     }
 }
+
+const graph = new StateGraph(state)
+    .addNode("solution_node", solution_node)
+    .addNode("judge_node", judge_node)
+    .addEdge(START, "solution_node")
+    .addEdge("solution_node", "judge_node")
+    .addEdge("judge_node", END)
+    .compile()
+
+export default graph

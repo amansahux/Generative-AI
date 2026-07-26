@@ -9,7 +9,7 @@ app.get("/", (req, res) => {
   res.send("Server Running 🚀");
 });
 app.post("/run-graph", async (req, res) => {
-  useGraph("What is The Most used packag in react for building 3d Website in 20 words")
+  useGraph("best programming language for dsa")
 })
 
 export default app;

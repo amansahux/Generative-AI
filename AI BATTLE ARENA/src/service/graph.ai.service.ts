@@ -1,8 +1,8 @@
 import { HumanMessage } from "@langchain/core/messages";
-import { StateSchema, MessagesValue, StateGraph, START, END, ReducedValue } from "@langchain/langgraph";
-import type { GraphNode } from "@langchain/langgraph";
+import { StateSchema, MessagesValue, StateGraph, START, END, ReducedValue, type GraphNode } from "@langchain/langgraph";
 import * as z from "zod"
 import { cohereModel, mistralModel } from "./ai.service.js";
+import { createAgent, providerStrategy } from "langchain"
 
 const State = new StateSchema({
     messages: MessagesValue,
@@ -17,8 +17,8 @@ const State = new StateSchema({
         solution_2_score: 0,
     }), { reducer: (current, next) => { return next } })
 });
-const solutionNode: GraphNode<typeof State.State> = async(state) => {
-    const [cohere_solution , mistral_solution] = await Promise.all([
+const solutionNode: GraphNode<typeof State.State> = async (state) => {
+    const [cohere_solution, mistral_solution] = await Promise.all([
         cohereModel.invoke(state.messages[0].text),
         mistralModel.invoke(state.messages[0].text)
     ])
@@ -29,7 +29,7 @@ const solutionNode: GraphNode<typeof State.State> = async(state) => {
     }
 }
 
-const graph = new StateGraph(State).addNode("solution", solutionNode).addEdge(START, "solution").addEdge("solution", END).compile()
+const graph = new StateGraph(State).addNode("solution", solutionNode).addEdge(START, "solution").addEdge("solution", END).compile();
 
 export default async function (userMessage: string) {
     const res = await graph.invoke({

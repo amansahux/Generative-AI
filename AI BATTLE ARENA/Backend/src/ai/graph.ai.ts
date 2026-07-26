@@ -64,14 +64,15 @@ const solution_node: GraphNode<typeof state> = async (state) => {
             cohereResult.status === "fulfilled"
                 ? cohereResult.value.text
                 : "",
+        retryCount: 0
     };
 
 }
 
 const validation_node: GraphNode<typeof state> = async (state) => {
- const valid =
-    state.solution_1.trim().length > 10 &&
-    state.solution_2.trim().length > 10;
+    const valid =
+        state.solution_1.trim().length > 10 &&
+        state.solution_2.trim().length > 10;
     return {
         isValid: valid
     }
@@ -82,7 +83,7 @@ const retryNode: GraphNode<typeof state> = async (state) => {
         retryCount: state.retryCount + 1,
         solution_1: "",
         solution_2: "",
-        
+
     }
 
 }
@@ -116,7 +117,7 @@ Give concise reasoning.
         return {
             judge_response: response.structuredResponse!,
             judgeSuccess: true,
-               judgeRetryCount: 0,
+            judgeRetryCount: 0,
         };
 
     } catch (err) {

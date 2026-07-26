@@ -21,6 +21,15 @@ const state = new StateSchema({
     judge_response: judge_res_format,
     judgeRetryCount: z.number().default(0),
     judgeSuccess: z.boolean().default(false),
+    loading: z.enum([
+    "idle",
+    "generated",
+    "validated",
+    "regenerated",
+    "judged",
+    "rejudged",
+    "failed"
+]).default("idle")
 })
 
 
@@ -55,6 +64,7 @@ const solution_node: GraphNode<typeof state> = async (state) => {
         ]);
 
     return {
+        loading:"generated",
         solution_1:
             mistralResult.status === "fulfilled"
                 ? mistralResult.value.text
@@ -74,12 +84,14 @@ const validation_node: GraphNode<typeof state> = async (state) => {
         state.solution_1.trim().length > 10 &&
         state.solution_2.trim().length > 10;
     return {
+        loading: valid ? "validated" : "regenerated",
         isValid: valid
     }
 
 }
 const retryNode: GraphNode<typeof state> = async (state) => {
     return {
+        loading:"regenerated",
         retryCount: state.retryCount + 1,
         solution_1: "",
         solution_2: "",
@@ -111,13 +123,16 @@ Give concise reasoning.
 
         if (!response.structuredResponse) {
             return {
+                loading:"failed",
                 judgeSuccess: false,
             };
         }
         return {
+            loading:"judged",
             judge_response: response.structuredResponse!,
             judgeSuccess: true,
             judgeRetryCount: 0,
+            
         };
 
     } catch (err) {
@@ -125,10 +140,18 @@ Give concise reasoning.
 
         return {
             judgeSuccess: false,
+            loading:"rejudged"
+
         };
     }
 }
 const judgeRetryNode: GraphNode<typeof state> = async (state) => {
+    if(state.loading === "rejudged") {
+        return {
+            loading:"rejudged",
+            judgeRetryCount: state.judgeRetryCount + 1,
+        }
+    }
     return {
         judgeRetryCount: state.judgeRetryCount + 1,
     };

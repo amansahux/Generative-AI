@@ -1,8 +1,8 @@
 import { HumanMessage } from "@langchain/core/messages";
 import { StateSchema, MessagesValue, StateGraph, START, END, ReducedValue, type GraphNode } from "@langchain/langgraph";
 import * as z from "zod"
-import { cohereModel, mistralModel } from "./ai.service.js";
-import { createAgent, providerStrategy } from "langchain"
+import { cohereModel, geminiModel, mistralModel } from "./ai.service.js";
+import { createAgent, ProviderStrategy, providerStrategy } from "langchain"
 
 const State = new StateSchema({
     messages: MessagesValue,
@@ -28,8 +28,19 @@ const solutionNode: GraphNode<typeof State.State> = async (state) => {
         solution_2: mistral_solution.text,
     }
 }
+const judgeNode: GraphNode<typeof State.State> = async (state) => {
+    const { solution_1, solution_2 } = state
+    const Judge = createAgent({
+        model: geminiModel,
+        tools: [],
+        responseFormat: providerStrategy(z.object({
+            solution_1_score: z.number().min(0).max(10),
+            solution_2_score: z.number().min(0).max(10),
+        }))
+    })
+}
 
-const graph = new StateGraph(State).addNode("solution", solutionNode).addEdge(START, "solution").addEdge("solution", END).compile();
+const graph = new StateGraph(State).addNode("solution", solutionNode).addNode("judge", judgeNode).addEdge(START, "solution").addEdge("solution", "judge").addEdge("judge", END).compile();
 
 export default async function (userMessage: string) {
     const res = await graph.invoke({

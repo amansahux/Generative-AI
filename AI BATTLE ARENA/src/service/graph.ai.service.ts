@@ -28,9 +28,11 @@ const State = new StateSchema({
 });
 
 const solutionNode: GraphNode<typeof State.State> = async (state) => {
+    console.log("solution node in progress")
+    const userPrompt = state.messages[0]?.text || String(state.messages[0]?.content || "");
     const [cohere_solution, mistral_solution] = await Promise.all([
-        cohereModel.invoke(state.messages[0].text),
-        mistralModel.invoke(state.messages[0].text)
+        cohereModel.invoke(userPrompt),
+        mistralModel.invoke(userPrompt)
     ])
     return {
         messages: state.messages,
@@ -40,6 +42,7 @@ const solutionNode: GraphNode<typeof State.State> = async (state) => {
 }
 
 const judgeNode: GraphNode<typeof State.State> = async (state) => {
+    console.log("judge Node in progress")
     const { solution_1, solution_2 } = state;
     const structuredJudge = geminiModel.withStructuredOutput(JudgeSchema);
     

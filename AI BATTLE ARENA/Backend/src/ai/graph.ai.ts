@@ -47,6 +47,12 @@ const solution_node: GraphNode<typeof state> = async (state) => {
     }
 }
 const validation_node: GraphNode<typeof state> = async (state) => {
+    const valid =
+        state.solution_1.trim().length > 0 &&
+        state.solution_2.trim().length > 0;
+    return {
+        isValid: valid
+    }
 
 }
 

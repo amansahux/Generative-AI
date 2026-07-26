@@ -18,7 +18,10 @@ const state = new StateSchema({
     solution_2: z.string().default(""),
     retryCount: z.number().default(0),
     isValid: z.boolean().default(false),
-    judge_response: judge_res_format
+    isJudgeValid: z.boolean().default(false),
+    judge_response: judge_res_format,
+    judgeRetryCount: z.number().default(0),
+    judgeSuccess: z.boolean().default(false),
 })
 
 
@@ -81,13 +84,12 @@ const retryNode: GraphNode<typeof state> = async (state) => {
     }
 
 }
-
 const judge_node: GraphNode<typeof state> = async (state) => {
     const { solution_1, solution_2, prompt } = state
-
-    const judgeResponse = await judgeAgent.invoke({
-        messages: [
-            new HumanMessage(`
+    try {
+        const response = await judgeAgent.invoke({
+            messages: [
+                new HumanMessage(`
                Problem:
                 ${prompt}
 
@@ -101,27 +103,49 @@ const judge_node: GraphNode<typeof state> = async (state) => {
                 Score each between 0 and 10.
 Give concise reasoning.
                 `)
-        ]
-    })
-    if (!judgeResponse.structuredResponse) {
-        throw new Error("Structured response not found");
-    }
-    const { solution_1_score, solution_1_reasoning, solution_2_score, solution_2_reasoning } = judgeResponse.structuredResponse;
-    return {
-        judge_response: {
-            solution_1_score,
-            solution_2_score,
-            solution_1_reasoning,
-            solution_2_reasoning,
-        }
+            ]
+        });
+
+        return {
+            judge_response: response.structuredResponse!,
+            judgeSuccess: true,
+        };
+
+    } catch (err) {
+        console.log("Judge Failed");
+
+        return {
+            judgeSuccess: false,
+        };
     }
 }
 
+
 const graph = new StateGraph(state)
     .addNode("solution_node", solution_node)
+    .addNode("validation_node", validation_node)
+    .addNode("retry_node", retryNode)
     .addNode("judge_node", judge_node)
     .addEdge(START, "solution_node")
-    .addEdge("solution_node", "judge_node")
+    .addEdge("solution_node", "validation_node")
+    .addConditionalEdges(
+        "validation_node",
+        (state) => {
+            if (state.isValid) {
+                return "judge_node";
+            }
+            return "retry_node";
+        }
+    )
+    .addConditionalEdges(
+        "retry_node",
+        (state) => {
+            if (state.retryCount >= 3) {
+                return END;
+            }
+            return "solution_node";
+        }
+    )
     .addEdge("judge_node", END)
     .compile()
 

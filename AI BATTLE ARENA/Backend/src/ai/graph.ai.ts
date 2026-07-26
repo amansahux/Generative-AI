@@ -18,7 +18,6 @@ const state = new StateSchema({
     solution_2: z.string().default(""),
     retryCount: z.number().default(0),
     isValid: z.boolean().default(false),
-    isJudgeValid: z.boolean().default(false),
     judge_response: judge_res_format,
     judgeRetryCount: z.number().default(0),
     judgeSuccess: z.boolean().default(false),
@@ -70,9 +69,9 @@ const solution_node: GraphNode<typeof state> = async (state) => {
 }
 
 const validation_node: GraphNode<typeof state> = async (state) => {
-    const valid =
-        state.solution_1.trim().length > 0 &&
-        state.solution_2.trim().length > 0;
+ const valid =
+    state.solution_1.trim().length > 10 &&
+    state.solution_2.trim().length > 10;
     return {
         isValid: valid
     }
@@ -80,7 +79,10 @@ const validation_node: GraphNode<typeof state> = async (state) => {
 }
 const retryNode: GraphNode<typeof state> = async (state) => {
     return {
-        retryCount: state.retryCount + 1
+        retryCount: state.retryCount + 1,
+        solution_1: "",
+        solution_2: "",
+        
     }
 
 }
@@ -106,9 +108,15 @@ Give concise reasoning.
             ]
         });
 
+        if (!response.structuredResponse) {
+            return {
+                judgeSuccess: false,
+            };
+        }
         return {
             judge_response: response.structuredResponse!,
             judgeSuccess: true,
+               judgeRetryCount: 0,
         };
 
     } catch (err) {
@@ -119,6 +127,11 @@ Give concise reasoning.
         };
     }
 }
+const judgeRetryNode: GraphNode<typeof state> = async (state) => {
+    return {
+        judgeRetryCount: state.judgeRetryCount + 1,
+    };
+};
 
 
 const graph = new StateGraph(state)
@@ -126,6 +139,7 @@ const graph = new StateGraph(state)
     .addNode("validation_node", validation_node)
     .addNode("retry_node", retryNode)
     .addNode("judge_node", judge_node)
+    .addNode("judge_retry_node", judgeRetryNode)
     .addEdge(START, "solution_node")
     .addEdge("solution_node", "validation_node")
     .addConditionalEdges(
@@ -146,7 +160,29 @@ const graph = new StateGraph(state)
             return "solution_node";
         }
     )
-    .addEdge("judge_node", END)
+    .addConditionalEdges(
+        "judge_node",
+        (state) => {
+
+            if (state.judgeSuccess) {
+                return END;
+            }
+
+            return "judge_retry_node";
+        }
+    )
+    .addConditionalEdges(
+        "judge_retry_node",
+        (state) => {
+
+            if (state.judgeRetryCount >= 3) {
+                return END;
+            }
+
+            return "judge_node";
+        }
+    )
+
     .compile()
 
 export default graph

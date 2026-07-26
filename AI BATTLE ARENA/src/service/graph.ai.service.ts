@@ -36,8 +36,39 @@ const judgeNode: GraphNode<typeof State.State> = async (state) => {
         responseFormat: providerStrategy(z.object({
             solution_1_score: z.number().min(0).max(10),
             solution_2_score: z.number().min(0).max(10),
+            judge_recommendation: z.string().default("")
         }))
     })
+    const Judge_response = await Judge.invoke({
+        messages: [
+            new HumanMessage(`
+You are an expert code reviewer and judge in an AI Code Battle Arena.
+
+Problem Statement:
+${state.messages[0]?.text ?? "N/A"}
+
+Compare the following two solutions based on correctness, efficiency (time and space complexity), code readability, and edge-case handling.
+
+--- SOLUTION 1 ---
+${solution_1}
+
+--- SOLUTION 2 ---
+${solution_2}
+
+Instructions:
+- Evaluate both solutions thoroughly.
+- Rate Solution 1 from 0 to 10.
+- Rate Solution 2 from 0 to 10.
+- Provide a clear judge recommendation highlighting key strengths, weaknesses, and which solution wins (or if it is a tie).
+            `)
+        ]
+
+    })
+    const result = Judge_response.structuredResponse
+    return {
+        judge_recommendation: result
+    }
+
 }
 
 const graph = new StateGraph(State).addNode("solution", solutionNode).addNode("judge", judgeNode).addEdge(START, "solution").addEdge("solution", "judge").addEdge("judge", END).compile();

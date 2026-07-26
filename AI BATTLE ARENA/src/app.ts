@@ -9,7 +9,7 @@ app.get("/", (req, res) => {
   res.send("Server Running 🚀");
 });
 app.post("/run-graph", async (req, res) => {
-   useGraph("What is The Most used Framwork of Js that are used to create Frontend of Any Website")
+  useGraph("What is The Most used Framwork of Js that are used to create Frontend of Any Website in 20 words")
 })
 
 export default app;

@@ -16,7 +16,8 @@ const state = new StateSchema({
     prompt: z.string().default(""),
     solution_1: z.string().default(""),
     solution_2: z.string().default(""),
-    
+    retryCount: z.number().default(0),
+    isValid: z.boolean().default(false),
     judge_response: judge_res_format
 })
 

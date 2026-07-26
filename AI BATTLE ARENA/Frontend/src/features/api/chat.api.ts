@@ -11,6 +11,7 @@ const fetchResponse = async (prompt: string) => {
         return response.data;
     } catch (error) {
         console.error("Error fetching response:", error);
+        throw error
     }
 }
 

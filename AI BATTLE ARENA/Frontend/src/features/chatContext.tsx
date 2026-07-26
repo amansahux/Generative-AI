@@ -29,7 +29,7 @@ export const ChatProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         messages,
         setMessages,
         loading,
-        setLoading,
+        setLoading, 
         error,
         setError,
       }}

@@ -8,7 +8,7 @@ import { cohereModel, geminiModel, mistralAIModel } from "./model.ai.ts";
 
 
 const state = new StateSchema({
-    problem: z.string().default(""),
+    prompt: z.string().default(""),
     solution_1: z.string().default(""),
     solution_2: z.string().default(""),
     judge_response: z.object({
@@ -20,7 +20,7 @@ const state = new StateSchema({
 })
 
 const solution_node: GraphNode<typeof state> = async (state) => {
-    const userPrompt = state.problem;
+    const userPrompt = state.prompt;
     const [solution_1, solution_2] = await Promise.all([
         mistralAIModel.invoke(userPrompt), cohereModel.invoke(userPrompt)
     ])
@@ -36,7 +36,7 @@ const judge_res_format = z.object({
     solution_2_reasoning: z.string(),
 })
 const judge_node: GraphNode<typeof state> = async (state) => {
-    const { solution_1, solution_2, problem } = state
+    const { solution_1, solution_2, prompt } = state
     const judgeAgent = createAgent({
         model: geminiModel,
         tools: [],
@@ -46,7 +46,7 @@ const judge_node: GraphNode<typeof state> = async (state) => {
     const judgeResponse = await judgeAgent.invoke({
         messages: [
             new HumanMessage(`
-                Problem: ${problem}
+                Promot: ${prompt}
                 Solution 1: ${solution_1}
                 Solution 2: ${solution_2}
                 Please evaluate the solutions and provide scores and reasoning.

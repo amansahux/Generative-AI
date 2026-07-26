@@ -29,29 +29,55 @@ const judgeAgent = createAgent({
 })
 const solution_node: GraphNode<typeof state> = async (state) => {
     const userPrompt = state.prompt;
-    try {
-        const [solution_1, solution_2] = await Promise.all([
-            mistralAIModel.invoke(userPrompt), cohereModel.invoke(userPrompt)
-        ])
-        return {
-            solution_1: solution_1.text,
-            solution_2: solution_2.text,
-        }
+    // try {
+    //     const [solution_1, solution_2] = await Promise.all([
+    //         mistralAIModel.invoke(userPrompt), cohereModel.invoke(userPrompt)
+    //     ])
+    //     return {
+    //         solution_1: solution_1.text,
+    //         solution_2: solution_2.text,
+    //     }
 
-    } catch (error) {
-        console.log(error);
-        return {
-            solution_1: "",
-            solution_2: ""
-        }
-    }
+    // } catch (error) {
+    //     console.log(error);
+    //     return {
+    //         solution_1: "",
+    //         solution_2: ""
+    //     }
+    // }
+
+    const [mistralResult, cohereResult] =
+        await Promise.allSettled([
+            mistralAIModel.invoke(userPrompt),
+            cohereModel.invoke(userPrompt),
+        ]);
+
+    return {
+        solution_1:
+            mistralResult.status === "fulfilled"
+                ? mistralResult.value.text
+                : "",
+
+        solution_2:
+            cohereResult.status === "fulfilled"
+                ? cohereResult.value.text
+                : "",
+    };
+
 }
+
 const validation_node: GraphNode<typeof state> = async (state) => {
     const valid =
         state.solution_1.trim().length > 0 &&
         state.solution_2.trim().length > 0;
     return {
         isValid: valid
+    }
+
+}
+const retryNode: GraphNode<typeof state> = async (state) => {
+    return {
+        retryCount: state.retryCount + 1
     }
 
 }

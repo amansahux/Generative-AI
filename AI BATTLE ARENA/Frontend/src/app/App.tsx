@@ -1,16 +1,8 @@
-import React,{useEffect} from 'react'
-import axios from 'axios'
-const App = () => {
-  async function fetchdata(){
- const res= await axios.get("/api/health")
-  console.log(res)
-  }
-  useEffect(()=>{
-    fetchdata()
-  },[])
-  return (
-    <div>App</div>
-  )
-}
+import React from 'react';
+import { Main } from '../features/pages/Main';
 
-export default App
+const App: React.FC = () => {
+  return <Main />;
+};
+
+export default App;

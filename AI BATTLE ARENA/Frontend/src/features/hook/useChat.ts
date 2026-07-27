@@ -41,6 +41,19 @@ export const useChat = () => {
     }
   };
 
+  const deleteMessage = (userMsgId: string) => {
+    setMessages((prev) => {
+      const index = prev.findIndex((m) => m.id === userMsgId);
+      if (index === -1) return prev;
+      
+      // If the next message is the AI response corresponding to this user message, delete both
+      if (index + 1 < prev.length && prev[index + 1].sender === "ai") {
+        return prev.filter((_, i) => i !== index && i !== index + 1);
+      }
+      return prev.filter((m) => m.id !== userMsgId);
+    });
+  };
+
   const clearMessages = () => {
     setMessages([]);
     setError(null);
@@ -51,6 +64,7 @@ export const useChat = () => {
     loading,
     error,
     sendMessage,
+    deleteMessage,
     clearMessages,
   };
 };

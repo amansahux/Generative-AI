@@ -52,7 +52,7 @@ export interface BackendResult {
 }
 
 export const Main: React.FC = () => {
-  const { messages, loading: isApiLoading, error, sendMessage, clearMessages } = useChat();
+  const { messages, loading: isApiLoading, error, sendMessage, deleteMessage, clearMessages } = useChat();
   const [inputPrompt, setInputPrompt] = useState("");
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [copiedId, setCopiedId] = useState<string | null>(null);
@@ -101,6 +101,14 @@ export const Main: React.FC = () => {
     navigator.clipboard.writeText(text);
     setCopiedId(id);
     setTimeout(() => setCopiedId(null), 2000);
+  };
+
+  const handleDeleteItem = (e: React.MouseEvent, id: string) => {
+    e.stopPropagation();
+    deleteMessage(id);
+    if (selectedPromptId === id) {
+      setSelectedPromptId(null);
+    }
   };
 
   // Helper to determine winner
@@ -201,23 +209,32 @@ export const Main: React.FC = () => {
               userHistoryMessages.map((msg) => {
                 const isSelected = activeUserMessage?.id === msg.id;
                 return (
-                  <button
+                  <div
                     key={msg.id}
                     onClick={() => {
                       setSelectedPromptId(msg.id);
                       setSidebarOpen(false);
                     }}
-                    className={`w-full text-left px-3 py-2 rounded-lg text-xs font-medium truncate transition-colors flex items-center justify-between group ${
+                    className={`w-full text-left px-3 py-2 rounded-lg text-xs font-medium transition-colors flex items-center justify-between group cursor-pointer ${
                       isSelected
                         ? "bg-indigo-600/20 border border-indigo-500/40 text-indigo-200"
                         : "text-slate-300 hover:bg-slate-800/50 hover:text-white"
                     }`}
                   >
                     <span className="truncate pr-2">{msg.content}</span>
-                    <span className="text-[10px] text-slate-500 shrink-0">
-                      {new Date(msg.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                    </span>
-                  </button>
+                    <div className="flex items-center space-x-1.5 shrink-0">
+                      <span className="text-[10px] text-slate-500 group-hover:hidden">
+                        {new Date(msg.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                      </span>
+                      <button
+                        onClick={(e) => handleDeleteItem(e, msg.id)}
+                        className="hidden group-hover:flex items-center justify-center p-1 rounded hover:bg-red-500/20 text-slate-400 hover:text-red-400 transition-colors"
+                        title="Delete this battle"
+                      >
+                        <Trash2 className="h-3.5 w-3.5" />
+                      </button>
+                    </div>
+                  </div>
                 );
               })
             )}
@@ -323,20 +340,29 @@ export const Main: React.FC = () => {
 
           {/* Prompt Header */}
           {activeUserMessage && (
-            <div className="bg-slate-900/60 border border-slate-800 rounded-2xl p-5 shadow-sm">
-              <div className="flex items-center justify-between text-xs text-slate-400 mb-2">
-                <span className="flex items-center space-x-1.5 text-indigo-400 font-semibold uppercase tracking-wider text-[11px]">
-                  <Sparkles className="h-3.5 w-3.5" />
-                  <span>Active Battle Prompt</span>
-                </span>
-                <span className="flex items-center space-x-1">
-                  <Clock className="h-3.5 w-3.5 text-slate-500" />
-                  <span>{new Date(activeUserMessage.timestamp).toLocaleTimeString()}</span>
-                </span>
+            <div className="bg-slate-900/60 border border-slate-800 rounded-2xl p-5 shadow-sm flex items-start justify-between">
+              <div className="flex-1">
+                <div className="flex items-center justify-between text-xs text-slate-400 mb-2">
+                  <span className="flex items-center space-x-1.5 text-indigo-400 font-semibold uppercase tracking-wider text-[11px]">
+                    <Sparkles className="h-3.5 w-3.5" />
+                    <span>Active Battle Prompt</span>
+                  </span>
+                  <span className="flex items-center space-x-1">
+                    <Clock className="h-3.5 w-3.5 text-slate-500" />
+                    <span>{new Date(activeUserMessage.timestamp).toLocaleTimeString()}</span>
+                  </span>
+                </div>
+                <h2 className="text-lg md:text-xl font-medium text-slate-100 leading-snug">
+                  "{activeUserMessage.content}"
+                </h2>
               </div>
-              <h2 className="text-lg md:text-xl font-medium text-slate-100 leading-snug">
-                "{activeUserMessage.content}"
-              </h2>
+              <button
+                onClick={(e) => handleDeleteItem(e, activeUserMessage!.id)}
+                className="ml-4 p-2 rounded-lg bg-slate-800/50 text-slate-400 hover:text-red-400 hover:bg-red-500/10 transition-colors"
+                title="Delete this chat"
+              >
+                <Trash2 className="h-4 w-4" />
+              </button>
             </div>
           )}
 

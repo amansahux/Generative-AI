@@ -1,0 +1,36 @@
+📚 Chapter 1 LLM FUNDAMENTALS :-
+ 
+     🚀 Chapter 2.1: What is an LLM?
+     An LLM (Large Language Model) is a deep learning model trained on massive amounts of text to understand and generate human-like language by predicting the next token.
+     
+      Massive text
+      Deep Learning
+      Next Token Prediction
+
+     LLM = Large Language Model
+
+Large
+↓
+Huge data + huge parameters
+
+Language
+↓
+Human language and code
+
+Model
+↓
+Trained AI system
+
+LLM works by:
+
+Prompt
+↓
+
+Next Token Prediction
+↓
+
+Completion
+
+LLM does NOT search like Google.
+
+It generates responses using learned patterns.

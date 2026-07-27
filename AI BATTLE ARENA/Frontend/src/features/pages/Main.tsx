@@ -396,9 +396,6 @@ export const Main: React.FC = () => {
                     <span className="text-sm font-semibold text-slate-200">
                       Solution 1
                     </span>
-                    <span className="text-[10px] bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 px-2 py-0.5 rounded-full font-medium">
-                      Claude 3.5 Sonnet
-                    </span>
                   </div>
                   <button
                     onClick={() => copyToClipboard(resultData?.solution_1 || "", "sol1")}
@@ -437,15 +434,12 @@ export const Main: React.FC = () => {
               </div>
 
               {/* Solution 2 Card */}
-              <div className="bg-[#0e121e] border border-slate-800 rounded-2xl flex flex-col overflow-hidden shadow-lg hover:border-slate-700 transition-colors">
+              <div className="bg-[#0e121e] border border-slate-800 rounded-2xl flex flex-col overflow-hidden shadow-lg hover:border-slate-700 transition-colors scrollbar-none">
                 <div className="px-5 py-4 bg-slate-900/50 border-b border-slate-800 flex items-center justify-between">
                   <div className="flex items-center space-x-2.5">
                     <Bot className="h-4 w-4 text-cyan-400" />
                     <span className="text-sm font-semibold text-slate-200">
                       Solution 2
-                    </span>
-                    <span className="text-[10px] bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 px-2 py-0.5 rounded-full font-medium">
-                      GPT-4o
                     </span>
                   </div>
                   <button

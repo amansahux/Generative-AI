@@ -86,8 +86,8 @@ export const Main: React.FC = () => {
   const sol1Score = resultData?.judge_response?.solution_1_score ?? 0;
   const sol2Score = resultData?.judge_response?.solution_2_score ?? 0;
   let winner = "Tie";
-  if (sol1Score > sol2Score) winner = "Solution 1 (Claude 3.5 Sonnet)";
-  else if (sol2Score > sol1Score) winner = "Solution 2 (GPT-4o)";
+  if (sol1Score > sol2Score) winner = "Solution 1";
+  else if (sol2Score > sol1Score) winner = "Solution 2";
 
   const avgScore = resultData?.judge_response
     ? ((sol1Score + sol2Score) / 2).toFixed(1)

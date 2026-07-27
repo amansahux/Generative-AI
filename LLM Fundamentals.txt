@@ -163,3 +163,27 @@ LLM predicts tokens,
 NOT sentences.
 
 Streaming happens because tokens are generated one by one.
+   
+
+   🚀 Chapter: 2.5 Knowledge Cutoff
+
+
+   Knowledge Cutoff
+
+        ↓
+
+Latest date until which the model was trained.
+
+Inference does NOT update knowledge.
+
+Latest information requires:
+
+• Web Search
+• APIs
+• RAG
+
+Knowledge Cutoff ≠ Context Window
+
+Knowledge Cutoff = Training Time Limit
+
+Context Window = Token Limit

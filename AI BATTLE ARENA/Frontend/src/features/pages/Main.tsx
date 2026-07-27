@@ -26,6 +26,8 @@ import {
   Loader2,
 } from "lucide-react";
 import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
+import rehypeHighlight from "rehype-highlight";
 import { useChat } from "../hook/useChat.ts";
 
 export interface JudgeResponse {
@@ -416,8 +418,13 @@ export const Main: React.FC = () => {
                   </button>
                 </div>
 
-                <div className="p-5 flex-1 max-h-[500px] overflow-y-auto text-xs text-slate-300 space-y-3 font-normal leading-relaxed prose prose-invert max-w-none">
-                  <ReactMarkdown>{resultData.solution_1}</ReactMarkdown>
+                <div className="p-5 flex-1 max-h-[500px] overflow-y-auto text-xs text-slate-300 font-normal leading-relaxed prose prose-invert max-w-none">
+                  <ReactMarkdown
+                    remarkPlugins={[remarkGfm]}
+                    rehypePlugins={[rehypeHighlight]}
+                  >
+                    {resultData.solution_1}
+                  </ReactMarkdown>
                 </div>
 
                 <div className="px-5 py-3 bg-slate-900/30 border-t border-slate-800/60 flex items-center justify-between text-[11px] text-slate-500">
@@ -459,8 +466,13 @@ export const Main: React.FC = () => {
                   </button>
                 </div>
 
-                <div className="p-5 flex-1 max-h-[500px] overflow-y-auto text-xs text-slate-300 space-y-3 font-normal leading-relaxed prose prose-invert max-w-none">
-                  <ReactMarkdown>{resultData.solution_2}</ReactMarkdown>
+                <div className="p-5 flex-1 max-h-[500px] overflow-y-auto text-xs text-slate-300 font-normal leading-relaxed prose prose-invert max-w-none">
+                  <ReactMarkdown
+                    remarkPlugins={[remarkGfm]}
+                    rehypePlugins={[rehypeHighlight]}
+                  >
+                    {resultData.solution_2}
+                  </ReactMarkdown>
                 </div>
 
                 <div className="px-5 py-3 bg-slate-900/30 border-t border-slate-800/60 flex items-center justify-between text-[11px] text-slate-500">

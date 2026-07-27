@@ -14,7 +14,7 @@ app.get("/api/health", (req, res) => {
 app.post("/api/run-graph", async (req, res) => {
   const { prompt } = req.body;
   const result = await graph.invoke({ prompt: prompt })
-  console.log(result)
+  // console.log(result)
   res.status(200).json(
     {
       message: "Models Responded successfully",

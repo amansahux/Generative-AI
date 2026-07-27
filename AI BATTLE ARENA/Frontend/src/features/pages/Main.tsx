@@ -57,17 +57,20 @@ export const Main: React.FC = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [copiedId, setCopiedId] = useState<string | null>(null);
   const [selectedPromptId, setSelectedPromptId] = useState<string | null>(null);
+  const [isNewBattle, setIsNewBattle] = useState(false);
 
   // Filter all user prompts from battle history
   const userHistoryMessages = messages.filter((m) => m.sender === "user");
 
   // Determine active battle prompt to display
   let activeUserMessage: Message | undefined;
-  if (selectedPromptId) {
-    activeUserMessage = messages.find((m) => m.id === selectedPromptId && m.sender === "user");
-  }
-  if (!activeUserMessage) {
-    activeUserMessage = [...messages].reverse().find((m) => m.sender === "user");
+  if (!isNewBattle) {
+    if (selectedPromptId) {
+      activeUserMessage = messages.find((m) => m.id === selectedPromptId && m.sender === "user");
+    }
+    if (!activeUserMessage) {
+      activeUserMessage = [...messages].reverse().find((m) => m.sender === "user");
+    }
   }
 
   // Find corresponding AI response message
@@ -94,6 +97,7 @@ export const Main: React.FC = () => {
     const promptToSend = inputPrompt;
     setInputPrompt("");
     setSelectedPromptId(null);
+    setIsNewBattle(false); // after sending, show new result
     sendMessage(promptToSend);
   };
 
@@ -168,8 +172,8 @@ export const Main: React.FC = () => {
           <div className="p-4 shrink-0">
             <button
               onClick={() => {
-                clearMessages();
                 setSelectedPromptId(null);
+                setIsNewBattle(true);
                 setSidebarOpen(false);
               }}
               className="w-full flex items-center justify-center space-x-2 py-3 px-4 rounded-xl bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 text-white font-medium text-sm shadow-md shadow-indigo-600/25 transition-all duration-200"
@@ -207,12 +211,13 @@ export const Main: React.FC = () => {
               </div>
             ) : (
               userHistoryMessages.map((msg) => {
-                const isSelected = activeUserMessage?.id === msg.id;
+                const isSelected = !isNewBattle && activeUserMessage?.id === msg.id;
                 return (
                   <div
                     key={msg.id}
                     onClick={() => {
                       setSelectedPromptId(msg.id);
+                      setIsNewBattle(false);
                       setSidebarOpen(false);
                     }}
                     className={`w-full text-left px-3 py-2 rounded-lg text-xs font-medium transition-colors flex items-center justify-between group cursor-pointer ${

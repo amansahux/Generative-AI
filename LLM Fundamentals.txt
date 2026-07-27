@@ -187,3 +187,41 @@ Knowledge Cutoff ≠ Context Window
 Knowledge Cutoff = Training Time Limit
 
 Context Window = Token Limit
+
+   
+
+ 🚀 Chapter: 2.6 Function Calling (Concept)
+
+
+  Function Calling
+
+↓
+
+LLM does NOT execute functions.
+
+LLM only decides:
+
+• Which function to call
+• What arguments to pass
+
+Backend:
+
+↓
+
+Executes the function
+
+↓
+
+Returns the result
+
+↓
+
+LLM converts result into natural language.
+
+Examples:
+
+• Weather API
+• Gmail
+• Database
+• Payments
+• Calendar

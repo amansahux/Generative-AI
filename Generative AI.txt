@@ -147,3 +147,26 @@ Used in:
 • Vector Databases
 • Semantic Search
 • Similarity Search
+
+
+🚀 chapter 1.5 :-  Context Window
+
+Context Window
+↓
+
+Maximum number of tokens an LLM can process at one time.
+
+Measured in:
+Tokens ✅
+
+Not:
+Words ❌
+Characters ❌
+
+Context includes:
+• System Prompt
+• Chat History
+• Current Prompt
+• Retrieved Documents
+• Tool Output
+• Response Tokens

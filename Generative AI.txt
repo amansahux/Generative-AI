@@ -1,4 +1,6 @@
-📚 Chapter 1:AI vs ML vs Deep Learning vs Generative AI (Foundation)
+📚 Chapter 1 AI FUNDAMENTALS :-
+ 
+  🚀 chapter 1.1 :-  AI vs ML vs Deep Learning vs Generative AI (Foundation)
 
 1️⃣ Artificial Intelligence (AI)
 Human Definition
@@ -70,162 +72,78 @@ Human Definition :- Ye deep learning ka branch h jo ki sirf response generate ni
 - Create Resume
 
 
-📚 Chapter 2: NLP (Natural Language Processing)
-Human Definition
+🚀 Chapter 1.2: NLP (Natural Language Processing)
 
-Natural Language Processing (NLP) ek AI field hai jo computer ko human language ko read, understand, analyze aur generate karna sikhati hai.
+Definition:
+AI ki field jo computers ko human language ko understand, process aur generate karna sikhati hai.
 
-Simple words me:
-NLP = Human Language + Computer
+Examples:
+• Translation
+• Chatbots
+• Sentiment Analysis
+• Summarization
+• Question Answering
 
-Technical Definition
+Natural Language:
+Hindi, English, Hinglish, etc.
 
-NLP is a branch of Artificial Intelligence that enables computers to process, understand, interpret and generate natural human language.
+Not Natural Language:
+Java, Python, JavaScript
 
-Natural Language ka matlab?
+LLM is NOT NLP.
+LLM is a modern technology built to perform NLP tasks.
 
-English
-Hindi
-Urdu
-Bengali
-Japanese
-French
-
-Programming language nahi.
-
-NLP kya kya karta hai?
-1. Read
-2. Understand
-3. Analyze
-4. Generate
-
-📚 Chapter 3: LLM (Large Language Models)
-Bhai, ye pura GenAI ka heart hai. ❤️
-
-Human Definition
-
-LLM ek bahut bada AI model hai jo billions of text examples padhkar language ke patterns seekhta hai aur next token predict karke text generate karta hai.
-Technical Definition
-
-A Large Language Model is a deep neural network trained on massive text datasets to predict the next token in a sequence.
-
-
-🚀 Chapter 4: GPT (Generative Pre-trained Transformer)
+🚀 Chapter 1.3: GPT (Generative Pre-trained Transformer)
 
 G = Generative --->  Naya content banana.
 P = Pre-trained --->  Pehle se train kiya hua.
 T = Transformer ---> AI architecture.
 
-🧠 Chapter 5: Transformer Architecture
+* TOEKN :-----
 
-1. Toeknization
+Token
+↓
+Smallest meaningful piece of text processed by an LLM.
+
+Token ≠ Word
 
 Sentence
-
-I love React.
-
 ↓
+Tokenization
+↓
+Tokens
+↓
+LLM
+↓
+Response Tokens
+↓
+Text
 
+Every LLM has its own tokenizer.
+
+LLMs do not predict words.
+They predict the next token.
+
+🚀 chapter 1.4 :-  Embeddings
+
+Embedding
+↓
+Numerical representation of text that captures meaning.
+
+Text
+↓
 Tokenizer
-
 ↓
-
-[I]
-
-[love]
-
-[React]
-
-[.]
-
-2: Embeddings
-
-Token IDs become
-
-Vectors
-
-Example
-
-React
-
+Tokens
 ↓
-
-[0.32
-
--1.11
-
-5.44
-
-...]
-
-Embeddings represent
-
-3: Transformer
-
-Pipeline
-
-Sentence
-
+Embedding Model
 ↓
+Vectors (Embeddings)
 
-Tokenizer
+Embeddings compare meaning, not spelling.
 
-↓
-
-Token IDs
-
-↓
-
-Embeddings
-
-↓
-
-Transformer
-
-↓
-
-Next Token
-
-↓
-
-Repeat
-
-
-4: Attention (The Superpower Behind ChatGPT)
-
-Attention Kya Hai?
-
-Human definition:
-
-Sentence me kaunse words important hain, un par zyada focus karna.
-
-Attention ka matlab ye nahi hai ki model human ki tarah sochta hai.
-
-Reality me:
-
-Har token baaki tokens ko numerical scores deta hai.
-
-5: Q K V ---->
- Query
-
-Key
-
-Value
-
-Query
-
-"What am I looking for?"
-
-Key
-
-"What information do I have?"
-
-Value
-
-"The actual information."
-
-chapter 10 Self Attention kya hai?
-
-Ek mechanism jahan sentence ka har token sentence ke har doosre token ko context samajhne ke liye attend karta hai.
-
-
+Used in:
+• RAG
+• Vector Databases
+• Semantic Search
+• Similarity Search

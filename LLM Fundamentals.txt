@@ -225,3 +225,48 @@ Examples:
 • Database
 • Payments
 • Calendar
+
+ 🚀 Chapter 2.7: Why LLMs Hallucinate (Engineering Perspective)
+
+ Hallucination
+
+↓
+
+Confident but incorrect response.
+
+Reasons:
+
+• Missing Knowledge
+• Ambiguous Prompt
+• Missing Context
+• High Temperature
+• Weak Retrieval
+
+RAG reduces hallucination.
+
+Web Search reduces hallucination.
+
+Function Calling reduces hallucination.
+
+Hallucination ≠ Lying
+
+LLM predicts probabilities,
+not verified facts.
+
+
+Less Information
+       +
+More Guessing
+       =
+More Hallucination
+
+
+
+
+More Reliable Context
+       +
+Better Prompt
+       +
+Verified Data
+       =
+Less Hallucination

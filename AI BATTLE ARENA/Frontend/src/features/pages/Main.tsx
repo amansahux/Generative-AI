@@ -111,7 +111,7 @@ export const Main: React.FC = () => {
   else if (sol2Score > sol1Score) winner = "Solution 2";
 
   const avgScore = resultData?.judge_response
-    ? ((sol1Score + sol2Score) / 2).toFixed(1)
+    ? ((sol1Score + sol2Score) / 2).toFixed(0)
     : null;
 
   return (

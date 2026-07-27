@@ -24,11 +24,13 @@ import {
   X,
   RefreshCw,
   Loader2,
+  Trash2,
 } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import rehypeHighlight from "rehype-highlight";
 import { useChat } from "../hook/useChat.ts";
+import { type Message } from "../chatContext.tsx";
 
 export interface JudgeResponse {
   solution_1_score: number;
@@ -54,17 +56,35 @@ export const Main: React.FC = () => {
   const [inputPrompt, setInputPrompt] = useState("");
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [copiedId, setCopiedId] = useState<string | null>(null);
+  const [selectedPromptId, setSelectedPromptId] = useState<string | null>(null);
 
-  // Get the latest message (or AI result)
-  const lastMessage = messages.length > 0 ? messages[messages.length - 1] : null;
-  const lastUserMessage = [...messages].reverse().find((m) => m.sender === "user");
+  // Filter all user prompts from battle history
+  const userHistoryMessages = messages.filter((m) => m.sender === "user");
+
+  // Determine active battle prompt to display
+  let activeUserMessage: Message | undefined;
+  if (selectedPromptId) {
+    activeUserMessage = messages.find((m) => m.id === selectedPromptId && m.sender === "user");
+  }
+  if (!activeUserMessage) {
+    activeUserMessage = [...messages].reverse().find((m) => m.sender === "user");
+  }
+
+  // Find corresponding AI response message
+  let activeAiMessage: Message | undefined;
+  if (activeUserMessage) {
+    const userIndex = messages.findIndex((m) => m.id === activeUserMessage?.id);
+    if (userIndex !== -1 && userIndex + 1 < messages.length && messages[userIndex + 1].sender === "ai") {
+      activeAiMessage = messages[userIndex + 1];
+    }
+  }
 
   let resultData: BackendResult | null = null;
-  if (lastMessage && lastMessage.sender === "ai" && lastMessage.content) {
-    if (lastMessage.content.result) {
-      resultData = lastMessage.content.result;
-    } else if (typeof lastMessage.content === "object") {
-      resultData = lastMessage.content as BackendResult;
+  if (activeAiMessage && activeAiMessage.content) {
+    if (activeAiMessage.content.result) {
+      resultData = activeAiMessage.content.result;
+    } else if (typeof activeAiMessage.content === "object") {
+      resultData = activeAiMessage.content as BackendResult;
     }
   }
 
@@ -73,6 +93,7 @@ export const Main: React.FC = () => {
     if (!inputPrompt.trim() || isApiLoading) return;
     const promptToSend = inputPrompt;
     setInputPrompt("");
+    setSelectedPromptId(null);
     sendMessage(promptToSend);
   };
 
@@ -109,9 +130,9 @@ export const Main: React.FC = () => {
           sidebarOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
         }`}
       >
-        <div>
+        <div className="flex-1 flex flex-col min-h-0 overflow-hidden">
           {/* Logo Section */}
-          <div className="flex items-center justify-between px-6 py-5 border-b border-slate-800/60">
+          <div className="flex items-center justify-between px-6 py-5 border-b border-slate-800/60 shrink-0">
             <div className="flex items-center space-x-3">
               <div className="h-10 w-10 rounded-xl bg-gradient-to-tr from-amber-500 via-indigo-600 to-cyan-400 p-0.5 flex items-center justify-center shadow-lg shadow-indigo-500/20">
                 <div className="h-full w-full bg-[#0e121e] rounded-[10px] flex items-center justify-center">
@@ -136,10 +157,11 @@ export const Main: React.FC = () => {
           </div>
 
           {/* New Chat Button */}
-          <div className="p-4">
+          <div className="p-4 shrink-0">
             <button
               onClick={() => {
                 clearMessages();
+                setSelectedPromptId(null);
                 setSidebarOpen(false);
               }}
               className="w-full flex items-center justify-center space-x-2 py-3 px-4 rounded-xl bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 text-white font-medium text-sm shadow-md shadow-indigo-600/25 transition-all duration-200"
@@ -149,25 +171,70 @@ export const Main: React.FC = () => {
             </button>
           </div>
 
-          {/* Navigation Links */}
-          <nav className="px-3 py-2 space-y-1">
-            <a
-              href="#history"
-              className="flex items-center space-x-3 px-3 py-2.5 rounded-lg text-slate-300 hover:bg-slate-800/50 hover:text-white text-sm font-medium transition-colors"
-            >
-              <History className="h-4 w-4 text-indigo-400" />
+          {/* Battle History Section */}
+          <div className="px-4 py-2 flex items-center justify-between text-xs text-slate-400 font-semibold uppercase tracking-wider shrink-0">
+            <span className="flex items-center space-x-1.5">
+              <History className="h-3.5 w-3.5 text-indigo-400" />
               <span>Battle History</span>
-            </a>
+            </span>
+            {messages.length > 0 && (
+              <button
+                onClick={() => {
+                  clearMessages();
+                  setSelectedPromptId(null);
+                }}
+                className="hover:text-red-400 transition-colors p-1"
+                title="Clear all history"
+              >
+                <Trash2 className="h-3.5 w-3.5" />
+              </button>
+            )}
+          </div>
+
+          {/* History Item List */}
+          <div className="flex-1 overflow-y-auto px-3 space-y-1 py-1">
+            {userHistoryMessages.length === 0 ? (
+              <div className="px-3 py-4 text-xs text-slate-500 italic text-center">
+                No past battles yet
+              </div>
+            ) : (
+              userHistoryMessages.map((msg) => {
+                const isSelected = activeUserMessage?.id === msg.id;
+                return (
+                  <button
+                    key={msg.id}
+                    onClick={() => {
+                      setSelectedPromptId(msg.id);
+                      setSidebarOpen(false);
+                    }}
+                    className={`w-full text-left px-3 py-2 rounded-lg text-xs font-medium truncate transition-colors flex items-center justify-between group ${
+                      isSelected
+                        ? "bg-indigo-600/20 border border-indigo-500/40 text-indigo-200"
+                        : "text-slate-300 hover:bg-slate-800/50 hover:text-white"
+                    }`}
+                  >
+                    <span className="truncate pr-2">{msg.content}</span>
+                    <span className="text-[10px] text-slate-500 shrink-0">
+                      {new Date(msg.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                    </span>
+                  </button>
+                );
+              })
+            )}
+          </div>
+
+          {/* Navigation Links */}
+          <nav className="px-3 py-2 border-t border-slate-800/40 space-y-1 shrink-0">
             <a
               href="#models"
-              className="flex items-center space-x-3 px-3 py-2.5 rounded-lg text-slate-300 hover:bg-slate-800/50 hover:text-white text-sm font-medium transition-colors"
+              className="flex items-center space-x-3 px-3 py-2 rounded-lg text-slate-300 hover:bg-slate-800/50 hover:text-white text-sm font-medium transition-colors"
             >
               <Cpu className="h-4 w-4 text-cyan-400" />
               <span>AI Models</span>
             </a>
             <a
               href="#library"
-              className="flex items-center space-x-3 px-3 py-2.5 rounded-lg text-slate-300 hover:bg-slate-800/50 hover:text-white text-sm font-medium transition-colors"
+              className="flex items-center space-x-3 px-3 py-2 rounded-lg text-slate-300 hover:bg-slate-800/50 hover:text-white text-sm font-medium transition-colors"
             >
               <Bookmark className="h-4 w-4 text-emerald-400" />
               <span>Prompt Library</span>
@@ -176,7 +243,7 @@ export const Main: React.FC = () => {
         </div>
 
         {/* Sidebar Footer */}
-        <div className="p-3 border-t border-slate-800/60 space-y-1">
+        <div className="p-3 border-t border-slate-800/60 space-y-1 shrink-0">
           <a
             href="#settings"
             className="flex items-center space-x-3 px-3 py-2 rounded-lg text-slate-400 hover:bg-slate-800/40 hover:text-slate-200 text-xs font-medium transition-colors"
@@ -255,7 +322,7 @@ export const Main: React.FC = () => {
           )}
 
           {/* Prompt Header */}
-          {lastUserMessage && (
+          {activeUserMessage && (
             <div className="bg-slate-900/60 border border-slate-800 rounded-2xl p-5 shadow-sm">
               <div className="flex items-center justify-between text-xs text-slate-400 mb-2">
                 <span className="flex items-center space-x-1.5 text-indigo-400 font-semibold uppercase tracking-wider text-[11px]">
@@ -264,11 +331,11 @@ export const Main: React.FC = () => {
                 </span>
                 <span className="flex items-center space-x-1">
                   <Clock className="h-3.5 w-3.5 text-slate-500" />
-                  <span>{new Date(lastUserMessage.timestamp).toLocaleTimeString()}</span>
+                  <span>{new Date(activeUserMessage.timestamp).toLocaleTimeString()}</span>
                 </span>
               </div>
               <h2 className="text-lg md:text-xl font-medium text-slate-100 leading-snug">
-                "{lastUserMessage.content}"
+                "{activeUserMessage.content}"
               </h2>
             </div>
           )}
@@ -303,7 +370,7 @@ export const Main: React.FC = () => {
           )}
 
           {/* Empty State when no messages */}
-          {!lastUserMessage && !isApiLoading && (
+          {!activeUserMessage && !isApiLoading && (
             <div className="flex flex-col items-center justify-center py-16 text-center max-w-xl mx-auto space-y-4">
               <div className="h-16 w-16 rounded-2xl bg-gradient-to-tr from-amber-500/20 via-indigo-500/20 to-cyan-500/20 border border-slate-800 flex items-center justify-center">
                 <Swords className="h-8 w-8 text-indigo-400" />

@@ -34,3 +34,37 @@ Completion
 LLM does NOT search like Google.
 
 It generates responses using learned patterns.
+
+
+🚀 Chapter 2.2: Transformer Architecture
+
+
+
+
+Before 2017
+
+RNN
+↓
+
+LSTM
+
+Problems:
+• Sequential processing
+• Slow training
+• Weak long-term memory
+
+2017
+
+"Attention Is All You Need"
+
+↓
+
+Transformer
+
+Advantages:
+• Parallel processing
+• Better long-context understanding
+• Uses Attention
+• Faster training
+
+GPT = Generative Pre-trained Transformer

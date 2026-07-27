@@ -253,3 +253,28 @@ Next Token Prediction
 ↓
 
 Completion
+
+
+
+
+ 🚀 Chapter 1.9 (Part 1): AI Terminologies
+
+Model
+↓
+A trained AI system.
+
+Inference
+↓
+Using a trained model to generate responses.
+
+Parameters
+↓
+Learned internal values of the model.
+
+Latency
+↓
+Time taken to generate a response.
+
+Throughput
+↓
+Amount of work processed in a given time.

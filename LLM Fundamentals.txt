@@ -127,3 +127,39 @@ Only next-token prediction.
       User Prompt → AI Response
                     │
         ❌ No Parameter Update
+
+
+
+        🚀 Chapter: 2.4 Token Prediction (Deep Dive)
+
+        LLM predicts one token at a time.
+
+Flow:
+
+Prompt
+↓
+
+Tokenizer
+↓
+
+Transformer
+↓
+
+Attention
+↓
+
+Probability Distribution
+↓
+
+Select Next Token
+↓
+
+Append Token
+↓
+
+Repeat
+
+LLM predicts tokens,
+NOT sentences.
+
+Streaming happens because tokens are generated one by one.

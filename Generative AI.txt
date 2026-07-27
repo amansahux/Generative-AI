@@ -170,3 +170,22 @@ Context includes:
 • Retrieved Documents
 • Tool Output
 • Response Tokens
+  
+  🚀 Chapter 1.6: Hallucination
+
+  Hallucination
+↓
+
+LLM generates confident but factually incorrect or unsupported information.
+
+Reasons:
+• Knowledge cutoff
+• Less context
+• Ambiguous prompt
+• Missing relevant data
+
+RAG reduces hallucinations by providing relevant context.
+
+Hallucination ≠ Lying
+
+ 

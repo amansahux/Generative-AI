@@ -188,4 +188,29 @@ RAG reduces hallucinations by providing relevant context.
 
 Hallucination ≠ Lying
 
- 
+ 🚀 Chapter 1.7: Temperature & Top-P
+
+ Temperature
+↓
+Controls randomness and creativity.
+
+Low Temperature
+↓
+More predictable.
+
+High Temperature
+↓
+More creative.
+
+Top-P
+↓
+Limits next-token selection to the most probable candidates.
+
+Temperature
+=
+How random?
+
+Top-P
+=
+Which candidate pool?
+

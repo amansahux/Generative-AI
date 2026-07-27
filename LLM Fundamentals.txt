@@ -39,8 +39,6 @@ It generates responses using learned patterns.
 🚀 Chapter 2.2: Transformer Architecture
 
 
-
-
 Before 2017
 
 RNN
@@ -68,3 +66,64 @@ Advantages:
 • Faster training
 
 GPT = Generative Pre-trained Transformer
+
+
+🚀 Chapter 2.3: Training vs Fine-Tuning vs Inference
+
+Training
+↓
+
+Learning from massive datasets.
+
+Parameters update.
+
+Very expensive.
+
+---------------------
+
+Fine-Tuning
+↓
+
+Further training on a specific dataset.
+
+Makes model specialized.
+
+---------------------
+
+Inference
+↓
+
+Using the trained model.
+
+No learning.
+
+No parameter updates.
+
+Only next-token prediction.
+
+
+                 Training
+                    │
+     Learn Everything from Massive Data
+                    │
+        ✅ Parameters Updated
+                    │
+                    ▼
+              Base LLM Ready
+                    │
+                    ▼
+             Fine-Tuning
+                    │
+     Learn One Specific Domain
+                    │
+        ✅ Parameters Updated
+                    │
+                    ▼
+         Specialized LLM Ready
+                    │
+                    ▼
+              Inference
+                    │
+      User Prompt → AI Response
+                    │
+        ❌ No Parameter Update

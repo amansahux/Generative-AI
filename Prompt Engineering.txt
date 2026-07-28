@@ -148,3 +148,34 @@ Role Prompting changes:
 It does NOT add new knowledge to the model.
 
 Role Prompting can be combined with Zero-shot, One-shot, or Few-shot.
+
+
+📚 Chapter 3.5: System Prompt
+
+A System Prompt is a high-priority instruction that defines the AI's overall behavior, rules, personality, and boundaries for the conversation.
+
+
+System Prompt
+
+↓
+
+Defines overall behavior, rules, and boundaries.
+
+Examples:
+
+• Be honest.
+• Be polite.
+• Answer in Markdown.
+• Don't reveal secrets.
+
+System Prompt:
+• Usually set by the application/backend.
+• Higher priority than user prompts.
+
+Role Prompt:
+• Defines the current role.
+• Can be combined with the System Prompt.
+
+System Prompt = Company Policy
+
+Role Prompt = Current Job

@@ -89,3 +89,35 @@ Best for:
 One-shot ≠ Long prompt
 
 One-shot = Exactly one example.
+
+📚 Chapter 3.3: Few-shot Prompting
+
+Few-shot Prompting
+
+↓
+
+Instruction
++
+Multiple Examples
+
+↓
+
+LLM understands pattern better.
+
+Best for:
+
+• Classification
+• Data Extraction
+• JSON
+• Brand Tone
+• Consistent Responses
+
+More examples
+
+↓
+
+Better pattern learning
+
+↓
+
+More tokens & higher cost

@@ -16,3 +16,68 @@
 🚀 Module 4: LLM APIs
 
 Chapter 4.1: Chat Models 🤖
+A Chat Model is an LLM that accepts a conversation (messages) as input and generates the next response.
+
+LLM
+↓
+
+Brain
+
+--------------------
+
+Chat Model
+↓
+
+Conversation Interface
+
+--------------------
+
+Backend
+↓
+
+Calls Chat Model API
+
+--------------------
+
+Frontend
+↓
+
+Shows Response
+
+
+Chapter 4.2: Creating Chat Models :--
+
+npm install @langchain/anthropic
+npm install @langchain/openai
+npm install @langchain/google-genai
+
+
+ChatGoogleGenerativeAI
+
+↓
+
+Class
+
+↓
+
+new
+
+↓
+
+Object
+
+↓
+
+Configured Model
+
+↓
+
+invoke()
+
+↓
+
+stream()
+
+↓
+
+batch()

@@ -63,3 +63,29 @@ Best for:
 Better instruction ≠ Example
 
 A detailed prompt without examples is still Zero-shot.
+
+📚 Chapter 3.2: One-shot Prompting
+
+One-shot Prompting
+
+↓
+
+Instruction
++
+1 Example
+
+↓
+
+LLM learns the expected pattern.
+
+Best for:
+
+• Fixed format
+• JSON
+• Classification
+• Data Extraction
+• Consistent output
+
+One-shot ≠ Long prompt
+
+One-shot = Exactly one example.

@@ -9,7 +9,7 @@ app.get("/", (req, res) => {
   res.send("Server Running 🚀");
 });
 app.post("/run-graph", async (req, res) => {
-  useGraph("best programming language for dsa")
+  useGraph("best programming language for dsa explain in short")
 })
 
 export default app;

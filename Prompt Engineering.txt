@@ -7,27 +7,33 @@ Prompt Engineering
 
 ↓
 
-Designing prompts to get the desired output from an LLM.
+Designing effective prompts to get better responses from an LLM.
 
-Goals:
+Good Prompt =
 
-• Reduce ambiguity
-• Give proper context
-• Define clear instructions
-• Improve output quality
+Task
++
+Context
++
+Constraints
++
+Output Format
 
-Good Prompt ≠ Long Prompt
+Better Prompt
 
-Good Prompt = Clear Prompt
+↓
 
-Real AI Engineers prompt likhte waqt sochte hain:
+Better Probability Distribution
 
-✅ User kya chahta hai?
+↓
 
-✅ Model ko kya context dena hai?
+Better Token Prediction
 
-✅ Output kis format me chahiye?
+↓
 
-✅ Kis audience ke liye hai?
+Better Response
 
-✅ Kya restrictions hain?
+Prompt Engineering improves output quality.
+
+It does NOT increase the model's intelligence.
+

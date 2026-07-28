@@ -113,3 +113,61 @@ response.content
 ↓
 
 Actual Text
+
+await model.invoke("Hello"); -------->  [
+  {
+    role: "user",
+    content: "Hello",
+  },
+]
+
+
+Module 4.4: stream() ->
+
+Prompt
+
+↓
+
+model.stream()
+
+↓
+
+HTTP Request
+
+↓
+
+Gemini
+
+↓
+
+Token 1
+
+↓
+
+AIMessageChunk
+
+↓
+
+Token 2
+
+↓
+
+AIMessageChunk
+
+↓
+
+Token 3
+
+↓
+
+AIMessageChunk
+
+↓
+
+...
+
+↓
+
+END
+
+

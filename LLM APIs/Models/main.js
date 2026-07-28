@@ -27,9 +27,28 @@ const model = new ChatGoogleGenerativeAI({
 // const response = await model.invoke("Who are you?");
 // console.log(response)
 
-const response = await model.invoke([
-  new SystemMessage("You are a Java teacher."),
-  new HumanMessage("Explain OOP."),
-]);
+// const response = await model.invoke([
+//   new SystemMessage("You are a Java teacher."),
+//   new HumanMessage("Explain OOP."),
+// ]);
 
-console.log(response.content);
+// console.log(response.content);
+
+// const stream = await model.stream(
+//   "Explain JWT in 5 lines."
+// );
+const stream = await model.stream(
+  "Write a 300 word blog on MERN Stack."
+);
+
+console.log(stream)
+console.log("-------------------------------------------------------------------------------------------")
+
+// for await (const chunk of stream) {
+//   console.log(chunk);
+// }
+for await (const chunk of stream) {
+  console.log(chunk.content);
+}
+
+

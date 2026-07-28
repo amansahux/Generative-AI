@@ -81,3 +81,35 @@ stream()
 ↓
 
 batch()
+
+
+
+Chapter 4.3: invoke() 🔥
+
+invoke() ek method hai jo Chat Model ko input bhejta hai aur uska response return karta hai.
+
+invoke()
+
+↓
+
+Method
+
+↓
+
+Sends Prompt
+
+↓
+
+Calls API
+
+↓
+
+Returns AIMessage Object
+
+↓
+
+response.content
+
+↓
+
+Actual Text

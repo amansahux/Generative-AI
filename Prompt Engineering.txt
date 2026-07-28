@@ -1,7 +1,7 @@
 🚀 Module 3: Prompt Engineering
 
 
-📚 Chapter 3.1: What is Prompt Engineering?
+ What is Prompt Engineering?
 
 Prompt Engineering
 
@@ -37,3 +37,29 @@ Prompt Engineering improves output quality.
 
 It does NOT increase the model's intelligence.
 
+
+
+📚 Chapter 3.1: Zero-shot Prompting
+
+
+Zero-shot Prompting
+
+↓
+
+Give instructions only.
+
+No examples.
+
+LLM uses pretrained knowledge.
+
+Best for:
+
+• Translation
+• Summarization
+• Coding
+• Explanation
+• Emails
+
+Better instruction ≠ Example
+
+A detailed prompt without examples is still Zero-shot.

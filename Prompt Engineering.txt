@@ -240,3 +240,46 @@ LLM
      │
      ▼
 Response
+
+
+📚 Chapter 3.7: Output Formatting
+
+Output Formatting means instructing the LLM to return its response in a specific format.
+
+Kabhi kabhi model:
+
+Extra text add kar deta hai.
+Invalid JSON de deta hai.
+Markdown tod deta hai.
+
+Isi problem ko solve karne ke liye modern APIs me Structured Output aur JSON Schema jaisi features aayi hain.
+
+
+
+Output Formatting
+
+↓
+
+Tell the LLM how to structure the response.
+
+Common Formats:
+
+• Plain Text
+• Markdown
+• JSON
+• Table
+• List
+
+Benefits:
+
+• Easy frontend parsing
+• Consistent responses
+• Better UI rendering
+
+Can be combined with:
+
+• Zero-shot
+• One-shot
+• Few-shot
+• Role Prompting
+• Prompt Templates

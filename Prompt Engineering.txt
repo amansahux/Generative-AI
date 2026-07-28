@@ -283,3 +283,32 @@ Can be combined with:
 • Few-shot
 • Role Prompting
 • Prompt Templates
+
+📚 Chapter 3.8: Chain of Thought (Concept)
+
+Chain of Thought is a prompting technique that encourages the LLM to reason through a problem step by step before giving the final answer.
+
+Chain of Thought (CoT)
+
+↓
+
+Guide the LLM to reason step by step.
+
+Purpose:
+
+• Better logical reasoning
+• Better debugging
+• Better planning
+• Better multi-step problem solving
+
+CoT does NOT increase model intelligence.
+
+It encourages structured reasoning before the final answer.
+
+Can be combined with:
+
+• Role Prompting
+• Output Formatting
+• Zero-shot
+• One-shot
+• Few-shot

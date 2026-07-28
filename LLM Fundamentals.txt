@@ -1,3 +1,16 @@
+📚 2. LLM Fundamentals
+│
+├── What is LLM?
+├── Transformer (High Level Only)
+├── Training vs Fine-Tuning vs Inference
+├── Token Prediction
+├── Context Window
+├── Knowledge Cutoff
+├── Function Calling (Concept)
+└── Why LLMs Hallucinate
+
+
+
 📚 Chapter 1 LLM FUNDAMENTALS :-
  
      🚀 Chapter 2.1: What is an LLM?

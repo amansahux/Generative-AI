@@ -1,3 +1,15 @@
+📚 1. AI Fundamentals
+│
+├── AI vs ML vs Deep Learning vs Gen AI
+├── NLP Basics
+├── Tokens
+├── Embeddings (Concept)
+├── Context Window
+├── Hallucination
+├── Temperature & Top-P
+├── Prompt vs Completion
+└── AI Terminologies
+
 📚 Chapter 1 AI FUNDAMENTALS :-
  
   🚀 chapter 1.1 :-  AI vs ML vs Deep Learning vs Generative AI (Foundation)

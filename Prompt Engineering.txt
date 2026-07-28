@@ -1,3 +1,15 @@
+📚 3. Prompt Engineering
+│
+├── Zero-shot
+├── One-shot
+├── Few-shot
+├── Role Prompting
+├── System Prompt
+├── Prompt Templates
+├── Output Formatting
+├── Chain of Thought (Concept)
+└── Best Practices
+
 🚀 Module 3: Prompt Engineering
 
 

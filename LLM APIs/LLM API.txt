@@ -1,0 +1,18 @@
+📚 4. LLM APIs
+│
+├── Chat Models
+├── invoke()
+├── stream()
+├── batch()
+├── Structured Output
+├── JSON Mode
+├── Vision Models
+├── Token Usage
+├── Cost Optimization
+└── Rate Limits
+
+
+
+🚀 Module 4: LLM APIs
+
+Chapter 4.1: Chat Models 🤖

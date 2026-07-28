@@ -171,3 +171,7 @@ AIMessageChunk
 END
 
 
+await model.stream([
+  new SystemMessage("You are a Java Teacher."),
+  new HumanMessage("Explain OOP")
+]);

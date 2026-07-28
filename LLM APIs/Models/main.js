@@ -37,18 +37,21 @@ const model = new ChatGoogleGenerativeAI({
 // const stream = await model.stream(
 //   "Explain JWT in 5 lines."
 // );
-const stream = await model.stream(
-  "Write a 300 word blog on MERN Stack."
-);
+// const stream = await model.stream(
+//   "Write a 300 word blog on MERN Stack."
+// );
 
-console.log(stream)
+// console.log(stream)
 console.log("-------------------------------------------------------------------------------------------")
 
 // for await (const chunk of stream) {
 //   console.log(chunk);
 // }
-for await (const chunk of stream) {
-  console.log(chunk.content);
-}
+// for await (const chunk of stream) {
+//   console.log(chunk.content);
+// }
+
+
+
 
 

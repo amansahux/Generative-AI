@@ -278,3 +278,38 @@ Time taken to generate a response.
 Throughput
 ↓
 Amount of work processed in a given time.
+
+
+
+📚 Chapter 3.9: Best Practices
+
+Best Practices
+
+↓
+
+1. Be Clear
+2. Give Context
+3. Specify Output Format
+4. Assign Role
+5. Break Complex Tasks
+6. Use Examples When Needed
+7. Avoid Ambiguity
+8. Iterate and Improve
+
+Prompt Engineering
+
+↓
+
+Clear Prompt
+
++
+
+Good Context
+
++
+
+Right Technique
+
+↓
+
+Better Response

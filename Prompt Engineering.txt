@@ -121,3 +121,30 @@ Better pattern learning
 ↓
 
 More tokens & higher cost
+
+
+📚 Chapter 3.4: Role Prompting
+
+
+Role Prompting
+
+↓
+
+Assign a role before giving the task.
+
+Example:
+
+Act as a Senior MERN Developer.
+
+Explain JWT Authentication.
+
+Role Prompting changes:
+
+• Tone
+• Perspective
+• Style
+• Depth
+
+It does NOT add new knowledge to the model.
+
+Role Prompting can be combined with Zero-shot, One-shot, or Few-shot.

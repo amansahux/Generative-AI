@@ -1,0 +1,33 @@
+🚀 Module 3: Prompt Engineering
+
+
+📚 Chapter 3.1: What is Prompt Engineering?
+
+Prompt Engineering
+
+↓
+
+Designing prompts to get the desired output from an LLM.
+
+Goals:
+
+• Reduce ambiguity
+• Give proper context
+• Define clear instructions
+• Improve output quality
+
+Good Prompt ≠ Long Prompt
+
+Good Prompt = Clear Prompt
+
+Real AI Engineers prompt likhte waqt sochte hain:
+
+✅ User kya chahta hai?
+
+✅ Model ko kya context dena hai?
+
+✅ Output kis format me chahiye?
+
+✅ Kis audience ke liye hai?
+
+✅ Kya restrictions hain?

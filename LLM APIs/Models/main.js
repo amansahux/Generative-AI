@@ -34,6 +34,8 @@ const model = new ChatGoogleGenerativeAI({
 
 // console.log(response.content);
 
+// ----------------------------------------------------------------------------------------------------------------------------------------------
+
 // const stream = await model.stream(
 //   "Explain JWT in 5 lines."
 // );
@@ -42,7 +44,7 @@ const model = new ChatGoogleGenerativeAI({
 // );
 
 // console.log(stream)
-console.log("-------------------------------------------------------------------------------------------")
+// console.log("-------------------------------------------------------------------------------------------")
 
 // for await (const chunk of stream) {
 //   console.log(chunk);
@@ -52,6 +54,28 @@ console.log("-------------------------------------------------------------------
 // }
 
 
+// ---------------------------------------------------------------------------------------------------------------------------------------------
 
 
+// const responses = await model.batch([
+//   "Explain React",
+//   "Explain Node.js",
+//   "Explain Express.js",
+// ]);
 
+// const responses = await model.batch([
+//   [
+//     new SystemMessage("You are a Java Teacher."),
+//     new HumanMessage("Explain OOP"),
+//   ],
+
+//   [
+//     new SystemMessage("You are a React Teacher."),
+//     new HumanMessage("Explain Hooks"),
+//   ],
+// ]);
+// console.log(responses)
+// console.log("----------------------------------------------------------------------------------------------------------------------------------------------------------")
+// responses.forEach((response) => {
+//   console.log(response.content);
+// });

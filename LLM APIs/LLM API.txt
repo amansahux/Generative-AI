@@ -175,3 +175,30 @@ await model.stream([
   new SystemMessage("You are a Java Teacher."),
   new HumanMessage("Explain OOP")
 ]);
+
+
+
+
+
+🚀 Module 4.5: batch()
+Ek hi method call me multiple inputs process karna.
+
+Input Array
+
+↓
+
+batch()
+
+↓
+
+Prompt 1 ─┐
+Prompt 2 ─┼──► Provider
+Prompt 3 ─┘
+
+↓
+
+AIMessage[]
+
+↓
+
+Return

@@ -179,3 +179,64 @@ Role Prompt:
 System Prompt = Company Policy
 
 Role Prompt = Current Job
+
+📚 Chapter 3.6: Prompt Templates
+
+A Prompt Template is a reusable prompt with placeholders (variables) that are filled dynamically at runtime.
+
+
+Prompt Template
+
+↓
+
+Reusable prompt with variables.
+
+Example:
+
+Explain {topic}
+in {language}.
+
+Runtime:
+
+topic = React
+language = Hindi
+
+↓
+
+Final Prompt
+
+Explain React
+in Hindi.
+
+Benefits:
+
+• Reusable
+• Dynamic
+• Consistent
+• Easy to maintain
+
+Used heavily in:
+
+• LangChain
+• OpenAI SDK
+• Gemini SDK
+• Production AI Apps
+
+
+
+User Input
+     │
+     ▼
+Variables
+     │
+     ▼
+Prompt Template
+     │
+     ▼
+Final Prompt
+     │
+     ▼
+LLM
+     │
+     ▼
+Response

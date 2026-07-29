@@ -1,21 +1,122 @@
+// import "dotenv/config";
+
+// import { ChatGoogleGenerativeAI } from "@langchain/google-genai";
+
+// import { HumanMessage } from "@langchain/core/messages";
+
+// const model = new ChatGoogleGenerativeAI({
+//     model: "gemini-flash-latest",
+//     apiKey:process.env.GEMINI_API_KEY
+// });
+
+// const message = new HumanMessage({
+//     content: "Explain Docker in simple terms."
+// });
+
+// const response = await model.invoke([
+//     message
+// ]);
+
+// console.log(response.content);
+
 import "dotenv/config";
+
+import readline from "readline/promises";
+import { stdin as input, stdout as output } from "process";
 
 import { ChatGoogleGenerativeAI } from "@langchain/google-genai";
 
-import { HumanMessage } from "@langchain/core/messages";
+import {
+    HumanMessage,
+    AIMessage,
+    SystemMessage
+} from "@langchain/core/messages";
+
+
+// ----------------------------
+// Create Model
+// ----------------------------
 
 const model = new ChatGoogleGenerativeAI({
-    model: "gemini-flash-latest",
+     model: "gemini-flash-latest",
     apiKey:process.env.GEMINI_API_KEY
 });
 
-const message = new HumanMessage({
-    content: "Explain Docker in simple terms."
+
+// ----------------------------
+// Conversation History
+// ----------------------------
+
+const messages = [
+
+    new SystemMessage({
+        content: `
+You are an experienced MERN + Generative AI mentor.
+
+Explain everything in Hinglish.
+
+Give practical examples.
+
+Keep answers easy to understand.
+`
+    })
+
+];
+
+
+// ----------------------------
+// Terminal Input
+// ----------------------------
+
+const rl = readline.createInterface({
+    input,
+    output
 });
 
-const response = await model.invoke([
-    message
-]);
 
-console.log(response.content);
+// ----------------------------
+// Chat Loop
+// ----------------------------
 
+while (true) {
+
+    const prompt = await rl.question("\nYou : ");
+
+    if (prompt.toLowerCase() === "exit") {
+        break;
+    }
+
+    // Store User Message
+
+    messages.push(
+
+        new HumanMessage({
+            content: prompt
+        })
+
+    );
+
+
+
+    // Send Complete History
+
+    const response = await model.invoke(messages);
+
+
+
+    // Print AI Response
+
+    console.log("\nAI :", response.content);
+
+
+
+    // Store AI Response
+
+    messages.push(response);
+
+}
+
+
+// Close Terminal
+
+rl.close();

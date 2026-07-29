@@ -402,3 +402,31 @@ Buffer → Base64
       │
       ▼
 Gemini
+
+
+
+🚀 Module 4.9: Token Usage
+
+
+
+Prompt
+
+↓
+
+invoke()
+
+↓
+
+LLM
+
+↓
+
+AIMessage
+
+│
+
+├── content
+
+├── usage_metadata
+
+└── response_metadata

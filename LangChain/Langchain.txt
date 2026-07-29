@@ -172,3 +172,97 @@ Final Prompt
 Hello Aman
 
 Learn Docker
+
+
+
+
+📖 Chapter 3: ChatPromptTemplate
+
+
+
+                 Variables
+
+             topic = Docker
+
+                     │
+
+                     ▼
+
+          ChatPromptTemplate
+
+                     │
+
+                     ▼
+
+      ┌──────────────────────────┐
+
+      │ SystemMessage            │
+
+      │ You are AI Teacher       │
+
+      └──────────────────────────┘
+
+                     │
+
+                     ▼
+
+      ┌──────────────────────────┐
+
+      │ HumanMessage             │
+
+      │ Explain Docker           │
+
+      └──────────────────────────┘
+
+                     │
+
+                     ▼
+
+             Messages Array
+
+                     │
+
+                     ▼
+
+                  Gemini
+
+
+
+
+
+
+
+
+
+                  SystemMessage
+│
+├── You are AMANOVA AI
+├── Answer in Markdown
+├── Be concise
+├── Use code blocks when needed
+└── Follow safety policies
+
+↓
+
+Conversation History
+│
+├── Human
+├── AI
+├── Human
+└── AI
+
+↓
+
+Current HumanMessage
+
+↓
+
+Retrieved RAG Context (future)
+
+↓
+
+Tool Results (future)
+
+↓
+
+LLM

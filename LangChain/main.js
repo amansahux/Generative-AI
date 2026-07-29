@@ -4,9 +4,11 @@ import { ChatGoogleGenerativeAI } from "@langchain/google-genai";
 
 import { HumanMessage } from "@langchain/core/messages";
 import { PromptTemplate } from "@langchain/core/prompts";
+import { ChatPromptTemplate } from "@langchain/core/prompts";
+
 const model = new ChatGoogleGenerativeAI({
     model: "gemini-flash-latest",
-    apiKey:process.env.GEMINI_API_KEY
+    apiKey: process.env.GEMINI_API_KEY
 });
 
 // const message = new HumanMessage({
@@ -150,26 +152,50 @@ const model = new ChatGoogleGenerativeAI({
 
 
 
-const template = PromptTemplate.fromTemplate(`
+// const template = PromptTemplate.fromTemplate(`
 
-You are an experienced teacher.
+// You are an experienced teacher.
 
-Explain {topic}
+// Explain {topic}
 
-Difficulty Level :
+// Difficulty Level :
 
-{level}
+// {level}
 
-`);
+// `);
 
-const prompt = await template.invoke({
+// const prompt = await template.invoke({
 
-    topic:"Docker",
+//     topic: "Docker",
 
-    level:"Beginner"
+//     level: "Beginner"
 
-});
+// });
+// console.log(prompt.toString())
 
-const response = await model.invoke(prompt.toString());
+// const response = await model.invoke(prompt.toString());
+
+// console.log(response.content);
+
+//------------------------------------------------------------------------------------------------------------------------------------------------
+
+const template = ChatPromptTemplate.fromMessages([
+
+["system","You are an expert {topic} Teacher"],
+
+["human","Explain {topic}"]
+
+]);
+
+const prompt =  await template.invoke({
+    topic:"AWS"
+})
+console.log(prompt.messages)
+
+const response = await model.invoke(
+
+prompt.messages
+
+);
 
 console.log(response.content);

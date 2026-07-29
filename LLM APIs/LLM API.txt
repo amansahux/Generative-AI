@@ -209,3 +209,34 @@ Return
 AI ko force karna ki wo predefined structure me response de.
 
 .withStructuredOutput()
+
+
+🚀 Module 4.7: JSON Mode
+
+JSON Mode provider ko bolta hai ki output valid JSON hi hona chahiye.
+
+Prompt only 
+Prompt
+
+↓
+
+LLM
+
+↓
+
+Maybe JSON
+
+Maybe Text
+
+
+
+JSON Mode
+Prompt
+
+↓
+
+JSON Mode
+
+↓
+
+Valid JSON

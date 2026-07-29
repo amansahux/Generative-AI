@@ -110,9 +110,9 @@ const multimodal_model = new ChatGoogleGenerativeAI({
 
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 //             FOR LOCAL IMAGE
-// const imageBuffer = fs.readFileSync("./cat.jpg");
-// const base64 = imageBuffer.toString("base64");
-// const dataUrl = `data:image/jpeg;base64,${base64}`;
+const imageBuffer = fs.readFileSync("./image.png");
+const base64_1 = imageBuffer.toString("base64");
+const dataUrl1 = `data:image/jpeg;base64,${base64_1}`;
 
 
 
@@ -121,8 +121,8 @@ const image = await fetch("https://imgs.search.brave.com/I-_cysJgJjWMxE5AnJNCmfl
 
 const arrayBuffer = await image.arrayBuffer();
 const mimeType = image.headers.get("content-type");
-const base64 = Buffer.from(arrayBuffer).toString("base64");
-const dataUrl = `data:${mimeType};base64,${base64}`;
+const base64_2 = Buffer.from(arrayBuffer).toString("base64");
+const dataUrl2 = `data:${mimeType};base64,${base64_2}`;
 // console.log(dataUrl)
 
 
@@ -131,12 +131,18 @@ const response = await multimodal_model.invoke([
     content: [
       {
         type: "text",
-        text: "Describe this image under 10 lines."
+        text: "Describe these images one by one."
       },
       {
         type: "image_url",
         image_url: {
-          url: dataUrl
+          url: dataUrl1
+        }
+      },
+      {
+        type: "image_url",
+        image_url: {
+          url: dataUrl2
         }
       }
     ]

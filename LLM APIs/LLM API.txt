@@ -295,6 +295,34 @@ new HumanMessage({
 })
 
 
+const response = await multimodal_model.invoke([
+  new HumanMessage({
+    content: [
+      {
+        type: "text",
+        text: "Describe these images one by one."
+      },
+      {
+        type: "image_url",
+        image_url: {
+          url: dataUrl1
+        }
+      },
+      {
+        type: "image_url",
+        image_url: {
+          url: dataUrl2
+        }
+      }
+    ]
+  })
+]);
+
+
+
+
+
+
 
 React
 
@@ -337,4 +365,40 @@ URL
 
 ↓
 
+Gemini
+
+
+
+Frontend
+      │
+      ▼
+Backend (Multer)
+      │
+      ├── Buffer
+      │
+      ├── Buffer → Base64
+      │
+      ▼
+ Gemini
+
+
+
+
+ User Upload
+      │
+      ▼
+ImageKit / S3 / Cloudinary
+      │
+      ├── Save URL in DB
+      │
+      ▼
+If AI needs image
+      │
+      ▼
+Download URL
+      │
+      ▼
+Buffer → Base64
+      │
+      ▼
 Gemini

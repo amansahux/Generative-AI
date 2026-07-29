@@ -430,3 +430,298 @@ AIMessage
 ├── usage_metadata
 
 └── response_metadata
+
+
+
+🚀 Module 4.10: Cost Optimization
+
+
+Prompt chhota kaise likhen?
+Context Window waste kaise na karein?
+Chat History truncate kaise karein?
+Cheap vs Expensive Models
+RAG se token saving
+Caching
+Production AI apps me cost 70-90% tak kaise kam ki jaati hai.
+
+
+Cost kis cheez pe depend karti hai?
+
+
+
+Model
+
++
+
+Input Tokens
+
++
+
+Output Tokens
+
++
+
+Number of Requests  
+
+in charro kp optimize krna hota h 
+
+
+Rule
+
+Simple Task
+
+↓
+
+Cheap Model
+
+Complex Task
+
+↓
+
+Powerful Model
+
+
+
+
+Example
+
+Resume Builder
+
+Generate Summary
+
+↓
+
+Flash
+
+AI Interview Evaluation
+
+↓
+
+Pro
+
+Math Olympiad Solver
+
+↓
+
+Pro
+
+General Chat
+
+↓
+
+Flash
+
+
+
+
+
+Production Solution
+
+Old messages summarize karo.
+
+Example
+
+Instead of
+
+50 messages
+
+Send
+
+Conversation Summary:
+
+User is learning MERN.
+
+Already discussed React.
+
+Already discussed JWT.
+
+Bas.
+
+
+4️⃣ RAG Use Karo
+
+
+
+6️⃣ Cache Responses ⭐
+
+Suppose
+
+1000 users poochte hain
+
+What is React?
+
+Har baar AI call?
+
+😂
+
+No.
+
+Flow
+
+User
+
+↓
+
+Cache Check
+
+↓
+
+Already Exists?
+
+↓
+
+Yes
+
+↓
+
+Return Cached Response
+
+No AI Cost.
+
+
+
+
+
+
+
+
+
+
+7️⃣ Batch Processing
+
+Ye chapter yaad hai?
+
+Instead of
+
+await model.invoke(a);
+
+await model.invoke(b);
+
+await model.invoke(c);
+
+Use
+
+await model.batch([
+  a,
+  b,
+  c,
+]);
+
+Har provider me cost kam ho ye guarantee nahi hai, lekin request management better ho sakta hai aur throughput improve ho sakta hai.
+
+
+
+
+8️⃣ Streaming Saves UX, Not Cost
+
+Bahut log sochte hain
+
+stream()
+
+↓
+
+Cheap
+
+❌
+
+Streaming
+
+↓
+
+Better User Experience
+
+Cost almost same.
+
+
+
+
+.
+
+🔟 Abort Useless Requests
+
+User ne prompt bheja.
+
+2 second baad
+
+New Prompt bhej diya.
+
+Purana response ab kisi kaam ka nahi.
+
+Production me
+
+AbortController
+
+use karke old request cancel kar dete hain.
+
+Ye especially streaming apps me useful hota hai.
+
+
+
+
+User
+
+↓
+
+Cache
+
+↓
+
+Hit?
+
+↓
+
+Yes
+
+↓
+
+Return
+
+↓
+
+No
+
+↓
+
+Choose Best Model
+
+↓
+
+Relevant Context
+
+↓
+
+Small Prompt
+
+↓
+
+Structured Output
+
+↓
+
+LLM
+
+
+
+
+
+
+Cost Optimization Checklist ✅
+✔ Right Model
+
+✔ Small Prompt
+
+✔ Limit Output
+
+✔ Summarize History
+
+✔ Use RAG
+
+✔ Cache Responses
+
+✔ Track Token Usage
+
+✔ Abort Old Requests
+
+✔ Structured Output
+
+✔ Batch where appropriate

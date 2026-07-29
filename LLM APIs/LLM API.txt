@@ -725,3 +725,12 @@ Cost Optimization Checklist ✅
 ✔ Structured Output
 
 ✔ Batch where appropriate
+
+
+
+🎉 Module 4.11: Rate Limits
+
+Ek certain time ke andar tum kitni requests ya kitne tokens use kar sakte ho uski limit ko Rate Limit kehte hain.
+
+1️⃣ RPM (Requests Per Minute)
+2️⃣ TPM (Tokens Per Minute)

@@ -125,3 +125,50 @@ AIMessage
         │
         ▼
 "It is currently 31°C..."
+
+
+
+
+📖 Chapter 2: PromptTemplate
+
+
+
+             Template
+
+      Hello {name}
+
+      Learn {topic}
+
+             │
+
+             ▼
+
+      Variables Object
+
+      {
+          name:"Aman",
+
+          topic:"Docker"
+      }
+
+             │
+
+             ▼
+
+      PromptTemplate
+
+             │
+
+             ▼
+
+Replace Variables
+
+             │
+
+             ▼
+
+Final Prompt
+
+Hello Aman
+
+Learn Docker

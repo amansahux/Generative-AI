@@ -202,3 +202,10 @@ AIMessage[]
 ↓
 
 Return
+
+
+🚀 Module 4.6: Structured Output
+
+AI ko force karna ki wo predefined structure me response de.
+
+.withStructuredOutput()

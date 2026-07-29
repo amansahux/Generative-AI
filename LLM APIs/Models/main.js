@@ -3,6 +3,7 @@ import { ChatGoogleGenerativeAI } from "@langchain/google-genai";
 import { HumanMessage, SystemMessage } from "@langchain/core/messages";
 import { ChatAnthropic } from "@langchain/anthropic";
 import { ChatOpenAI } from "@langchain/openai";
+import * as z from "zod"
 
 const model = new ChatGoogleGenerativeAI({
   model: "gemini-flash-latest",
@@ -79,3 +80,22 @@ const model = new ChatGoogleGenerativeAI({
 // responses.forEach((response) => {
 //   console.log(response.content);
 // });
+
+
+
+// -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+const ResponseSchema = z.object({
+  name: z.string(),
+  age: z.number(),
+  passion: z.string(),
+  country: z.string(),
+  programmingLanguages: z.array(z.string()),
+});
+
+const FakeUserGenertionModel = model.withStructuredOutput(ResponseSchema);
+
+// const userData = await FakeUserGenertionModel.invoke([new HumanMessage("Create Fake Data of 5 users")]);
+const userData = await FakeUserGenertionModel.batch(["Create Fake Data of 2 users","Create Fake Data of 3 users"]);
+
+console.log(userData)

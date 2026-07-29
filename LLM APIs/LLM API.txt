@@ -240,3 +240,101 @@ JSON Mode
 ↓
 
 Valid JSON
+
+
+🚀 Module 4.8: Vision Models (Multimodal Models)
+
+Jo model text ke saath image ko bhi input le sake usse Vision ya Multimodal Model kehte hain.
+
+Image + Text
+
+↓
+
+Vision Model
+
+↓
+
+Text
+
+
+
+Text
+
++
+
+Image
+
++
+
+(Voice bhi ho sakti hai)
+
+↓
+
+One Model
+
+
+Image bhejne ke liye bhi HumanMessage hi use hota hai.
+
+
+
+
+
+new HumanMessage({
+  content: [
+    {
+      type: "text",
+      text: "Describe this image."
+    },
+    {
+      type: "image_url",
+      image_url: {
+        url: IMAGE_URL (in the form of base 64)
+      }
+    }
+  ]
+})
+
+
+
+React
+
+↓
+
+Express
+
+↓
+
+Multer
+
+↓
+
+Image
+
+↓
+
+Base64
+
+↓
+
+Gemini
+
+↓
+
+Response
+
+
+
+
+React
+
+↓
+
+Cloudinary
+
+↓
+
+URL
+
+↓
+
+Gemini

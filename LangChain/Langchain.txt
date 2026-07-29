@@ -1,0 +1,127 @@
+📚 Module 5: LangChain
+
+📚 5. LangChain
+│
+├── Chat Models
+├── Messages
+│   ├── HumanMessage
+│   ├── AIMessage
+│   ├── SystemMessage
+│   └── ToolMessage
+│
+├── PromptTemplate
+├── ChatPromptTemplate
+├── Output Parsers
+├── LCEL
+├── RunnableSequence
+├── RunnableParallel
+├── RunnableLambda
+├── pipe()
+├── Tools
+├── Tool Calling
+└── Memory (Basic)
+
+
+Chapter 1: Messages
+
+BaseMessage
+      │
+      │
+      ├───────────────┐
+      │               │
+      ▼               ▼
+
+HumanMessage     AIMessage
+
+      │               │
+
+      └───────────────┐
+
+                      ▼
+
+              SystemMessage
+
+                      │
+
+                      ▼
+
+                ToolMessage
+
+Types of Messages
+
+Hum ek ek karke padhenge.
+
+HumanMessage
+
+↓
+
+AIMessage
+
+↓
+
+SystemMessage
+
+↓
+
+ToolMessage
+
+Har ek ka purpose completely different hai.
+
+
+
+
+SystemMessage
+        │
+        ▼
+"You are an AI Tutor"
+
+        │
+
+HumanMessage
+        │
+        ▼
+"Explain Docker"
+
+        │
+
+LLM
+        │
+        ▼
+
+AIMessage
+        │
+        ▼
+"Docker is..."
+
+        │
+
+HumanMessage
+        │
+        ▼
+"What's weather?"
+
+        │
+
+LLM
+        │
+        ▼
+
+Weather Tool
+
+        │
+
+ToolMessage
+        │
+        ▼
+"31°C"
+
+        │
+
+LLM
+        │
+        ▼
+
+AIMessage
+        │
+        ▼
+"It is currently 31°C..."

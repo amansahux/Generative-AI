@@ -481,7 +481,7 @@ import { RunnableLambda } from "@langchain/core/runnables";
 // const parser = new StructuredOutputParser(topic_schema);
 // // const uppercase = RunnableLambda.from((text) => { return text.toUpperCase() })
 // // const length = RunnableLambda.from((obj) => {  obj.length })
-// const summary = RunnableLambda.from((obj) => { 
+// const summary = RunnableLambda.from((obj) => {
 //     console.log(obj["summary"])
 //     return obj
 // })
@@ -527,9 +527,7 @@ const weatherTool = tool(
         description: "Get the current weather of a city.",
 
         schema: z.object({
-
             city: z.string()
-
         })
 
     }
@@ -537,8 +535,54 @@ const weatherTool = tool(
 );
 
 
-const result = await weatherTool.invoke({
-    city:"Ranchi"
-});
+// const result = await weatherTool.invoke({
+//     city:"Ranchi"
+// });
 
-console.log(result);
+// console.log(result);
+
+//------------------------------------------------------------------------------------------------------------------------------------------
+
+import { ToolMessage } from "@langchain/core/messages";
+const modelWithTools = model.bindTools([
+    weatherTool
+]);
+
+const response = await modelWithTools.invoke(
+
+    "What's the weather in Ranchi?" 
+
+);
+// console.log(response.content)
+
+const toolCall = response.tool_calls[0];
+// console.log(toolCall)
+
+const toolResult = await weatherTool.invoke(
+    toolCall.args
+);
+
+// console.log(toolResult);
+
+const toolMessage = new ToolMessage({
+
+content: toolResult,
+
+tool_call_id: toolCall.id
+
+});
+const finalResponse = await modelWithTools.invoke([
+
+new HumanMessage(
+
+"What's the weather in Ranchi?"
+
+),
+
+response,
+
+toolMessage
+
+]);
+
+console.log(finalResponse.content)

@@ -803,3 +803,8 @@ Database                  pay invioce
                                    ▼
 
                                 Final Answer
+
+
+📖 Chapter 11: Tool Calling (The Heart of AI Agents) ⭐⭐⭐⭐⭐
+
+LLM decides which tool to use, with what arguments, but your application executes it.

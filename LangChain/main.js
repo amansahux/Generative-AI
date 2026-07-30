@@ -204,7 +204,7 @@ const model = new ChatGoogleGenerativeAI({
 //-------------------------------------------------------------------------------------------------------------------------------------------------
 
 import { JsonOutputParser, StringOutputParser, StructuredOutputParser } from "@langchain/core/output_parsers";
-import { RunnableParallel } from "@langchain/core/runnables";
+import { RunnableParallel, RunnableSequence } from "@langchain/core/runnables";
 
 // const parser = new JsonOutputParser();
 
@@ -466,11 +466,44 @@ import { RunnableLambda } from "@langchain/core/runnables";
 // console.log(await delay.invoke("I m a disco dancer"))
 
 
-const englishPrompt = PromptTemplate.fromTemplate(`
-Explain Docker in English under 5 lines.
-`);
+// const template = PromptTemplate.fromTemplate(`
+// {instructions}
 
-const hindiPrompt = PromptTemplate.fromTemplate(`
-Explain Docker in Hindi under 5 lines.
-`);
+// explain {topic} under 10 line in simple words in english
+// `)
+// const topic_schema = z.object({
+//     summary: z.string(),
+//     explanation: z.array(z.string()),
+//     keywords: z.array(z.string()),
+//     applications: z.array(z.string()),
+//     related_topics: z.array(z.string()),
+// })
+// const parser = new StructuredOutputParser(topic_schema);
+// // const uppercase = RunnableLambda.from((text) => { return text.toUpperCase() })
+// // const length = RunnableLambda.from((obj) => {  obj.length })
+// const summary = RunnableLambda.from((obj) => { 
+//     console.log(obj["summary"])
+//     return obj
+// })
+
+
+// const parallel = RunnableParallel.from({
+//     // uppercase: uppercase,
+//     // length: length
+//     summary: summary
+// })
+
+// const chain1 = template.pipe(model).pipe(parser).pipe(parallel)
+// const chain2 = RunnableSequence.from([
+//     template,
+//     model,
+//     parser,
+//     parallel
+// ])
+
+
+// console.log(await chain1.invoke({ topic: "GLSL", instructions: parser.getFormatInstructions() }));
+// console.log("=======================================================================================================")
+
+// console.log(await chain2.invoke({ topic: "GLSL", instructions: parser.getFormatInstructions() }));
 

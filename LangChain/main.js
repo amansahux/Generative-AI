@@ -297,38 +297,69 @@ import { JsonOutputParser, StringOutputParser, StructuredOutputParser } from "@l
 
 //----------------------------------------------------------------------------------------------------------------------------------------------
 
-const parser1 = new StringOutputParser(); // turn ai response into string
+// const parser1 = new StringOutputParser(); // turn ai response into string
 
-const template1 = PromptTemplate.fromTemplate(`
-Explain {topic}
-`);
+// const template1 = PromptTemplate.fromTemplate(`
+// Explain {topic}
+// `);
 
-const prompt = await template1.invoke({
-    topic: "Docker"
+// const prompt = await template1.invoke({
+//     topic: "Docker"
+// });
+
+// const response = await model.invoke(prompt);
+
+// const result1 = await parser1.invoke(response);
+
+// console.log(result1);
+
+
+// console.log("--------------------------------------------------------------------------------------------------------------------------")
+
+
+// const parser2 = new StringOutputParser();
+
+// const template2 = PromptTemplate.fromTemplate(`
+// Explain {topic}
+// `);
+
+// const chain = template2 //---------------------------------> RunnableSequence
+//     .pipe(model)
+//     .pipe(parser2);
+
+// const result2 = await chain.invoke({
+//     topic: "Docker"
+// });
+
+// console.log(result2);          
+
+// -------------------------------------------------------------------------------------------------------------------------------------------
+
+import { RunnableSequence } from "@langchain/core/runnables";
+
+const student_schema = z.object({
+    name: z.string(),
+    state: z.string(),
+    progress: z.enum(["learning", "applying", "working"]),
+    skills: z.array(z.string()),
+    experience: z.number().min(0).max(5)
+})
+
+const parser = new StructuredOutputParser(student_schema);
+
+const template = PromptTemplate.fromTemplate(
+    "give real looking data of student {format} about {topic}"
+);
+
+const chain = RunnableSequence.from([
+    template,
+    model,
+    parser
+]);
+
+const result = await chain.invoke({
+    topic: "AI/ML",
+    format: parser.getFormatInstructions()
 });
 
-const response = await model.invoke(prompt);
-
-const result1 = await parser1.invoke(response);
-
-console.log(result1);
-
-
-console.log("--------------------------------------------------------------------------------------------------------------------------")
-
-
-const parser2 = new StringOutputParser();
-
-const template2 = PromptTemplate.fromTemplate(`
-Explain {topic}
-`);
-
-const chain = template2
-    .pipe(model)
-    .pipe(parser2);
-
-const result2 = await chain.invoke({
-    topic: "Docker"
-});
-
-console.log(result2);
+console.log(result);

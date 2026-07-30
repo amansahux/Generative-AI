@@ -494,3 +494,63 @@ isliye sarre me
 
 
 Agar har component ka interface same hai (invoke(), batch(), stream()), to unhe Lego blocks ki tarah connect kiya ja sakta hai.
+
+
+
+
+
+📖 Chapter 6: RunnableSequence
+
+Internally, pipe() RunnableSequence hi banata hai.
+
+
+                RunnableSequence
+
+                       │
+
+        ┌──────────────┼──────────────┐
+
+        ▼              ▼              ▼
+
+PromptTemplate     ChatModel     Parser
+
+        │              │              │
+
+        └──────────────┼──────────────┘
+
+                       │
+
+                       ▼
+
+                 Final Output
+
+
+                                    Runnable
+
+                       │
+
+      ┌────────────────┼─────────────────┐
+
+      │                │                 │
+
+PromptTemplate     ChatModel      OutputParser
+
+      │                │                 │
+
+      └────────────────┼─────────────────┘
+
+                       │
+
+                 RunnableSequence
+
+                       │
+
+                 invoke()
+
+                 batch()
+
+                 stream()
+
+
+
+                 

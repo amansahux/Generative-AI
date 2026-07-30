@@ -507,3 +507,38 @@ import { RunnableLambda } from "@langchain/core/runnables";
 
 // console.log(await chain2.invoke({ topic: "GLSL", instructions: parser.getFormatInstructions() }));
 
+
+
+//------------------------------------------------------------------------------------------------------------------------------------------------
+
+import { tool } from "@langchain/core/tools";
+const weatherTool = tool(
+
+    async ({ city }) => {
+
+        return `The weather in ${city} is 28°C`;
+
+    },
+
+    {
+
+        name: "weather",
+
+        description: "Get the current weather of a city.",
+
+        schema: z.object({
+
+            city: z.string()
+
+        })
+
+    }
+
+);
+
+
+const result = await weatherTool.invoke({
+    city:"Ranchi"
+});
+
+console.log(result);

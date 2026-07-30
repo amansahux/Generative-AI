@@ -626,4 +626,180 @@ RunnableSequence   RunnableParallel   RunnableLambda
 
       │                   │                    │
 
-Sequential         Concurrent        Custom Function
+Sequential         Concurrent        Custom Function\
+
+
+
+
+
+
+🤖 Chapter 10: Tools (The Beginning of AI Agents)
+A Tool is any external capability that an LLM can use to perform an action or fetch information it doesn't inherently possess.
+
+
+
+Important Concept
+
+LLM Tool ko directly execute nahi karta.
+
+Ye bahut important line hai.
+
+LLM sirf decide karta hai
+
+Mujhe weather tool use karna chahiye.
+
+Execution tumhara application karta hai.
+
+
+
+
+                User
+
+                  │
+
+                  ▼
+
+               Prompt
+
+                  │
+
+                  ▼
+
+                LLM
+
+                  │
+
+         Tool Required?
+
+          │          │
+
+       No │          │ Yes
+
+          ▼          ▼
+
+      Final Answer   Execute Tool
+
+                      │
+
+                      ▼
+
+                 External API
+
+                      │
+
+                      ▼
+
+                  Tool Result
+
+                      │
+
+                      ▼
+
+                     LLM
+
+                      │
+
+                      ▼
+
+                Final Response
+
+
+
+
+  Tool banne ke liye LLM ko pata hona chahiye ki wo specific function ke bare me 
+
+  Tool = JavaScript function + Metadata, jise AI samajh sakta hai.
+
+Iska naam kya hai?
+Kya kaam karta hai?
+Kaunse parameters chahiye?
+Kya return karega?
+
+
+Types of Tools
+        |--------------------------------------------------------------------------------------------
+        |                        |                                     |                     |
+        |                        |                                     |                     |
+        |                        |                                     |                     |
+Information Tools         Action Tools                        Computation Tools            Retrieval Tools
+Google Search             Calculator                            Calculator                  PINECONE
+Weather                   Database write                         python                      FIASS
+Wikipedia                 Send Email                             SQL                          Chroma
+News                      book flights                           Code Execution
+Database                  pay invioce                         
+                                                        
+
+
+                                                                            LLM
+
+                     │
+
+          Can Answer From Memory
+
+                     │
+
+         ┌───────────┴───────────┐
+
+         ▼                       ▼
+
+   No External Need       External Need
+
+         │                       │
+
+         ▼                       ▼
+
+    Direct Answer          Choose Tool
+
+                                   │
+
+                                   ▼
+
+                           Application Executes
+
+                                   │
+
+                                   ▼
+
+                              Tool Result
+
+                                   │
+
+                                   ▼
+
+                                Final Answer                    LLM
+
+                     │
+
+          Can Answer From Memory
+
+                     │
+
+         ┌───────────┴───────────┐
+
+         ▼                       ▼
+
+   No External Need       External Need
+
+         │                       │
+
+         ▼                       ▼
+
+    Direct Answer          Choose Tool
+
+                                   │
+
+                                   ▼
+
+                           Application Executes
+
+                                   │
+
+                                   ▼
+
+                              Tool Result
+
+                                   │
+
+                                   ▼
+
+                                Final Answer

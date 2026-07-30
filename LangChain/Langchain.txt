@@ -388,3 +388,109 @@ Production recommendation:
 
 Agar provider reliable structured output support karta hai (Gemini/OpenAI) aur tumhe strict schema chahiye, to withStructuredOutput() better hai.
 Agar tum provider-agnostic pipeline bana rahe ho ya LCEL chains use kar rahe ho, JsonOutputParser bahut useful hai.
+
+
+
+📖 LCEL (LangChain Expression Language)
+
+
+Why LCEL Exists?
+
+LangChain developers ne socha...
+
+"Har component me invoke() hai."
+
+PromptTemplate
+
+↓
+
+invoke()
+
+Model
+
+↓
+
+invoke()
+
+Parser
+
+↓
+
+invoke()
+
+To fir manually invoke kyu kare?
+
+Chain bana dete hain.
+
+
+
+
+
+const prompt = await template.invoke(data);
+
+const response = await model.invoke(prompt);
+
+const result = await parser.invoke(response);
+                  |
+                  |
+                  |
+                  \/
+
+const chain = template
+    .pipe(model)
+    .pipe(parser);
+
+const result = await chain.invoke(data);
+
+
+
+LCEL
+
+↓
+
+LangChain Expression Language
+
+
+PromptTemplate
+
+↓
+
+Runnable
+
+------------------
+
+ChatModel
+
+↓
+
+Runnable
+
+------------------
+
+Parser
+
+↓
+
+Runnable
+
+------------------
+
+Chain
+
+↓
+
+Runnable 
+
+
+isliye sarre me 
+   
+.invoke()
+
+.batch()
+
+.stream()
+
+
+
+
+Agar har component ka interface same hai (invoke(), batch(), stream()), to unhe Lego blocks ki tarah connect kiya ja sakta hai.

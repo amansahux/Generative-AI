@@ -201,9 +201,9 @@ const model = new ChatGoogleGenerativeAI({
 
 // console.log(response.content);
 
-//---------------------------------------------------------------------------------------------------------------------------------------------------------
+//-------------------------------------------------------------------------------------------------------------------------------------------------
 
-import { JsonOutputParser, StructuredOutputParser } from "@langchain/core/output_parsers";
+import { JsonOutputParser, StringOutputParser, StructuredOutputParser } from "@langchain/core/output_parsers";
 
 // const parser = new JsonOutputParser();
 
@@ -250,45 +250,85 @@ import { JsonOutputParser, StructuredOutputParser } from "@langchain/core/output
 
 // console.log(prompt.toString());
 
-//--------------------------------------------------------------------------------------------------------------------------------------------------------------
+//-------------------------------------------------------------------------------------------------------------------------------------------------
 
-const student_schema = z.object({
-    name: z.string(),
-    state: z.string(),
-    progress: z.enum(["learning", "applying", "working"]),
-    skills: z.array(z.string()),
-    experience: z.number().min(0).max(5)
-})
+// const student_schema = z.object({
+//     name: z.string(),
+//     state: z.string(),
+//     progress: z.enum(["learning", "applying", "working"]),
+//     skills: z.array(z.string()),
+//     experience: z.number().min(0).max(5)
+// })
 
-const parser = new StructuredOutputParser(student_schema);
+// const parser = new StructuredOutputParser(student_schema);
 
-const template = PromptTemplate.fromTemplate(`
+// const template = PromptTemplate.fromTemplate(`
 
-Generate student information.
+// Generate student information.
 
-Topic:
+// Topic:
 
-{topic}
+// {topic}
 
-{format}
+// {format}
 
+// `);
+
+// const prompt = await template.invoke({
+
+//     topic: "MERN Developer",
+
+//     format: parser.getFormatInstructions()
+
+// });
+
+// const response = await model.invoke(
+
+//     prompt.toString()
+
+// );
+// console.log(response.content)
+
+// const result = await parser.invoke(response);
+
+// console.log(result);
+
+
+
+//----------------------------------------------------------------------------------------------------------------------------------------------
+
+const parser1 = new StringOutputParser(); // turn ai response into string
+
+const template1 = PromptTemplate.fromTemplate(`
+Explain {topic}
 `);
 
-const prompt = await template.invoke({
-
-    topic: "MERN Developer",
-
-    format: parser.getFormatInstructions()
-
+const prompt = await template1.invoke({
+    topic: "Docker"
 });
 
-const response = await model.invoke(
+const response = await model.invoke(prompt);
 
-    prompt.toString()
+const result1 = await parser1.invoke(response);
 
-);
-console.log(response.content)
+console.log(result1);
 
-const result = await parser.invoke(response);
 
-console.log(result);
+console.log("--------------------------------------------------------------------------------------------------------------------------")
+
+
+const parser2 = new StringOutputParser();
+
+const template2 = PromptTemplate.fromTemplate(`
+Explain {topic}
+`);
+
+const chain = template2
+    .pipe(model)
+    .pipe(parser2);
+
+const result2 = await chain.invoke({
+    topic: "Docker"
+});
+
+console.log(result2);

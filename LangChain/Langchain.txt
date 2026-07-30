@@ -355,13 +355,13 @@ JSON.parse()
 
 JavaScript Object
 
-├── StructuredOutputParser
+├── StructuredOutputParser ------> juse same like withStructuredOutput but works with all type of models
 
-├── CommaSeparatedListOutputParser
+├── CommaSeparatedListOutputParser ---> turning comma separeted outpu to array
 
 ├── MarkdownListOutputParser
 
-└── Custom Parser
+└── Custom Parser ------> Jab LangChain ka koi parser tumhari need fulfill nahi karta.
 
 
 

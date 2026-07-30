@@ -266,3 +266,125 @@ Tool Results (future)
 ↓
 
 LLM
+
+
+📖 Chapter 4: Output Parsers
+
+Hume chahiye:
+
+JSON
+Array
+Boolean
+Object
+Email Data
+Resume Data
+Product Data
+API Response
+
+Isi problem ko solve karte hain Output Parsers.
+
+
+
+
+
+User
+
+↓
+
+Prompt
+
+↓
+
+Output Parser
+
+↓
+
+LLM
+
+↓
+
+Raw Output
+
+↓
+
+Parser
+
+↓
+
+JavaScript Object
+
+
+
+AI ke raw response ko application-friendly format me convert karna.
+
+
+
+
+
+
+Output Parsers
+
+│
+
+├── StringOutputParser ⭐⭐⭐⭐⭐  ---> turn ai response into string (ye kam use hota h cuz response.content already string hota h )
+
+├── JsonOutputParser ⭐⭐⭐⭐⭐ --->           
+ Prompt
+
+↓
+
+JsonOutputParser
+
+↓
+
+Format Instructions
+
+↓
+
+LLM
+
+↓
+
+JSON String
+
+↓
+
+JSON.parse()
+
+↓
+
+JavaScript Object
+
+├── StructuredOutputParser
+
+├── CommaSeparatedListOutputParser
+
+├── MarkdownListOutputParser
+
+└── Custom Parser
+
+
+
+withStructuredOutput()
+Provider validates output
+
+Works only when provider supports it.
+
+Gemini
+
+OpenAI
+
+Claude (selected models)
+
+JsonOutputParser
+LangChain validates/parses
+
+Works with almost every LLM.
+
+
+
+
+Production recommendation:
+
+Agar provider reliable structured output support karta hai (Gemini/OpenAI) aur tumhe strict schema chahiye, to withStructuredOutput() better hai.
+Agar tum provider-agnostic pipeline bana rahe ho ya LCEL chains use kar rahe ho, JsonOutputParser bahut useful hai.

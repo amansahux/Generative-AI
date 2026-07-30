@@ -1,6 +1,7 @@
 import "dotenv/config";
 
 import { ChatGoogleGenerativeAI } from "@langchain/google-genai";
+import * as z from "zod"
 
 import { HumanMessage } from "@langchain/core/messages";
 import { PromptTemplate } from "@langchain/core/prompts";
@@ -179,23 +180,115 @@ const model = new ChatGoogleGenerativeAI({
 
 //------------------------------------------------------------------------------------------------------------------------------------------------
 
-const template = ChatPromptTemplate.fromMessages([
+// const template = ChatPromptTemplate.fromMessages([
 
-["system","You are an expert {topic} Teacher"],
+// ["system","You are an expert {topic} Teacher"],
 
-["human","Explain {topic}"]
+// ["human","Explain {topic}"]
 
-]);
+// ]);
 
-const prompt =  await template.invoke({
-    topic:"AWS"
+// const prompt =  await template.invoke({
+//     topic:"AWS"
+// })
+// console.log(prompt.messages)
+
+// const response = await model.invoke(
+
+// prompt.messages
+
+// );
+
+// console.log(response.content);
+
+//---------------------------------------------------------------------------------------------------------------------------------------------------------
+
+import { JsonOutputParser, StructuredOutputParser } from "@langchain/core/output_parsers";
+
+// const parser = new JsonOutputParser();
+
+// const prompt = `
+// kya tum mughe ek student ki fake deatils ke skte ho?
+
+// Return ONLY valid JSON.
+
+// {
+//   "name":"",
+//   "age":0,
+//   "skills":[],
+//   "summery":""
+// }
+// `;
+
+
+// const response = await model.invoke(prompt);
+// console.log(response.content)
+// console.log("--------------------------------------------------------------------------------")
+
+// const result = await parser.invoke(response);
+// // const result = await parser.parse(response.content);
+
+// console.log(result);
+
+
+// const parser = new JsonOutputParser();
+
+// const template = PromptTemplate.fromTemplate(`
+// Generate a student.
+
+// {format_instructions}
+// `);
+
+// const prompt = await template.invoke({
+
+// format_instructions:
+
+
+// parser.getFormatInstructions()
+
+// });
+
+// console.log(prompt.toString());
+
+//--------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+const student_schema = z.object({
+    name: z.string(),
+    state: z.string(),
+    progress: z.enum(["learning", "applying", "working"]),
+    skills: z.array(z.string()),
+    experience: z.number().min(0).max(5)
 })
-console.log(prompt.messages)
+
+const parser = new StructuredOutputParser(student_schema);
+
+const template = PromptTemplate.fromTemplate(`
+
+Generate student information.
+
+Topic:
+
+{topic}
+
+{format}
+
+`);
+
+const prompt = await template.invoke({
+
+    topic: "MERN Developer",
+
+    format: parser.getFormatInstructions()
+
+});
 
 const response = await model.invoke(
 
-prompt.messages
+    prompt.toString()
 
 );
+console.log(response.content)
 
-console.log(response.content);
+const result = await parser.invoke(response);
+
+console.log(result);

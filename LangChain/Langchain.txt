@@ -553,4 +553,13 @@ PromptTemplate     ChatModel      OutputParser
 
 
 
-                 
+
+📖 Chapter 7: RunnableParallel
+
+RunnableParallel ek Runnable hai.
+
+Ye multiple Runnables ko simultaneously execute karta hai.
+
+Har Runnable ko same input milta hai.
+
+

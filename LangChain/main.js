@@ -204,6 +204,7 @@ const model = new ChatGoogleGenerativeAI({
 //-------------------------------------------------------------------------------------------------------------------------------------------------
 
 import { JsonOutputParser, StringOutputParser, StructuredOutputParser } from "@langchain/core/output_parsers";
+import { RunnableParallel } from "@langchain/core/runnables";
 
 // const parser = new JsonOutputParser();
 
@@ -335,31 +336,81 @@ import { JsonOutputParser, StringOutputParser, StructuredOutputParser } from "@l
 
 // -------------------------------------------------------------------------------------------------------------------------------------------
 
-import { RunnableSequence } from "@langchain/core/runnables";
+// import { RunnableSequence } from "@langchain/core/runnables";
 
-const student_schema = z.object({
-    name: z.string(),
-    state: z.string(),
-    progress: z.enum(["learning", "applying", "working"]),
-    skills: z.array(z.string()),
-    experience: z.number().min(0).max(5)
+// const student_schema = z.object({
+//     name: z.string(),
+//     state: z.string(),
+//     progress: z.enum(["learning", "applying", "working"]),
+//     skills: z.array(z.string()),
+//     experience: z.number().min(0).max(5)
+// })
+
+// const parser = new StructuredOutputParser(student_schema);
+
+// const template = PromptTemplate.fromTemplate(
+//     "give real looking data of student {format} about {topic}"
+// );
+
+// const chain = RunnableSequence.from([
+//     template,
+//     model,
+//     parser
+// ]);
+
+// const result = await chain.invoke({
+//     topic: "AI/ML",
+//     format: parser.getFormatInstructions()
+// });
+
+// console.log(result);
+
+
+//-------------------------------------------------------------------------------------------------------------------------------------------
+
+
+const parser = new StringOutputParser();
+
+const englishPrompt = PromptTemplate.fromTemplate(`
+Explain {topic} in English under 5 lines.
+`);
+
+const hindiPrompt = PromptTemplate.fromTemplate(`
+Explain {topic} in Hindi under 5 lines.
+`);
+
+const englishChain = englishPrompt
+.pipe(model)
+.pipe(parser);
+
+const hindiChain = hindiPrompt
+.pipe(model)
+.pipe(parser);
+
+const {englishResponse,hindiResponse} = await RunnableParallel.from({
+    englishResponse:englishChain,
+    hindiResponse:hindiChain
+}).invoke({
+    topic:"Docker"
 })
 
-const parser = new StructuredOutputParser(student_schema);
 
-const template = PromptTemplate.fromTemplate(
-    "give real looking data of student {format} about {topic}"
-);
+console.log(englishResponse);
+console.log("--------------------------------------------------------------------------------------------------------------------------------------------------------")
+console.log(hindiResponse);
 
-const chain = RunnableSequence.from([
-    template,
-    model,
-    parser
-]);
+// const parallel = RunnableParallel.from({
 
-const result = await chain.invoke({
-    topic: "AI/ML",
-    format: parser.getFormatInstructions()
-});
+//     english: englishChain,
 
-console.log(result);
+//     hindi: hindiChain
+
+// });
+
+// const result = await parallel.invoke({
+
+//     topic: "Docker"
+
+// });
+
+// console.log(result);

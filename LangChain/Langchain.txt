@@ -563,3 +563,67 @@ Ye multiple Runnables ko simultaneously execute karta hai.
 Har Runnable ko same input milta hai.
 
 
+📖 Chapter 8: RunnableLambda
+
+
+Ab tak humne jitne bhi Runnables dekhe the, wo sab LangChain ne diye the.
+
+PromptTemplate
+ChatPromptTemplate
+ChatModel
+OutputParser
+RunnableSequence
+RunnableParallel
+
+Lekin production project me sirf LangChain components se kaam nahi chalta.
+
+Kabhi database call karni hoti hai.
+
+Kabhi Redis cache check karna hota hai.
+
+Kabhi API hit karni hoti hai.
+
+Kabhi data transform karna hota hai.
+
+Kabhi logs save karne hote hain.
+
+Ye sab JavaScript functions hain.
+
+Question...
+
+In normal JavaScript function ko LCEL pipeline ka part kaise banaye?
+
+Answer:
+
+RunnableLambda ⭐
+
+
+
+RunnableLambda kisi bhi JavaScript function ko Runnable bana deta hai.
+
+Normal Function
+
+↓
+
+RunnableLambda
+
+↓
+
+LCEL Compatible
+
+
+
+
+                     Runnable
+
+                          │
+
+      ┌───────────────────┼────────────────────┐
+
+      ▼                   ▼                    ▼
+
+RunnableSequence   RunnableParallel   RunnableLambda
+
+      │                   │                    │
+
+Sequential         Concurrent        Custom Function

@@ -369,35 +369,35 @@ import { RunnableParallel } from "@langchain/core/runnables";
 //-------------------------------------------------------------------------------------------------------------------------------------------
 
 
-const parser = new StringOutputParser();
+// const parser = new StringOutputParser();
 
-const englishPrompt = PromptTemplate.fromTemplate(`
-Explain {topic} in English under 5 lines.
-`);
+// const englishPrompt = PromptTemplate.fromTemplate(`
+// Explain {topic} in English under 5 lines.
+// `);
 
-const hindiPrompt = PromptTemplate.fromTemplate(`
-Explain {topic} in Hindi under 5 lines.
-`);
+// const hindiPrompt = PromptTemplate.fromTemplate(`
+// Explain {topic} in Hindi under 5 lines.
+// `);
 
-const englishChain = englishPrompt
-.pipe(model)
-.pipe(parser);
+// const englishChain = englishPrompt
+// .pipe(model)
+// .pipe(parser);
 
-const hindiChain = hindiPrompt
-.pipe(model)
-.pipe(parser);
+// const hindiChain = hindiPrompt
+// .pipe(model)
+// .pipe(parser);
 
-const {englishResponse,hindiResponse} = await RunnableParallel.from({
-    englishResponse:englishChain,
-    hindiResponse:hindiChain
-}).invoke({
-    topic:"Docker"
-})
+// const {englishResponse,hindiResponse} = await RunnableParallel.from({
+//     englishResponse:englishChain,
+//     hindiResponse:hindiChain
+// }).invoke({
+//     topic:"Docker"
+// })
 
 
-console.log(englishResponse);
-console.log("--------------------------------------------------------------------------------------------------------------------------------------------------------")
-console.log(hindiResponse);
+// console.log(englishResponse);
+// console.log("--------------------------------------------------------------------------------------------------------------------------------------------------------")
+// console.log(hindiResponse);
 
 // const parallel = RunnableParallel.from({
 
@@ -414,3 +414,63 @@ console.log(hindiResponse);
 // });
 
 // console.log(result);
+
+
+//--------------------------------------------------------------------------------------------------------------------------------------------------
+
+import { RunnableLambda } from "@langchain/core/runnables";
+
+// const greet = RunnableLambda.from((name) => {
+
+//     return `Hello ${name}`;
+
+// });
+
+
+// const result = await greet.invoke("Aman");
+
+// console.log(result);
+
+
+// const uppercase = RunnableLambda.from((data) => { return data.toUpperCase() })
+// const result2 = await uppercase.invoke("Aman")
+
+// console.log(result2);
+
+
+
+// const square = RunnableLambda.from((number) => {
+
+//     return number * number;
+
+// });
+
+// console.log(
+
+//     await square.invoke(10)
+
+// );
+
+// const delay = RunnableLambda.from(async (text) => {
+
+//     await new Promise(
+
+//         resolve => setTimeout(resolve, 2000)
+
+//     );
+
+//     return text;
+
+// });
+
+// console.log(await delay.invoke("I m a disco dancer"))
+
+
+const englishPrompt = PromptTemplate.fromTemplate(`
+Explain Docker in English under 5 lines.
+`);
+
+const hindiPrompt = PromptTemplate.fromTemplate(`
+Explain Docker in Hindi under 5 lines.
+`);
+

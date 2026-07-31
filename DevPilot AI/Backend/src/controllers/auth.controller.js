@@ -3,7 +3,6 @@
  * @description Authentication controller for user registration, login, logout, and profile retrieval.
  */
 
-import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import UserModel from "../models/user.model.js";
 
@@ -32,15 +31,11 @@ export const register = async (req, res) => {
       });
     }
 
-    // Hash the password
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(password, salt);
-
-    // Create user
+    // Create user (password hashing handled automatically via userSchema.pre('save'))
     const user = await UserModel.create({
       name,
       email: email.toLowerCase(),
-      password: hashedPassword,
+      password,
     });
 
     // Generate JWT token
@@ -107,8 +102,8 @@ export const login = async (req, res) => {
       });
     }
 
-    // Compare passwords
-    const isPasswordValid = await bcrypt.compare(password, user.password);
+    // Compare passwords using schema method
+    const isPasswordValid = await user.comparePassword(password);
     if (!isPasswordValid) {
       return res.status(401).json({
         success: false,

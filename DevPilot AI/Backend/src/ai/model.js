@@ -3,22 +3,28 @@ import { ChatCohere } from "@langchain/cohere";
 import { ChatMistralAI } from "@langchain/mistralai";
 import { ChatGroq } from "@langchain/groq";
 import { ChatOpenAI } from "@langchain/openai";
-import dotenv from "dotenv"
-dotenv.config()
+import dotenv from "dotenv";
+import path from "path";
+import { fileURLToPath } from "url";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+dotenv.config({ path: path.resolve(__dirname, "../../.env") });
+
 
 /**
  * Gemini model instance using GEMINI_API_KEY from environment variables.
  */
 export const geminiModel = new ChatGoogleGenerativeAI({
-    model: "gemini-1.5-flash",
-    apiKey: process.env.GOOGLE_API_KEY,
+    model: "gemini-flash-latest",
+    apiKey: process.env.GEMINI_API_KEY,
 });
 
 /**
  * Cohere model instance using COHERE_API_KEY from environment variables.
  */
 export const cohereModel = new ChatCohere({
-    model: "command-r-plus",
+    model: "command-a-vision-07-2025",
     apiKey: process.env.COHERE_API_KEY,
 });
 
@@ -53,7 +59,7 @@ export const openRouterModel = new ChatOpenAI({
  * Cerebras model instance using CEREBRAS_API_KEY from environment variables.
  */
 export const cerebrasModel = new ChatOpenAI({
-    model: "llama3.1-70b",
+    model: "zai-glm-4.7",
     apiKey: process.env.CEREBRAS_API_KEY,
     configuration: {
         baseURL: "https://api.cerebras.ai/v1",
@@ -71,7 +77,6 @@ export const nvidiaModel = new ChatOpenAI({
     },
 });
 
-console.log("yessssssssss")
 // Default exported model object containing all model instances
 export const model = {
     geminiModel,

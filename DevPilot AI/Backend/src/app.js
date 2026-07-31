@@ -32,10 +32,10 @@ app.use(cookieParser());
 // ─── Routes ───────────────────────────────────────────────────────────────────
 
 /** Authentication routes — /api/v1/auth */
-app.use("/api/v1/auth", authRoutes);
+app.use("/api/auth", authRoutes);
 
 /** Chat routes — /api/v1/chat */
-app.use("/api/v1/chat", chatRoutes);
+app.use("/api/chat", chatRoutes);
 
 // ─── Health Check ─────────────────────────────────────────────────────────────
 

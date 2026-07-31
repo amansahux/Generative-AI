@@ -1,17 +1,22 @@
-/**
- * @file ai/model.js
- * @description Placeholder for the AI language model instance.
- * Initialise and export the LLM client here (e.g. ChatGoogleGenerativeAI, ChatOpenAI).
- * No AI SDK is imported in this boilerplate.
- */
+import { ChatGoogleGenerativeAI } from "@langchain/google-genai";
+import { ChatCohere } from "@langchain/cohere";
 
 /**
- * AI model placeholder.
- * Replace with the actual model instantiation when an AI provider is integrated.
- *
- * @example
- * // Future implementation:
- * // import { ChatGoogleGenerativeAI } from "@langchain/google-genai";
- * // export const model = new ChatGoogleGenerativeAI({ model: "gemini-pro" });
+ * Gemini model instance using GEMINI_API_KEY from environment variables.
  */
-export const model = null;
+export const geminiModel = new ChatGoogleGenerativeAI({
+  model: "gemini-1.5-flash",
+  apiKey: process.env.GEMINI_API_KEY,
+});
+
+/**
+ * Cohere model instance using COHERE_API_KEY from environment variables.
+ */
+export const cohereModel = new ChatCohere({
+  model: "command-r-plus",
+  apiKey: process.env.COHERE_API_KEY,
+});
+
+// Default exported model alias for convenience
+export const model = {geminiModel , cohereModel};
+

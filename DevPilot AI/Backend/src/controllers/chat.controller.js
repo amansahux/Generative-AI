@@ -9,7 +9,8 @@
  * @route  POST /api/v1/chat/session
  */
 export const createSession = async (_req, res) => {
-  res.status(501).json({ success: false, message: "Not Implemented" });
+ 
+
 };
 
 /**

@@ -14,11 +14,6 @@ import { ApiError, asyncHandler } from "../middleware/error.middleware.js";
 export const register = asyncHandler(async (req, res) => {
   const { name, email, password } = req.body;
 
-  // Validate required fields
-  if (!name || !email || !password) {
-    throw new ApiError(400, "Please provide name, email, and password.");
-  }
-
   // Check if user already exists
   const existingUser = await UserModel.findOne({ email: email.toLowerCase() });
   if (existingUser) {
@@ -68,11 +63,6 @@ export const register = asyncHandler(async (req, res) => {
  */
 export const login = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
-
-  // Validate required fields
-  if (!email || !password) {
-    throw new ApiError(400, "Please provide email and password.");
-  }
 
   // Find user and select password field explicitly
   const user = await UserModel.findOne({ email: email.toLowerCase() }).select(

@@ -40,7 +40,7 @@ const userSchema = new mongoose.Schema(
     /** Verification status (email/account verified) */
     verified: {
       type: Boolean,
-      default: false,
+      default: true,
     },
   },
   {
@@ -53,17 +53,16 @@ const userSchema = new mongoose.Schema(
 /**
  * Pre-save middleware to hash password before saving to DB.
  */
-userSchema.pre("save", async function (next) {
+userSchema.pre("save", async function () {
   if (!this.isModified("password") || !this.password) {
-    return next();
+    return 
   }
 
   try {
     const salt = await bcrypt.genSalt(10);
     this.password = await bcrypt.hash(this.password, salt);
-    next();
   } catch (error) {
-    next(error);
+    throw new Error(error)
   }
 });
 

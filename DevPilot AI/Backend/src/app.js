@@ -9,6 +9,7 @@ import cookieParser from "cookie-parser";
 
 import authRoutes from "./routes/auth.routes.js";
 import chatRoutes from "./routes/chat.routes.js";
+import { errorHandler } from "./middleware/error.middleware.js";
 
 const app = express();
 
@@ -31,10 +32,10 @@ app.use(cookieParser());
 
 // ─── Routes ───────────────────────────────────────────────────────────────────
 
-/** Authentication routes — /api/v1/auth */
+/** Authentication routes — /api/auth */
 app.use("/api/auth", authRoutes);
 
-/** Chat routes — /api/v1/chat */
+/** Chat routes — /api/chat */
 app.use("/api/chat", chatRoutes);
 
 // ─── Health Check ─────────────────────────────────────────────────────────────
@@ -45,23 +46,6 @@ app.get("/health", (_req, res) => {
 
 // ─── Global Error Handler ─────────────────────────────────────────────────────
 
-/**
- * Centralized error handler — catches errors forwarded via next(err).
- * @param {Error} err
- * @param {import('express').Request} req
- * @param {import('express').Response} res
- * @param {import('express').NextFunction} _next
- */
-// eslint-disable-next-line no-unused-vars
-app.use((err, req, res, _next) => {
-  const statusCode = err.statusCode || 500;
-  const message = err.message || "Internal Server Error";
-
-  res.status(statusCode).json({
-    success: false,
-    message,
-    ...(process.env.NODE_ENV === "development" && { stack: err.stack }),
-  });
-});
+app.use(errorHandler);
 
 export default app;

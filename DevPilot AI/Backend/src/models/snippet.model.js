@@ -11,7 +11,7 @@ const snippetSchema = new mongoose.Schema(
     /** Owner of the snippet */
     userId: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
+      ref: "users",
       required: true,
       index: true,
     },

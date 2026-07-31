@@ -11,7 +11,7 @@ const chatSchema = new mongoose.Schema(
     /** Reference to the authenticated user who owns this session */
     userId: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
+      ref: "users",
       required: true,
       index: true,
     },
@@ -35,6 +35,6 @@ const chatSchema = new mongoose.Schema(
   }
 );
 
-const Chat = mongoose.model("Chat", chatSchema);
+const ChatModel = mongoose.model("chats", chatSchema);
 
-export default Chat;
+export default ChatModel;

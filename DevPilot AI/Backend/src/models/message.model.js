@@ -19,7 +19,7 @@ const messageSchema = new mongoose.Schema(
     /** Chat session this message belongs to */
     sessionId: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "Chat",
+      ref: "chats",
       required: true,
       index: true,
     },
@@ -43,6 +43,6 @@ const messageSchema = new mongoose.Schema(
   }
 );
 
-const Message = mongoose.model("Message", messageSchema);
+const MessageModel = mongoose.model("messages", messageSchema);
 
-export default Message;
+export default MessageModel;

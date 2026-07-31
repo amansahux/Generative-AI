@@ -1,51 +1,62 @@
+/**
+ * @file src/ai/model.js
+ * @description Provider-agnostic LLM initialization module for DevPilot AI.
+ * Instantiates and exports individual model instances for Gemini, Groq, Cohere, 
+ * Mistral, OpenRouter, Cerebras, and Nvidia, as well as a dynamic `getModel` factory function.
+ */
+
+import dotenv from "dotenv";
+import path from "path";
+import { fileURLToPath } from "url";
 import { ChatGoogleGenerativeAI } from "@langchain/google-genai";
 import { ChatCohere } from "@langchain/cohere";
 import { ChatMistralAI } from "@langchain/mistralai";
 import { ChatGroq } from "@langchain/groq";
 import { ChatOpenAI } from "@langchain/openai";
-import dotenv from "dotenv";
-import path from "path";
-import { fileURLToPath } from "url";
 
+// Load environment variables dynamically based on module location
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 dotenv.config({ path: path.resolve(__dirname, "../../.env") });
 
-
 /**
- * Gemini model instance using GEMINI_API_KEY from environment variables.
+ * Gemini model instance (Google Generative AI)
  */
 export const geminiModel = new ChatGoogleGenerativeAI({
-    model: "gemini-flash-latest",
+    model: "gemini-3.5-flash-lite",
     apiKey: process.env.GEMINI_API_KEY,
+    temperature: 0.7,
 });
 
 /**
- * Cohere model instance using COHERE_API_KEY from environment variables.
+ * Cohere model instance
  */
 export const cohereModel = new ChatCohere({
-    model: "command-a-vision-07-2025",
+    model: "c4ai-aya-vision-32b",
     apiKey: process.env.COHERE_API_KEY,
+    temperature: 0.7,
 });
 
 /**
- * Mistral model instance using MISTRAL_API_KEY from environment variables.
+ * Mistral AI model instance
  */
 export const mistralModel = new ChatMistralAI({
-    model: "mistral-large-latest",
+    model: "ministral-8b-2512",
     apiKey: process.env.MISTRAL_API_KEY,
+    temperature: 0.7,
 });
 
 /**
- * Groq model instance using GROQ_API_KEY from environment variables.
+ * Groq model instance
  */
 export const groqModel = new ChatGroq({
     model: "llama-3.3-70b-versatile",
     apiKey: process.env.GROQ_API_KEY,
+    temperature: 0.7,
 });
 
 /**
- * OpenRouter model instance using OPENROUTER_API_KEY from environment variables.
+ * OpenRouter model instance (OpenAI-compatible)
  */
 export const openRouterModel = new ChatOpenAI({
     model: "openai/gpt-4o-mini",
@@ -53,10 +64,11 @@ export const openRouterModel = new ChatOpenAI({
     configuration: {
         baseURL: "https://openrouter.ai/api/v1",
     },
+    temperature: 0.7,
 });
 
 /**
- * Cerebras model instance using CEREBRAS_API_KEY from environment variables.
+ * Cerebras model instance (OpenAI-compatible)
  */
 export const cerebrasModel = new ChatOpenAI({
     model: "zai-glm-4.7",
@@ -64,10 +76,11 @@ export const cerebrasModel = new ChatOpenAI({
     configuration: {
         baseURL: "https://api.cerebras.ai/v1",
     },
+    temperature: 0.7,
 });
 
 /**
- * Nvidia model instance using NVIDIA_API_KEY from environment variables.
+ * NVIDIA NIM model instance (OpenAI-compatible)
  */
 export const nvidiaModel = new ChatOpenAI({
     model: "meta/llama-3.1-70b-instruct",
@@ -75,15 +88,48 @@ export const nvidiaModel = new ChatOpenAI({
     configuration: {
         baseURL: "https://integrate.api.nvidia.com/v1",
     },
+    temperature: 0.7,
 });
 
-// Default exported model object containing all model instances
-export const model = {
-    geminiModel,
-    cohereModel,
-    mistralModel,
-    groqModel,
-    openRouterModel,
-    cerebrasModel,
-    nvidiaModel,
+/**
+ * Model provider map for fast lookup
+ */
+const providerMap = {
+    gemini: geminiModel,
+    cohere: cohereModel,
+    mistral: mistralModel,
+    groq: groqModel,
+    openrouter: openRouterModel,
+    openai: openRouterModel,
+    cerebras: cerebrasModel,
+    nvidia: nvidiaModel,
 };
+
+/**
+ * Factory function to retrieve a specific LLM model instance by provider name.
+ *
+ * @param {string} [provider="gemini"] - The provider identifier (e.g. "gemini", "groq", "cohere", "mistral", "openrouter", "cerebras", "nvidia").
+ * @param {boolean} [hasMedia=false] - Flag indicating whether the input includes media (images, files, etc.).
+ * @returns {object} The LangChain chat model instance corresponding to the provider.
+ * @throws {Error} If an unsupported provider is passed, or if media is requested with a non-supporting provider.
+ */
+export function getModel(provider = "gemini", hasMedia = false) {
+    const normalizedProvider = provider.toLowerCase().trim();
+
+    if (hasMedia && !["gemini", "cohere", "mistral"].includes(normalizedProvider)) {
+        throw new Error(
+            `Media input (multimodal) is only supported by Gemini, Cohere, and Mistral. Provider "${provider}" does not support media.`
+        );
+    }
+
+    const selectedModel = providerMap[normalizedProvider];
+
+    if (!selectedModel) {
+        throw new Error(
+            `Unsupported AI provider: "${provider}". Supported providers: ${Object.keys(providerMap).join(", ")}`
+        );
+    }
+
+    return selectedModel;
+}
+

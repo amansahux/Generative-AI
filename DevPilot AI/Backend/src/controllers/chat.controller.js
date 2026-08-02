@@ -62,7 +62,7 @@ export const sendMessage = asyncHandler(async (req, res) => {
 
 /**
  * Retrieve all chat sessions for the authenticated user.
- * @route  GET  /api/v1/chat/sessions
+ * @route  GET  /api/chat/sessions
  */
 export const getSessions = asyncHandler(async (req, res) => {
   const userId = req.user?.id || req.query?.userId;

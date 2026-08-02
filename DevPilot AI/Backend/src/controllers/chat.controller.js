@@ -9,7 +9,6 @@
  * @route  POST /api/v1/chat/session
  */
 export const createSession = async (_req, res) => {
- 
 };
 
 /**

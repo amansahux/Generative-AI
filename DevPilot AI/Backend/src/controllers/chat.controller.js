@@ -54,8 +54,11 @@ export const sendMessage = asyncHandler(async (req, res) => {
 
   await MessageModel.create({ sessionId, role: "ai", content: aiResponse });
 
-  const title = await GenerateSession(content, aiResponse);
-  if (title) await ChatModel.findByIdAndUpdate(sessionId, { title });
+  // Generate and set title only for new sessions (default "New Chat")
+  if (session.title === "New Chat") {
+    const title = await GenerateSession(content, aiResponse);
+    if (title) await ChatModel.findByIdAndUpdate(sessionId, { title });
+  }
 
   return res.status(200).json({ success: true, data: aiResponse });
 });
@@ -78,7 +81,7 @@ export const getSessions = asyncHandler(async (req, res) => {
 
 /**
  * Retrieve the message history of a specific chat session.
- * @route  GET  /api/v1/chat/session/:sessionId
+ * @route  GET  /api/chat/session/:sessionId
  */
 export const getSessionHistory = asyncHandler(async (req, res) => {
   const { sessionId } = req.params;
@@ -94,7 +97,7 @@ export const getSessionHistory = asyncHandler(async (req, res) => {
 
 /**
  * Delete a specific chat session (soft‑delete).
- * @route  DELETE /api/v1/chat/session/:sessionId
+ * @route  DELETE /api/chat/session/:sessionId
  */
 export const deleteSession = asyncHandler(async (req, res) => {
   const { sessionId } = req.params;

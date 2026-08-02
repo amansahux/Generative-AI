@@ -6,7 +6,6 @@
 
 import { Router } from "express";
 import {
-  createSession,
   sendMessage,
   getSessions,
   getSessionHistory,
@@ -20,9 +19,6 @@ const router = Router();
 router.use(verifyToken);
 
 // ─── Session Routes ───────────────────────────────────────────────────────────
-
-/** Create a new chat session */
-router.post("/session", createSession);
 
 /** Get all chat sessions for the current user */
 router.get("/sessions", getSessions);

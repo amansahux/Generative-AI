@@ -11,6 +11,15 @@
  * @returns {Object} Formatted response (placeholder — returns empty object).
  */
 export const formatOutput = (output) => {
-  // TODO: Implement formatting logic (extract content, metadata, tool calls, etc.)
-  return {};
+  if (!output) return "";
+  
+  // If the output is an object (e.g. from structured responses or message objects), extract content
+  let text = typeof output === "string" ? output : (output.content || output.text || "");
+  
+  if (typeof text !== "string") {
+    text = JSON.stringify(text);
+  }
+
+  // Normalize line endings and trim surrounding whitespaces
+  return text.replace(/\r\n/g, "\n").trim();
 };

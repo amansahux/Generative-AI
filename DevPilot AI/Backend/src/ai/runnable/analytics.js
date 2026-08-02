@@ -13,6 +13,10 @@
  * @param {number} params.latencyMs  - Round-trip latency in milliseconds.
  * @returns {Promise<void>}
  */
-export const recordInvocation = async ({ sessionId, tokenCount, latencyMs }) => {
-  // TODO: Persist analytics data (e.g. to a metrics store or database)
+export const recordInvocation = async ({ sessionId = "anonymous", tokenCount = 0, latencyMs = 0 }) => {
+  const timestamp = new Date().toISOString();
+
+  if (process.env.NODE_ENV !== "production") {
+    console.log(`[${timestamp}] [AI Analytics] Session: ${sessionId} | Latency: ${latencyMs}ms | Est. Tokens: ${tokenCount}`);
+  }
 };

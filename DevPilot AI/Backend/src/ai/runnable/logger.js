@@ -13,11 +13,13 @@
  * @param {string} params.output    - The AI's response.
  * @returns {void}
  */
-export const logInvocation = ({ sessionId, input, output }) => {
-  // TODO: Route to a structured logger (e.g. Winston, Pino) or external service
-  if (process.env.NODE_ENV === "development") {
-    console.log(`[AI Logger] Session: ${sessionId}`);
-    console.log(`  Input  : ${String(input).slice(0, 120)}...`);
-    console.log(`  Output : ${String(output).slice(0, 120)}...`);
+export const logInvocation = ({ sessionId = "anonymous", input = "", output = "" }) => {
+  const timestamp = new Date().toISOString();
+  
+  // Format log statement professionally
+  if (process.env.NODE_ENV !== "production") {
+    console.log(`[${timestamp}] [AI Logger] Session: ${sessionId}`);
+    console.log(`  Input  : ${String(input).replace(/\n/g, " ").slice(0, 150)}...`);
+    console.log(`  Output : ${String(output).replace(/\n/g, " ").slice(0, 150)}...`);
   }
 };

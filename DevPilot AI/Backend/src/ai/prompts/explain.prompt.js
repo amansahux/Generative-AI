@@ -11,8 +11,7 @@
  * @type {string}
  */
 export const explainPrompt = `
-You are a senior developer. Explain the following code snippet clearly and concisely
-to a developer who may not be familiar with this part of the codebase.
+You are an expert developer. Briefly explain the code below.
 
 Code:
 {code}

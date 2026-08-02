@@ -94,7 +94,7 @@ export const nvidiaModel = new ChatOpenAI({
 /**
  * Model provider map for fast lookup
  */
-const providerMap = {
+export const providerMap = {
     gemini: geminiModel,
     cohere: cohereModel,
     mistral: mistralModel,
@@ -104,32 +104,3 @@ const providerMap = {
     cerebras: cerebrasModel,
     nvidia: nvidiaModel,
 };
-
-/**
- * Factory function to retrieve a specific LLM model instance by provider name.
- *
- * @param {string} [provider="gemini"] - The provider identifier (e.g. "gemini", "groq", "cohere", "mistral", "openrouter", "cerebras", "nvidia").
- * @param {boolean} [hasMedia=false] - Flag indicating whether the input includes media (images, files, etc.).
- * @returns {object} The LangChain chat model instance corresponding to the provider.
- * @throws {Error} If an unsupported provider is passed, or if media is requested with a non-supporting provider.
- */
-export function getModel(provider = "gemini", hasMedia = false) {
-    const normalizedProvider = provider.toLowerCase().trim();
-
-    if (hasMedia && !["gemini", "cohere", "mistral"].includes(normalizedProvider)) {
-        throw new Error(
-            `Media input (multimodal) is only supported by Gemini, Cohere, and Mistral. Provider "${provider}" does not support media.`
-        );
-    }
-
-    const selectedModel = providerMap[normalizedProvider];
-
-    if (!selectedModel) {
-        throw new Error(
-            `Unsupported AI provider: "${provider}". Supported providers: ${Object.keys(providerMap).join(", ")}`
-        );
-    }
-
-    return selectedModel;
-}
-

@@ -105,7 +105,6 @@ export const deleteSession = asyncHandler(async (req, res) => {
     throw new ApiError(400, "sessionId is required")
   }
 
-  await ChatModel.findByIdAndUpdate(sessionId, { isDeleted: true });
-  await MessageModel.updateMany({ sessionId }, { $set: { "isDeleted": true } }).catch(() => { });
+
   return res.status(200).json({ success: true, message: "Chat session deleted" });
 });

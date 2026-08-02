@@ -10,7 +10,6 @@
  */
 export const createSession = async (_req, res) => {
  
-
 };
 
 /**

@@ -105,7 +105,12 @@ export const deleteSession = asyncHandler(async (req, res) => {
     throw new ApiError(400, "sessionId is required")
   }
 
-  await ChatModel.findByIdAndDelete(sessionId).catch(() => { });
+  const session = await ChatModel.findById(sessionId);
+  if (!session) {
+    throw new ApiError(404, "Chat session not found")
+  }
+
+  await ChatModel.findByIdAndDelete(sessionId);
   await MessageModel.deleteMany({ sessionId }).catch(() => { });
 
   return res.status(200).json({ success: true, message: "Chat session deleted" });

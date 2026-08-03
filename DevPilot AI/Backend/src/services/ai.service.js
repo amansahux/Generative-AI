@@ -11,7 +11,7 @@ const agent = createAgent({
     model:geminiModel,
     tools:[weatherTool , readmeTool , snippetTool, timeTool, todoTool]
 })
-const chain = createChatChain(mistralModel);
+const chain = createChatChain(agent);
 
 export const GenerateResponse = async (rawDbMessages) => {
 

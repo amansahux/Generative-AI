@@ -10,6 +10,7 @@
  *
  * @type {Object}
  */
+import { tool } from "langchain";
 import { geminiModel } from "../model.js";
 import * as z from "zod"
 const execute = async ({ projectName, projectDescription, techStack }) => {

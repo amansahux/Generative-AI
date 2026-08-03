@@ -14,15 +14,34 @@ export const timeTool = {
   name: "time",
   description: "Returns the current date and time for a specified timezone.",
 
-  /**
-   * Execute the time tool.
-   *
-   * @param {Object} input
-   * @param {string} [input.timezone] - IANA timezone string (e.g. "Asia/Kolkata"). Defaults to UTC.
-   * @returns {Promise<null>}
-   */
   execute: async ({ timezone = "UTC" }) => {
-    // TODO: Implement timezone-aware date/time retrieval
-    return null;
+    try {
+      const options = {
+        timeZone: timezone,
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit",
+        timeZoneName: "long",
+      };
+      const formatter = new Intl.DateTimeFormat([], options);
+      return formatter.format(new Date());
+    } catch (error) {
+      // Fallback if the timezone is invalid
+      const utcOptions = {
+        timeZone: "UTC",
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit",
+        timeZoneName: "long",
+      };
+      const formatter = new Intl.DateTimeFormat([], utcOptions);
+      return `Error: Invalid timezone "${timezone}". Current UTC time is: ${formatter.format(new Date())}`;
+    }
   },
 };

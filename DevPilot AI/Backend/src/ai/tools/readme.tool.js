@@ -10,21 +10,40 @@
  *
  * @type {Object}
  */
+import { geminiModel } from "../model.js";
+
 export const readmeTool = {
   name: "readme",
   description: "Generates a professional README.md file based on a project description.",
 
-  /**
-   * Execute the readme tool.
-   *
-   * @param {Object} input
-   * @param {string} input.projectName        - The name of the project.
-   * @param {string} input.projectDescription - A brief description of the project.
-   * @param {string} [input.techStack]        - Comma-separated list of technologies used.
-   * @returns {Promise<null>}
-   */
   execute: async ({ projectName, projectDescription, techStack }) => {
-    // TODO: Compose a README generation prompt and invoke the AI model
-    return null;
+    try {
+      if (!projectName || !projectDescription) {
+        return "Error: Both projectName and projectDescription are required.";
+      }
+
+      const prompt = `You are a professional documentation generator. Generate a premium, comprehensive, and beautiful README.md for the following project:
+Project Name: ${projectName}
+Description: ${projectDescription}
+${techStack ? `Tech Stack: ${techStack}` : ""}
+
+Please include sections for:
+- Features
+- Installation Instructions
+- Usage Guide
+- Contributing
+- License
+
+Return only the markdown content, with no markdown code blocks wrapping the entire output.`;
+
+      const response = await geminiModel.invoke([
+        ["system", "You are an expert technical writer and developer assistant."],
+        ["human", prompt]
+      ]);
+
+      return response.content;
+    } catch (error) {
+      return `Error generating README: ${error.message}`;
+    }
   },
 };

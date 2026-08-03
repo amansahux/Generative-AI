@@ -2,6 +2,8 @@ import { createChatChain } from "../ai/chains/chat.chain.js";
 import { mistralModel, openRouterModel } from "../ai/model.js";
 import { HumanMessage, AIMessage } from "@langchain/core/messages";
 
+const ModelWithTools = mistralModel.
+
 const chain = createChatChain(mistralModel);
 
 export const GenerateResponse = async (rawDbMessages) => {

@@ -11,18 +11,14 @@
  * @type {Object}
  */
 import { geminiModel } from "../model.js";
+import * as z from "zod"
+const execute = async ({ projectName, projectDescription, techStack }) => {
+  try {
+    if (!projectName || !projectDescription) {
+      return "Error: Both projectName and projectDescription are required.";
+    }
 
-export const readmeTool = {
-  name: "readme",
-  description: "Generates a professional README.md file based on a project description.",
-
-  execute: async ({ projectName, projectDescription, techStack }) => {
-    try {
-      if (!projectName || !projectDescription) {
-        return "Error: Both projectName and projectDescription are required.";
-      }
-
-      const prompt = `You are a professional documentation generator. Generate a premium, comprehensive, and beautiful README.md for the following project:
+    const prompt = `You are a professional documentation generator. Generate a premium, comprehensive, and beautiful README.md for the following project:
 Project Name: ${projectName}
 Description: ${projectDescription}
 ${techStack ? `Tech Stack: ${techStack}` : ""}
@@ -36,14 +32,24 @@ Please include sections for:
 
 Return only the markdown content, with no markdown code blocks wrapping the entire output.`;
 
-      const response = await geminiModel.invoke([
-        ["system", "You are an expert technical writer and developer assistant."],
-        ["human", prompt]
-      ]);
+    const response = await geminiModel.invoke([
+      ["system", "You are an expert technical writer and developer assistant."],
+      ["human", prompt]
+    ]);
 
-      return response.content;
-    } catch (error) {
-      return `Error generating README: ${error.message}`;
-    }
-  },
-};
+    return response.content;
+  } catch (error) {
+    return `Error generating README: ${error.message}`;
+  }
+}
+
+export const readmeTool = tool(execute, {
+  name: "readme",
+  description: "Generates a professional   README.md file based on a project description.",
+  schema: z.object({
+    projectName: z.string(),
+    projectDescription: z.string(),
+    techStack: z.string().optional(),
+  }),
+
+});

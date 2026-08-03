@@ -1,9 +1,16 @@
+import { createAgent } from "langchain";
 import { createChatChain } from "../ai/chains/chat.chain.js";
-import { mistralModel, openRouterModel } from "../ai/model.js";
+import { geminiModel, mistralModel, openRouterModel } from "../ai/model.js";
 import { HumanMessage, AIMessage } from "@langchain/core/messages";
-
-const ModelWithTools = mistralModel.
-
+import { weatherTool } from "../ai/tools/weather.tool.js";
+import { readmeTool } from "../ai/tools/readme.tool.js";
+import { snippetTool } from "../ai/tools/snippet.tool.js";
+import { timeTool } from "../ai/tools/time.tool.js";
+import { todoTool } from "../ai/tools/todo.tool.js";
+const agent = createAgent({
+    model:geminiModel,
+    tools:[weatherTool , readmeTool , snippetTool, timeTool, todoTool]
+})
 const chain = createChatChain(mistralModel);
 
 export const GenerateResponse = async (rawDbMessages) => {

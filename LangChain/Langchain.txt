@@ -355,9 +355,9 @@ JSON.parse()
 
 JavaScript Object
 
-├── StructuredOutputParser ------> juse same like withStructuredOutput but works with all type of models
+├── StructuredOutputParser ------> just same like withStructuredOutput but works with all type of models
 
-├── CommaSeparatedListOutputParser ---> turning comma separeted outpu to array
+├── CommaSeparatedListOutputParser ---> turning comma separeted output to array
 
 ├── MarkdownListOutputParser
 

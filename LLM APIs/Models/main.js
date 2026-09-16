@@ -57,7 +57,7 @@ const multimodal_model = new ChatGoogleGenerativeAI({
 //   console.log(chunk);
 // }
 // for await (const chunk of stream) {
-//   console.log(chunk.content);
+//   process.stdout.write(chunk.content);
 // }
 
 
@@ -102,9 +102,15 @@ const multimodal_model = new ChatGoogleGenerativeAI({
 // const FakeUserGenertionModel = model.withStructuredOutput(ResponseSchema);
 
 // // const userData = await FakeUserGenertionModel.invoke([new HumanMessage("Create Fake Data of 5 users")]);
-// const userData = await FakeUserGenertionModel.batch(["Create Fake Data of 2 users","Create Fake Data of 3 users"]);
+// const userData = await FakeUserGenertionModel.batch(["Create Fake Data of 2 users","Create A user named aman sahu , age 22 , country india , gender male"]);
 
-// console.log(userData)
+// userData.forEach((element) => {
+//   console.log(element.content)
+// });
+// console.log("--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------")
+// userData.forEach((element) => {
+//   console.log(element)
+// });
 
 
 
@@ -116,14 +122,13 @@ const dataUrl1 = `data:image/jpeg;base64,${base64_1}`;
 
 
 
-//             FOR ONLINE IMAGE
+//            FOR ONLINE IMAGE
 const image = await fetch("https://imgs.search.brave.com/I-_cysJgJjWMxE5AnJNCmflk116zMdsfGH7ON7QcsZQ/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9wbHVz/LnVuc3BsYXNoLmNv/bS9wcmVtaXVtX3Bo/b3RvLTE3MjM3MzMx/MDQzMjItODI3MTg2/YjVlYjllP2ZtPWpw/ZyZxPTYwJnc9MzAw/MCZhdXRvPWZvcm1h/dCZmaXQ9Y3JvcCZp/eGxpYj1yYi00LjEu/MCZpeGlkPU0zd3hN/akEzZkRCOE1IeHpa/V0Z5WTJoOE1YeDhi/Mk4wYjNCMWMzeGxi/bnd3Zkh3d2ZIeDhN/QT09")
 
 const arrayBuffer = await image.arrayBuffer();
 const mimeType = image.headers.get("content-type");
 const base64_2 = Buffer.from(arrayBuffer).toString("base64");
 const dataUrl2 = `data:${mimeType};base64,${base64_2}`;
-// console.log(dataUrl)
 
 
 const response = await multimodal_model.invoke([
@@ -131,7 +136,7 @@ const response = await multimodal_model.invoke([
     content: [
       {
         type: "text",
-        text: "Describe these images one by one."
+        text: "Describe these images one by one. under 5 line each"
       },
       {
         type: "image_url",

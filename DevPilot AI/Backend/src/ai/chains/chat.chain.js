@@ -1,6 +1,6 @@
 /**
  * @file ai/chains/chat.chain.js
- * @description Creates the main conversational AI response generation pipeline for DevPilot AI.
+ * @description Creates the main conversational AI response generation pipeline for Amanova AI.
  * Uses the latest stable LangChain JS APIs (LCEL) to construct a provider-agnostic, reusable chain.
  */
 

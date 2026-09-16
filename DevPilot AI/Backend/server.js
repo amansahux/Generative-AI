@@ -14,7 +14,7 @@ const startServer = async () => {
   await connectDB();
 
   app.listen(PORT, () => {
-    console.log(`✅  DevPilot AI server running on http://localhost:${PORT}`);
+    console.log(`✅  AMANOVA AI server running on http://localhost:${PORT}`);
     console.log(`📡  Environment : ${process.env.NODE_ENV || "development"}`);
   });
 };

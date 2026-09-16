@@ -1,7 +1,7 @@
 {
-  "name": "devpilot-ai",
+  "name": "amanova-ai",
   "version": "1.0.0",
-  "description": "DevPilot AI — Scalable Node.js backend boilerplate",
+  "description": "Amanova AI — Scalable Node.js backend boilerplate",
   "main": "server.js",
   "type": "module",
   "scripts": {
@@ -9,7 +9,7 @@
     "start": "node server.js"
   },
   "keywords": [
-    "devpilot",
+    "amanova ai",
     "ai",
     "express",
     "mongoose"

@@ -1,6 +1,6 @@
 /**
  * @file src/ai/model.js
- * @description Provider-agnostic LLM initialization module for DevPilot AI.
+ * @description Provider-agnostic LLM initialization module for AManova AI.
  * Instantiates and exports individual model instances for Gemini, Groq, Cohere, 
  * Mistral, OpenRouter, Cerebras, and Nvidia, as well as a dynamic `getModel` factory function.
  */

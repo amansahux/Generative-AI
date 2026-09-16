@@ -1,6 +1,6 @@
 /**
  * @file controllers/chat.controller.js
- * @description Concrete controller implementations for DevPilot AI chat endpoints.
+ * @description Concrete controller implementations for Amanova AI chat endpoints.
  * Uses Mongoose models (ChatModel, MessageModel) and AI service helpers
  * (GenerateResponse, GenerateSession) to manage sessions, messages, and
  * AI interactions.

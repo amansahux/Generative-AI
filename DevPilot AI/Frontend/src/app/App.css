@@ -1,42 +1,158 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+:root {
+  --surface: #111125;
+  --surface-dim: #111125;
+  --surface-bright: #37374d;
+  --surface-container-lowest: #0c0c1f;
+  --surface-container-low: #1a1a2e;
+  --surface-container: #252542;
+  --surface-container-high: #28283d;
+  --surface-container-highest: #333348;
+  --on-surface: #e2e0fc;
+  --on-surface-variant: #c8c4d7;
+  --inverse-surface: #e2e0fc;
+  --inverse-on-surface: #2f2e43;
+  --outline: #928ea0;
+  --outline-variant: #474554;
+  --surface-tint: #c6bfff;
+  --primary: #c6bfff;
+  --on-primary: #2900a0;
+  --primary-container: #6c5ce7;
+  --on-primary-container: #faf6ff;
+  --inverse-primary: #5847d2;
+  --secondary: #46eae5;
+  --on-secondary: #003735;
+  --secondary-container: #00cec9;
+  --on-secondary-container: #005250;
+  --tertiary: #ffb77d;
+  --on-tertiary: #4d2600;
+  --tertiary-container: #ac5d00;
+  --on-tertiary-container: #fff5f1;
+  --error: #ffb4ab;
+  --on-error: #690005;
+  --error-container: #93000a;
+  --on-error-container: #ffdad6;
+  --background: #111125;
+  --on-background: #e2e0fc;
+  --canvas-sidebar: #0F0F23;
+  --text-primary: #FFFFFF;
+  --text-muted: #A0A0C0;
+  --glow-violet: rgba(108, 92, 231, 0.25);
+  --glow-teal: rgba(0, 206, 201, 0.20);
+  --border-subtle: rgba(255, 255, 255, 0.08);
+
+  --font-inter: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+body {
+  font-family: var(--font-inter);
+  background-color: var(--surface-container-low);
+  color: var(--text-primary);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+a {
+  color: var(--primary-container);
+  text-decoration: none;
 }
 
-.card {
-  padding: 2em;
+button {
+  cursor: pointer;
+  font-family: inherit;
+  border: none;
+  background: transparent;
 }
 
-.read-the-docs {
-  color: #888;
+input, textarea {
+  font-family: inherit;
 }
+
+.flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.full-screen {
+  width: 100vw;
+  height: 100vh;
+}
+
+.bg-lowest {
+  background-color: var(--surface-container-lowest);
+}
+
+.loader {
+  border: 3px solid var(--surface-container);
+  border-top: 3px solid var(--primary-container);
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--surface-container-highest);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--outline-variant);
+}
+
+.glass-panel {
+  background-color: rgba(37, 37, 66, 0.8);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--border-subtle);
+  border-radius: 12px;
+}
+
+.btn-primary {
+  background: linear-gradient(90deg, #6C5CE7, #8E7CFF);
+  color: white;
+  border-radius: 12px;
+  padding: 10px 16px;
+  font-weight: 600;
+  transition: all 0.2s ease;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.btn-primary:hover {
+  box-shadow: 0 0 14px var(--glow-violet);
+}
+
+.input-glass {
+  background-color: var(--surface-container);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-primary);
+  border-radius: 12px;
+  padding: 12px 16px;
+  width: 100%;
+  transition: border-color 0.2s ease;
+}
+
+.input-glass:focus {
+  outline: none;
+  border-color: var(--primary-container);
+  box-shadow: 0 0 8px var(--glow-violet);
+}
+

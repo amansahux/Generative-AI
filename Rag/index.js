@@ -29,16 +29,8 @@ const splitter = new RecursiveCharacterTextSplitter({
 });
 
 const chunks2 = await splitter.splitDocuments(data)
-chunks2.map((chunk) => {
-    console.log(chunk)
-})
-console.log(chunks2.length)
 const chunks = await splitter.splitDocuments(documents);
 
-chunks.map((chunk) => {
-    console.log(chunk)
-})
-console.log(chunks.length)
 
 import { MistralAIEmbeddings } from "@langchain/mistralai";
 
@@ -55,3 +47,18 @@ const docs2 = await embeddings.embedDocuments(chunks2.map((chunk) => chunk.pageC
 console.log(docs1)
 console.log("=========================================================================================================================================")
 console.log(docs2)
+
+import { Pinecone } from '@pinecone-database/pinecone';
+
+const pc = new Pinecone({
+  apiKey: process.env.PINECONE_API_KEY,
+});
+const index = pc.index('rag-learning');
+
+// const res = await index.upsert({records: docs1.map((doc, i) => ({
+//     id: `doc-${i}`,
+//     values: doc.embedding,
+//     metadata: { text: doc.text },
+//   }))})
+
+//   console.log(res)

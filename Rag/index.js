@@ -1,4 +1,6 @@
 // Loader → Splitter → Embeddings → Vector Store → Retriever → LLM   
+import dotenv from "dotenv";
+dotenv.config();
 import { TextLoader } from "@langchain/classic/document_loaders/fs/text";
 import { PDFLoader } from "@langchain/community/document_loaders/fs/pdf";
 
@@ -32,15 +34,24 @@ chunks2.map((chunk) => {
 })
 console.log(chunks2.length)
 const chunks = await splitter.splitDocuments(documents);
-console.log(chunks.length)
+
 chunks.map((chunk) => {
     console.log(chunk)
 })
+console.log(chunks.length)
 
+import { MistralAIEmbeddings } from "@langchain/mistralai";
 
-// console.log(chunks);
-// console.log(chunks.length);
-// console.log("============================================================================================================================")
-// console.log(chunks2);
-// console.log(chunks2.length)
+const embeddings = new MistralAIEmbeddings({
+  model: "mistral-embed",
+  apiKey: process.env.MISTRAL_API_KEY,
+});
 
+// embeddQuery -------> For Query
+// embedDocuments -------> For Documents    
+
+const docs1 = await embeddings.embedDocuments(chunks.map((chunk) => chunk.pageContent));
+const docs2 = await embeddings.embedDocuments(chunks2.map((chunk) => chunk.pageContent))
+console.log(docs1)
+console.log("=========================================================================================================================================")
+console.log(docs2)

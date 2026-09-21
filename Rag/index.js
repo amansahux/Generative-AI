@@ -216,9 +216,36 @@ export const ingestFileonChroma = async (filePath) => {
 };
 
 
+
 // const res = await ingestFileonChroma("./story.pdf")
 // const res = await ingestFileonPinecode("./story.pdf")
 
 // console.log(res)
 
 // ==========================================================================================================
+
+export const SearchOnPinecone = async (query) => {
+  const queryEmbedding = await embeddings.embedQuery(query)
+  const results = await index.query({
+    vector: queryEmbedding,
+    topK: 3,
+    includeMetadata: true,
+  })
+  return results
+}
+export const searchonChroma = async (query) => {
+  const queryEmbedding = await embeddings.embedQuery(query)
+  const results = await collection.query({
+    queryEmbeddings: [queryEmbedding],
+    nResults: 3,
+    includeMetadata: true,
+  });
+  return results
+}
+
+console.log(await searchonChroma("How long was Aarav's internship?"))
+console.log("======================================================================================================================")
+console.dir(
+  await SearchOnPinecone("How long was Aarav's internship?"),
+  { depth: null }
+);

@@ -251,9 +251,36 @@ export const searchonChroma = async (query) => {
   }));
 }
 
-console.log(await searchonChroma("How long was Aarav's internship?"))
+// console.log(await searchonChroma("How long was Aarav's internship?"))
+// console.log("======================================================================================================================")
+// console.dir(
+//   await SearchOnPinecone("How long was Aarav's internship?"),
+//   { depth: null }
+// );
+import { PineconeStore } from "@langchain/pinecone";
+import { Chroma } from "@langchain/community/vectorstores/chroma";
+const PineconeVectorStore = await PineconeStore.fromExistingIndex(
+  embeddings,
+  {
+    pineconeIndex: index,
+  }
+);
+
+const PineconeRetriver = PineconeVectorStore.asRetriever({
+  k: 2,
+});
+
+const chromaVectorStore = new Chroma(embeddings, {
+  collectionName: "rag-learning",
+  index:client,
+});
+
+const ChromaRetriver = chromaVectorStore.asRetriever({
+  k: 2,
+});
+
+console.log(await ChromaRetriver.invoke("How long was Aarav's internship?"))
 console.log("======================================================================================================================")
-console.dir(
-  await SearchOnPinecone("How long was Aarav's internship?"),
-  { depth: null }
+console.log(
+  await PineconeRetriver.invoke("How long was Aarav's internship?")
 );

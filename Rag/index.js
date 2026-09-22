@@ -228,19 +228,27 @@ export const SearchOnPinecone = async (query) => {
   const queryEmbedding = await embeddings.embedQuery(query)
   const results = await index.query({
     vector: queryEmbedding,
-    topK: 3,
+    topK: 2,
     includeMetadata: true,
   })
-  return results
+  return results.matches.map(match => ({
+    text: match.metadata.text,
+    source: match.metadata.source,
+    page: match.metadata.page
+  }));
 }
 export const searchonChroma = async (query) => {
   const queryEmbedding = await embeddings.embedQuery(query)
   const results = await collection.query({
     queryEmbeddings: [queryEmbedding],
-    nResults: 3,
+    nResults: 2,
     includeMetadata: true,
   });
-  return results
+  return results.documents?.[0].map((text, i) => ({
+    text,
+    source: results.metadatas[0][i]?.source,
+    page: results.metadatas[0][i]?.page
+  }));
 }
 
 console.log(await searchonChroma("How long was Aarav's internship?"))

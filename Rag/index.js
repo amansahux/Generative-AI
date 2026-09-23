@@ -3,6 +3,14 @@
 // dotenv.config();
 // import { TextLoader } from "@langchain/classic/document_loaders/fs/text";
 // import { PDFLoader } from "@langchain/community/document_loaders/fs/pdf";
+import dotenv from "dotenv";
+dotenv.config();
+import { ChatCohere } from "@langchain/cohere";
+
+export const model = new ChatCohere({
+  model: "command-a-03-2025",
+  apiKey: process.env.COHERE_API_KEY,
+})
 
 
 
@@ -83,8 +91,7 @@ import { MistralAIEmbeddings } from "@langchain/mistralai";
 import { Pinecone } from "@pinecone-database/pinecone";
 import { CloudClient } from "chromadb";
 import path from "path";
-import dotenv from "dotenv";
-dotenv.config();
+
 
 const embeddings = new MistralAIEmbeddings({
   model: "mistral-embed",
@@ -225,25 +232,31 @@ export const ingestFileonChroma = async (filePath) => {
 // ==========================================================================================================
 
 export const SearchOnPinecone = async (query) => {
+  console.log("searching by PINECOE DB...........")
   const queryEmbedding = await embeddings.embedQuery(query)
   const results = await index.query({
     vector: queryEmbedding,
     topK: 2,
     includeMetadata: true,
   })
+  console.log("searched by PINECOE DB...........")
   return results.matches.map(match => ({
     text: match.metadata.text,
     source: match.metadata.source,
     page: match.metadata.page
   }));
+
+
 }
 export const searchonChroma = async (query) => {
+  console.log("searching by CHROMA DB...........")
   const queryEmbedding = await embeddings.embedQuery(query)
   const results = await collection.query({
     queryEmbeddings: [queryEmbedding],
     nResults: 2,
     includeMetadata: true,
   });
+  console.log("searched by CHROMA DB...........")
   return results.documents?.[0].map((text, i) => ({
     text,
     source: results.metadatas[0][i]?.source,
@@ -272,15 +285,45 @@ const PineconeRetriver = PineconeVectorStore.asRetriever({
 
 const chromaVectorStore = new Chroma(embeddings, {
   collectionName: "rag-learning",
-  index:client,
+  index: client,
 });
 
 const ChromaRetriver = chromaVectorStore.asRetriever({
   k: 2,
 });
 
-console.log(await ChromaRetriver.invoke("How long was Aarav's internship?"))
-console.log("======================================================================================================================")
-console.log(
-  await PineconeRetriver.invoke("How long was Aarav's internship?")
+// console.log(await ChromaRetriver.invoke("How long was Aarav's internship?"))
+// console.log("======================================================================================================================")
+// console.log(
+//   await PineconeRetriver.invoke("How long was Aarav's internship?")
+// );
+
+
+import { ContextualCompressionRetriever } from "@langchain/classic/retrievers/contextual_compression";
+import { LLMChainExtractor } from "@langchain/classic/retrievers/document_compressors/chain_extract";
+
+const compressor = LLMChainExtractor.fromLLM(model);
+
+const PineconeCompressionRetriever =
+  new ContextualCompressionRetriever({
+    baseRetriever: PineconeRetriver,
+    baseCompressor: compressor,
+  });
+
+const ChromaCompressionRetriever =
+  new ContextualCompressionRetriever({
+    baseRetriever: ChromaRetriver,
+    baseCompressor: compressor,
+  });
+
+const docs1 = await PineconeCompressionRetriever.invoke(
+  "What quote arav's senior say in internship?"
 );
+const docs2 = await ChromaCompressionRetriever.invoke(
+  "What quote arav's senior say in internship?"
+);
+
+console.log(docs1[0].pageContent + "\n" + docs1[1].pageContent);
+console.log("======================================================================================================================================")
+console.log(docs2[0].pageContent + "\n" + docs2[1].pageContent);
+

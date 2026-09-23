@@ -280,8 +280,9 @@ const PineconeVectorStore = await PineconeStore.fromExistingIndex(
 );
 
 const PineconeRetriver = PineconeVectorStore.asRetriever({
-  k: 2,
+  k: 1,
 });
+console.log("Retrieving context............................")
 
 const chromaVectorStore = new Chroma(embeddings, {
   collectionName: "rag-learning",
@@ -289,7 +290,7 @@ const chromaVectorStore = new Chroma(embeddings, {
 });
 
 const ChromaRetriver = chromaVectorStore.asRetriever({
-  k: 2,
+  k: 1,
 });
 
 // console.log(await ChromaRetriver.invoke("How long was Aarav's internship?"))
@@ -309,6 +310,7 @@ const PineconeCompressionRetriever =
     baseRetriever: PineconeRetriver,
     baseCompressor: compressor,
   });
+  console.log("Compresssing the context............................")
 
 const ChromaCompressionRetriever =
   new ContextualCompressionRetriever({
@@ -316,14 +318,33 @@ const ChromaCompressionRetriever =
     baseCompressor: compressor,
   });
 
-const docs1 = await PineconeCompressionRetriever.invoke(
-  "What quote arav's senior say in internship?"
-);
-const docs2 = await ChromaCompressionRetriever.invoke(
-  "What quote arav's senior say in internship?"
-);
+// const docs1 = await PineconeCompressionRetriever.invoke(
+//   "What quote arav's senior say in internship?"
+// );
+// const docs2 = await ChromaCompressionRetriever.invoke(
+//   "What quote arav's senior say in internship?"
+// );
 
-console.log(docs1[0].pageContent + "\n" + docs1[1].pageContent);
-console.log("======================================================================================================================================")
-console.log(docs2[0].pageContent + "\n" + docs2[1].pageContent);
+// console.log(docs1[0].pageContent + "\n" + docs1[1].pageContent);
+// console.log("======================================================================================================================================")
+// console.log(docs2[0].pageContent + "\n" + docs2[1].pageContent);
 
+// Option 1: LCEL Pipe style (.pipe)
+import { PromptTemplate } from "@langchain/core/prompts";
+
+
+const prompt = PromptTemplate.fromTemplate(`
+  give response under 5 lines always
+Context:
+{context}
+
+Question:
+{question}
+`);
+
+const getResponse = async (query) => {
+  const context = await PineconeCompressionRetriever.invoke(query).then(docs => docs.map((d) => d.pageContent).join("\n\n"))
+  return prompt.format({ context, question: query }).then(res => model.invoke(res)).then(res => res.content)
+}
+
+console.log(await getResponse("What arav's senior said instead of scold him?"))

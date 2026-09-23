@@ -305,7 +305,7 @@ import { LLMChainExtractor } from "@langchain/classic/retrievers/document_compre
 
 const compressor = LLMChainExtractor.fromLLM(model);
 
-const PineconeCompressionRetriever =
+export const PineconeCompressionRetriever =
   new ContextualCompressionRetriever({
     baseRetriever: PineconeRetriver,
     baseCompressor: compressor,
@@ -347,4 +347,4 @@ const getResponse = async (query) => {
   return prompt.format({ context, question: query }).then(res => model.invoke(res)).then(res => res.content)
 }
 
-console.log(await getResponse("What arav's senior said instead of scold him?"))
+// console.log(await getResponse("What arav's senior said instead of scold him?"))

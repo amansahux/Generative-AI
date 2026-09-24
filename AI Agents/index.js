@@ -1,11 +1,17 @@
 import { createAgent } from "langchain";
-import { HumanMessage } from "@langchain/core/messages";
+import { HumanMessage, AIMessage } from "@langchain/core/messages";
 import { model } from "./model.js";
-import { vectorSearchTool, WeatherTool } from "./tool.js";
+import { vectorSearchTool, WeatherTool, webSearchTool } from "./tool.js";
+import * as readline from "node:readline/promises";
 
+const rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout,
+});
+    
 const agent = createAgent({
     model: model,
-    tools: [WeatherTool, vectorSearchTool],
+    tools: [WeatherTool, vectorSearchTool, webSearchTool],
     instructions: `
     You are a helpful assistant.
     You have access to a weather tool and verctorSearchTool.
@@ -18,14 +24,27 @@ const agent = createAgent({
     After receiving the tool result,
     provide a concise answer to the user.
   `,
-
 });
 
-const res = await agent.invoke({
-    messages: [new HumanMessage("What is the weather in karachi?")],
-});
+const messages = [];
 
-// console.log(res);
-console.log("===============================================================================================================");
-const lastMessage = res.messages[res.messages.length - 1];  
-console.log(lastMessage?.content);
+while (true) {
+    const value = await rl.question(">>> ");
+
+    if (value.toLowerCase() === "exit") {
+        console.log("Goodbye!");
+        rl.close();
+        break;
+    }
+
+    messages.push(new HumanMessage(value));
+
+    const res = await agent.invoke({
+        messages: messages,
+    });
+
+    const aiContent = res.messages[res.messages.length - 1].content;
+    messages.push(new AIMessage(aiContent));
+
+    console.log(`\nAI: ${aiContent}\n`);
+}

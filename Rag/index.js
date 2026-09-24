@@ -282,7 +282,7 @@ const PineconeVectorStore = await PineconeStore.fromExistingIndex(
 const PineconeRetriver = PineconeVectorStore.asRetriever({
   k: 1,
 });
-console.log("Retrieving context............................")
+
 
 const chromaVectorStore = new Chroma(embeddings, {
   collectionName: "rag-learning",
@@ -310,7 +310,6 @@ export const PineconeCompressionRetriever =
     baseRetriever: PineconeRetriver,
     baseCompressor: compressor,
   });
-  console.log("Compresssing the context............................")
 
 const ChromaCompressionRetriever =
   new ContextualCompressionRetriever({

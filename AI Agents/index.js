@@ -79,35 +79,38 @@ const agent = createAgent({
 
 // ======================================================================================================================================
 
-async function runAgent(query) {
+// async function runAgent(query) {
 
-  const messages = [
-    {
-      role: "user",
-      content: query
-    }
-  ];
+//   const messages = [
+//     {
+//       role: "user",
+//       content: query
+//     }
+//   ];
 
-  for (let step = 0; step < 5; step++) {
+//   for (let step = 0; step < 5; step++) {
 
-    const response = await agent.invoke(messages);
+//     const response = await agent.invoke(messages);
 
-    if (!response.toolCall) {
-      return response.content;
-    }
+//     if (!response.toolCall) {
+//       return response.content;
+//     }
 
-    const result = await executeTool(
-      response.toolCall.name,
-      response.toolCall.args
-    );
+//     const result = await executeTool(
+//       response.toolCall.name,
+//       response.toolCall.args
+//     );
 
-    messages.push(response);
+//     messages.push(response);
 
-    messages.push({
-      role: "tool",
-      content: JSON.stringify(result)
-    });
-  }
-}
+//     messages.push({
+//       role: "tool",
+//       content: JSON.stringify(result)
+//     });
+//   }
+// }
 
-console.log(await runAgent("what is the current weather in Ranchi and Giridih and can i carry unbrella and aslo say where the rain stop on giridih or Ranchi there continuously rain is happening"))
+// console.log(await runAgent("what is the current weather in Ranchi and Giridih and can i carry unbrella and aslo say where the rain stop on giridih or Ranchi there continuously rain is happening"))
+
+
+// Implementation of planner , relection/reflactor , supervisor with multiagent and also handoff

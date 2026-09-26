@@ -1,50 +1,113 @@
-import { createAgent } from "langchain";
-import { HumanMessage, AIMessage } from "@langchain/core/messages";
+// import { createAgent } from "langchain";
+// import { HumanMessage, AIMessage } from "@langchain/core/messages";
 import { model } from "./model.js";
 import { vectorSearchTool, WeatherTool, webSearchTool } from "./tool.js";
-import * as readline from "node:readline/promises";
+// import * as readline from "node:readline/promises";
 
-const rl = readline.createInterface({
-    input: process.stdin,
-    output: process.stdout,
-});
-    
+// import { model } from "./model.js";
+
+import { createAgent, providerStrategy, toolStrategy } from "langchain";
+// import { model } from "./model.js";
+import * as z from "zod";
+
+// const rl = readline.createInterface({
+//     input: process.stdin,
+//     output: process.stdout,
+// });
+
 const agent = createAgent({
-    model: model,
-    tools: [WeatherTool, vectorSearchTool, webSearchTool],
-    instructions: `
+  model: model,
+  tools: [WeatherTool, vectorSearchTool, webSearchTool],
+  instructions: `
     You are a helpful assistant.
-    You have access to a weather tool and verctorSearchTool.
-    Use the weather tool when the user asks
-    for current weather information.
-    Use the vectorSearchTool when the user asks
-    for information from the documents.
-    Do not use the tools for questions
-    that don't require tool information.
-    After receiving the tool result,
-    provide a concise answer to the user.
+   and give answer under 5 lines 
   `,
 });
 
-const messages = [];
+// const messages = [];
 
-while (true) {
-    const value = await rl.question(">>> ");
+// while (true) {
+//     const value = await rl.question(">>> ");
 
-    if (value.toLowerCase() === "exit") {
-        console.log("Goodbye!");
-        rl.close();
-        break;
+//     if (value.toLowerCase() === "exit") {
+//         console.log("Goodbye!");
+//         rl.close();
+//         break;
+//     }
+
+//     messages.push(new HumanMessage(value));
+
+//     const res = await agent.invoke({
+//         messages: messages,
+//     });
+
+//     const aiContent = res.messages[res.messages.length - 1].content;
+//     messages.push(new AIMessage(aiContent));
+
+//     console.log(`\nAI: ${aiContent}\n`);
+// }
+
+// "============================================================================================================"
+
+// import * as z from "zod";
+// import { createAgent, toolStrategy } from "langchain";
+// import { model } from "./model.js";
+
+// const responseSchema = z.object({
+//   answer: z.string(),
+//   confidence: z.number().min(0).max(1),
+//   needsHuman: z.boolean(),
+// });
+
+// const agent = createAgent({
+//   model: model, // your Cohere model instance
+//   tools: [],
+//   responseFormat: toolStrategy(responseSchema),
+//   instructions: `Analyze the user's request and return a structured assessment.`,
+// });
+
+// const res = await agent.invoke({
+//   messages: [{ role: "human", content: "Hey, Is React js best for frontend?" }],
+// });
+
+// console.log(res)
+// console.log("=========================================================================================================================")
+// console.log(res.structuredResponse);
+// // { answer: "...", confidence: 0.85, needsHuman: false }   
+
+
+
+// ======================================================================================================================================
+
+async function runAgent(query) {
+
+  const messages = [
+    {
+      role: "user",
+      content: query
+    }
+  ];
+
+  for (let step = 0; step < 5; step++) {
+
+    const response = await agent.invoke(messages);
+
+    if (!response.toolCall) {
+      return response.content;
     }
 
-    messages.push(new HumanMessage(value));
+    const result = await executeTool(
+      response.toolCall.name,
+      response.toolCall.args
+    );
 
-    const res = await agent.invoke({
-        messages: messages,
+    messages.push(response);
+
+    messages.push({
+      role: "tool",
+      content: JSON.stringify(result)
     });
-
-    const aiContent = res.messages[res.messages.length - 1].content;
-    messages.push(new AIMessage(aiContent));
-
-    console.log(`\nAI: ${aiContent}\n`);
+  }
 }
+
+console.log(await runAgent("what is the current weather in Ranchi and Giridih and can i carry unbrella and aslo say where the rain stop on giridih or Ranchi there continuously rain is happening"))

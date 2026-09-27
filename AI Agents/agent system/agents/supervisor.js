@@ -1,11 +1,11 @@
-const { SystemMessage } = require("@langchain/core/messages");
-const { openRouterModel } = require("../models/openRouter");
+import { SystemMessage } from "@langchain/core/messages";
+import { openRouterModel } from "../models/openRouter.js";
 
 /**
  * Supervisor Agent
  * Description: The orchestrator agent that manages the entire workflow. It understands the user's request, decides the execution path, delegates tasks to specialists (research, coding, writing), and reviews the final outcome.
  */
-const supervisorAgentPrompt = new SystemMessage(`You are the Supervisor.
+export const supervisorAgentPrompt = new SystemMessage(`You are the Supervisor.
 Your job is to coordinate specialist agents.
 
 You must:
@@ -26,9 +26,7 @@ Available specialists:
 
 Do not perform specialized work yourself when delegation is more appropriate.`);
 
-async function runSupervisorAgent(input) {
+export async function runSupervisorAgent(input) {
   const response = await openRouterModel.invoke([supervisorAgentPrompt, { role: "user", content: input }]);
   return response.content;
 }
-
-module.exports = { runSupervisorAgent, supervisorAgentPrompt };

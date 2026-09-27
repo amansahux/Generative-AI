@@ -1,5 +1,5 @@
-const { tool } = require("@langchain/core/tools");
-const { z } = require("zod");
+import { tool } from "@langchain/core/tools";
+import { z } from "zod";
 
 // Mocking tvly
 const tvly = {
@@ -8,7 +8,7 @@ const tvly = {
     }
 };
 
-const webSearchTool = tool(
+export const webSearchTool = tool(
     async ({ query, deep_search }) => {
         const res = await tvly.search(query, {
             max_results: 5,
@@ -25,5 +25,3 @@ const webSearchTool = tool(
         }),
     }
 );
-
-module.exports = { webSearchTool };

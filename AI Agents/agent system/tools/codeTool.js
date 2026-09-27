@@ -1,7 +1,7 @@
-const { tool } = require("@langchain/core/tools");
-const { z } = require("zod");
+import { tool } from "@langchain/core/tools";
+import { z } from "zod";
 
-const codeTool = tool(
+export const codeTool = tool(
     async ({ code, language }) => {
         // Mock execution
         return JSON.stringify({ output: \`Executed \${language} code successfully. (Mock output)\` });
@@ -15,5 +15,3 @@ const codeTool = tool(
         }),
     }
 );
-
-module.exports = { codeTool };

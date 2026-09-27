@@ -1,5 +1,5 @@
-const { tool } = require("@langchain/core/tools");
-const { z } = require("zod");
+import { tool } from "@langchain/core/tools";
+import { z } from "zod";
 
 // Dummy Pinecone Retriever for syntax
 const PineconeCompressionRetriever = {
@@ -8,7 +8,7 @@ const PineconeCompressionRetriever = {
     }
 };
 
-const vectorSearchTool = tool(
+export const vectorSearchTool = tool(
     async ({ query }) => {
         return PineconeCompressionRetriever.invoke(query).then(docs => docs.map((d) => d.pageContent).join("\n\n"));
     },
@@ -20,5 +20,3 @@ const vectorSearchTool = tool(
         }),
     }
 );
-
-module.exports = { vectorSearchTool };

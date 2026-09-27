@@ -1,22 +1,20 @@
-import { createReactAgent } from "@langchain/langgraph/prebuilt";
+import { createAgent } from "langchain";
 import { mistralModel } from "../models/mistral.js";
 import { tool } from "@langchain/core/tools";
 import { z } from "zod";
 
-const tools = []; // Planners usually just think, they don't need external tools unless they search
-
-const plannerAgent = createReactAgent({
-  llm: mistralModel,
-  tools,
-  messageModifier: `You are a strategic planner agent.
+export const plannerAgent = createAgent({
+  model: mistralModel,
+  tools: [],
+  instructions: `You are a strategic planner agent.
 Your task is to analyze complex requests and break them down into a step-by-step plan.
 Do not execute the steps, just provide the clear and logical plan.`,
 });
 
 export const plannerAgentAsTool = tool(
   async ({ query }) => {
-    const result = await plannerAgent.invoke({ messages: [{ role: "user", content: query }] });
-    return result.messages[result.messages.length - 1].content;
+    const result = await plannerAgent.invoke({ input: query });
+    return JSON.stringify(result);
   },
   {
     name: "planner_agent",

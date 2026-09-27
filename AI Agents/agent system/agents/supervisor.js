@@ -1,4 +1,4 @@
-import { createReactAgent } from "@langchain/langgraph/prebuilt";
+import { createAgent } from "langchain";
 import { openRouterModel } from "../models/openRouter.js";
 import { codingAgentAsTool } from "./codingAgent.js";
 import { executerAgentAsTool } from "./executer.js";
@@ -6,18 +6,16 @@ import { plannerAgentAsTool } from "./planner.js";
 import { researchAgentAsTool } from "./researchAgent.js";
 import { writingAgentAsTool } from "./writingAgent.js";
 
-const tools = [
-  codingAgentAsTool,
-  executerAgentAsTool,
-  plannerAgentAsTool,
-  researchAgentAsTool,
-  writingAgentAsTool
-];
-
-export const supervisorAgent = createReactAgent({
-  llm: openRouterModel,
-  tools,
-  messageModifier: `You are the Supervisor, the orchestrator agent that manages the entire workflow.
+export const supervisorAgent = createAgent({
+  model: openRouterModel,
+  tools: [
+    codingAgentAsTool,
+    executerAgentAsTool,
+    plannerAgentAsTool,
+    researchAgentAsTool,
+    writingAgentAsTool
+  ],
+  instructions: `You are the Supervisor, the orchestrator agent that manages the entire workflow.
 Your job is to coordinate specialist agents.
 
 You must:
@@ -33,6 +31,6 @@ Do not perform specialized work yourself when delegation is more appropriate.`,
 });
 
 export async function runSupervisor(input) {
-  const result = await supervisorAgent.invoke({ messages: [{ role: "user", content: input }] });
-  return result.messages[result.messages.length - 1].content;
+  const result = await supervisorAgent.invoke({ input });
+  return JSON.stringify(result);
 }

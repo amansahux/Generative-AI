@@ -1,5 +1,6 @@
 import { tool } from "@langchain/core/tools";
 import { z } from "zod";
+import { HumanMessage } from "@langchain/core/messages";
 
 /**
  * Creates a real handoff tool that signals the workflow runner to route execution
@@ -37,11 +38,11 @@ export const createHandoffTool = (targetAgentId, description) => {
  * 
  * @param {Object} agentsMap - A dictionary mapping agent IDs to their initialized agent instances.
  * @param {string} initialAgentId - The ID of the agent that starts the workflow (e.g., 'supervisor').
- * @param {string} initialInput - The initial user prompt.
+ * @param {Object} initialPayload - The initial payload object (e.g. { input, chat_history }).
  */
-export async function runWorkflowWithHandoff(agentsMap, initialAgentId, initialInput) {
+export async function runWorkflowWithHandoff(agentsMap, initialAgentId, initialPayload) {
     let currentAgentId = initialAgentId;
-    let currentInput = initialInput;
+    let currentPayload = initialPayload;
     const history = []; // Keep a ledger of the workflow execution
 
     // Set a max iterations limit to prevent infinite handoff loops between agents
@@ -55,8 +56,8 @@ export async function runWorkflowWithHandoff(agentsMap, initialAgentId, initialI
 
         console.log(`[Workflow] Routing to: ${currentAgentId}...`);
         
-        // Execute the current agent
-        const result = await agent.invoke({ input: currentInput });
+        // Execute the current agent with the payload object
+        const result = await agent.invoke(currentPayload);
         
         // Check if the result contains our special handoff payload.
         // Some agents might return the raw stringified JSON of the tool if it was their last action.
@@ -85,7 +86,14 @@ export async function runWorkflowWithHandoff(agentsMap, initialAgentId, initialI
             
             // Update state for the next iteration in the loop
             currentAgentId = parsedResult.target_agent;
-            currentInput = parsedResult.payload;
+            
+            // Inject the handoff payload into the messages array
+            const nextMessages = [...(initialPayload.messages || [])];
+            nextMessages.push(new HumanMessage(`[Handoff Instruction]: ${parsedResult.payload}`));
+            
+            currentPayload = {
+                messages: nextMessages
+            };
             continue; 
         } else {
             // No handoff was triggered; this agent provided a final answer

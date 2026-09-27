@@ -28,8 +28,9 @@ const agentsMap = {
  * Ek main function jo workflow start karega.
  */
 import readline from "readline";
+import { HumanMessage, AIMessage } from "@langchain/core/messages";
 
-let chatHistory = "";
+let chatHistory = [];
 
 export async function startInteractiveTerminal() {
     const rl = readline.createInterface({
@@ -50,27 +51,32 @@ export async function startInteractiveTerminal() {
                 return;
             }
 
-            // Append user input to history
-            chatHistory += `\nUser: ${userInput}\n`;
+            // Append user input to history before calling the agent
+            chatHistory.push(new HumanMessage(userInput));
 
             try {
-                // Pass the entire history + current instruction as the input
-                // This allows the agents to read past context
-                const contextPayload = `Conversation History:\n${chatHistory}\n---\nBased on the history above, reply to the user's latest input.`;
+                // Pass the payload as an object containing the messages array
+                const payload = { 
+                    messages: chatHistory 
+                };
                 
                 console.log("\n[Thinking...]");
-                const result = await runWorkflowWithHandoff(agentsMap, "supervisor", contextPayload);
+                const result = await runWorkflowWithHandoff(agentsMap, "supervisor", payload);
                 
-                // Try to extract a clean string from the Langchain agent output
+                // Extract the clean string from the agent output
                 let answerStr = result.final_answer;
                 if (typeof answerStr === "object") {
-                    answerStr = answerStr.output || JSON.stringify(answerStr, null, 2);
+                    // Depending on the agent, the final text can be in different properties
+                    answerStr = answerStr.output || 
+                                answerStr.content || 
+                                (answerStr.messages && answerStr.messages[answerStr.messages.length - 1]?.content) || 
+                                JSON.stringify(answerStr, null, 2);
                 }
                 
                 console.log(`\n🤖 System: ${answerStr}\n`);
                 
                 // Append system response to history
-                chatHistory += `System: ${answerStr}\n`;
+                chatHistory.push(new AIMessage(answerStr));
             } catch (error) {
                 console.error("\nWorkflow failed:", error.message);
             }

@@ -5,17 +5,25 @@ import { executerAgentAsTool } from "./executer.js";
 import { plannerAgentAsTool } from "./planner.js";
 import { researchAgentAsTool } from "./researchAgent.js";
 import { writingAgentAsTool } from "./writingAgent.js";
+import { handoffToCoding, handoffToExecuter, handoffToPlanner, handoffToResearch, handoffToSupervisor, handoffToWriting } from "../workflow/handoff.js";
 
 export const supervisorAgent = createAgent({
-  model: openRouterModel,
-  tools: [
-    codingAgentAsTool,
-    executerAgentAsTool,
-    plannerAgentAsTool,
-    researchAgentAsTool,
-    writingAgentAsTool
-  ],
-  instructions: `You are the Supervisor, the orchestrator agent that manages the entire workflow.
+    model: openRouterModel,
+    tools: [
+        codingAgentAsTool,
+        executerAgentAsTool,
+        plannerAgentAsTool,
+        researchAgentAsTool,
+        writingAgentAsTool,
+        // Handoff Tools
+        handoffToCoding,
+        handoffToExecuter,
+        handoffToPlanner,
+        handoffToResearch,
+        handoffToSupervisor,
+        handoffToWriting
+    ],
+    instructions: `You are the Supervisor, the orchestrator agent that manages the entire workflow.
 Your job is to coordinate specialist agents.
 
 You must:
@@ -31,6 +39,6 @@ Do not perform specialized work yourself when delegation is more appropriate.`,
 });
 
 export async function runSupervisor(input) {
-  const result = await supervisorAgent.invoke({ input });
-  return JSON.stringify(result);
+    const result = await supervisorAgent.invoke({ input });
+    return JSON.stringify(result);
 }

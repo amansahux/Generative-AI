@@ -2,10 +2,11 @@ import { createAgent } from "langchain";
 import { openRouterModel } from "../models/openRouter.js";
 import { tool } from "@langchain/core/tools";
 import { z } from "zod";
+import { handoffToSupervisor } from "../workflow/handoff.js";
 
 export const writingAgent = createAgent({
   model: openRouterModel,
-  tools: [],
+  tools: [handoffToSupervisor],
   instructions: `You are a professional writing agent.
 Your task is to create clear, engaging, and well-structured text.
 Translate technical jargon into easily understandable language when writing for non-technical audiences.`,

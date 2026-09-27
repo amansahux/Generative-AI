@@ -5,10 +5,11 @@ import { webSearchTool } from "../tools/webSearch.tool.js";
 import { WeatherTool } from "../tools/weatherTool.js";
 import { tool } from "@langchain/core/tools";
 import { z } from "zod";
+import { handoffToSupervisor } from "../workflow/handoff.js";
 
 export const researchAgent = createAgent({
   model: cohereModel,
-  tools: [vectorSearchTool, webSearchTool, WeatherTool],
+  tools: [vectorSearchTool, webSearchTool, WeatherTool, handoffToSupervisor],
   instructions: `You are a meticulous research agent.
 Your task is to gather information, summarize findings, and provide factual context.
 Use your search, weather, and vector search tools to gather information.

@@ -4,5 +4,5 @@ dotenv.config();
 
 export const mistralModel = new ChatMistralAI({
   apiKey: process.env.MISTRAL_API_KEY,
-  modelName: "mistral-large-latest",
+  model: "mistral-large-latest",
 });

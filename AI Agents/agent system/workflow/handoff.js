@@ -100,3 +100,23 @@ export async function runWorkflowWithHandoff(agentsMap, initialAgentId, initialI
     
     throw new Error("Workflow exceeded maximum steps due to too many handoffs (Possible infinite loop).");
 }
+
+/**
+ * 1. CREATE HANDOFF TOOLS
+ * Hum handoff tools banayenge jo agents ek dusre ko pass karne ke liye use karenge.
+ */
+
+
+
+// Specialist agents ke liye tool (taaki wo apna kaam khatam karke wapas Supervisor ko control de sakein)
+export const handoffToSupervisor = createHandoffTool("supervisor", "Return control to the Supervisor after you have finished your specific task or if you need further instructions.");
+
+
+
+
+// Supervisor ke liye tools (Supervisor baaki sab ko task dega)
+export const handoffToCoding = createHandoffTool("coding", "Pass coding and debugging tasks to the Coding Agent.");
+export const handoffToExecuter = createHandoffTool("executer", "Pass execution and testing tasks to the Executer Agent.");
+export const handoffToPlanner = createHandoffTool("planner", "Pass complex requests to the Planner Agent to break down into steps.");
+export const handoffToResearch = createHandoffTool("research", "Pass factual queries and search tasks to the Research Agent.");
+export const handoffToWriting = createHandoffTool("writing", "Pass drafting and formatting tasks to the Writing Agent.");

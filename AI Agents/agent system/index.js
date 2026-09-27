@@ -8,44 +8,6 @@ import { plannerAgent } from "./agents/planner.js";
 import { researchAgent } from "./agents/researchAgent.js";
 import { writingAgent } from "./agents/writingAgent.js";
 
-/**
- * 1. CREATE HANDOFF TOOLS
- * Hum handoff tools banayenge jo agents ek dusre ko pass karne ke liye use karenge.
- */
-
-// Supervisor ke liye tools (Supervisor baaki sab ko task dega)
-const handoffToCoding = createHandoffTool("coding", "Pass coding and debugging tasks to the Coding Agent.");
-const handoffToExecuter = createHandoffTool("executer", "Pass execution and testing tasks to the Executer Agent.");
-const handoffToPlanner = createHandoffTool("planner", "Pass complex requests to the Planner Agent to break down into steps.");
-const handoffToResearch = createHandoffTool("research", "Pass factual queries and search tasks to the Research Agent.");
-const handoffToWriting = createHandoffTool("writing", "Pass drafting and formatting tasks to the Writing Agent.");
-
-// Specialist agents ke liye tool (taaki wo apna kaam khatam karke wapas Supervisor ko control de sakein)
-const handoffToSupervisor = createHandoffTool("supervisor", "Return control to the Supervisor after you have finished your specific task or if you need further instructions.");
-
-
-/**
- * 2. ASSIGN HANDOFF TOOLS TO AGENTS
- * Ab humein in agents me ye handoff tools add karne honge.
- * (Note: Agar humne agents pehle define kar diye hain, toh hum unme dynamic tools push kar sakte hain)
- */
-
-// Supervisor ko baaki sab ka access de diya
-supervisorAgent.tools.push(
-    handoffToCoding,
-    handoffToExecuter,
-    handoffToPlanner,
-    handoffToResearch,
-    handoffToWriting
-);
-
-// Har specialist ko supervisor ka access de diya (taaki wo loop me na phasein)
-codingAgent.tools.push(handoffToSupervisor);
-executerAgent.tools.push(handoffToSupervisor);
-plannerAgent.tools.push(handoffToSupervisor);
-researchAgent.tools.push(handoffToSupervisor);
-writingAgent.tools.push(handoffToSupervisor);
-
 
 /**
  * 3. AGENTS MAP FOR THE RUNNER
@@ -65,20 +27,61 @@ const agentsMap = {
  * 4. RUN THE SYSTEM
  * Ek main function jo workflow start karega.
  */
-export async function startAgentSystem(userRequest) {
-    console.log(`Starting Workflow for request: "${userRequest}"`);
-    
-    try {
-        // Hamesha 'supervisor' se start karenge
-        const result = await runWorkflowWithHandoff(agentsMap, "supervisor", userRequest);
-        console.log("\n--- WORKFLOW COMPLETE ---");
-        console.log("Final Answer:", result.final_answer);
-        console.log("\nHistory Trace:", result.history);
-        return result;
-    } catch (error) {
-        console.error("Workflow failed:", error);
-    }
+import readline from "readline";
+
+let chatHistory = "";
+
+export async function startInteractiveTerminal() {
+    const rl = readline.createInterface({
+        input: process.stdin,
+        output: process.stdout
+    });
+
+    console.log("==========================================");
+    console.log("🤖 Supervisor Agent Terminal Started");
+    console.log("Type 'exit' or 'quit' to stop.");
+    console.log("==========================================\n");
+
+    const promptUser = () => {
+        rl.question("You: ", async (userInput) => {
+            if (userInput.toLowerCase() === 'exit' || userInput.toLowerCase() === 'quit') {
+                console.log("Goodbye!");
+                rl.close();
+                return;
+            }
+
+            // Append user input to history
+            chatHistory += `\nUser: ${userInput}\n`;
+
+            try {
+                // Pass the entire history + current instruction as the input
+                // This allows the agents to read past context
+                const contextPayload = `Conversation History:\n${chatHistory}\n---\nBased on the history above, reply to the user's latest input.`;
+                
+                console.log("\n[Thinking...]");
+                const result = await runWorkflowWithHandoff(agentsMap, "supervisor", contextPayload);
+                
+                // Try to extract a clean string from the Langchain agent output
+                let answerStr = result.final_answer;
+                if (typeof answerStr === "object") {
+                    answerStr = answerStr.output || JSON.stringify(answerStr, null, 2);
+                }
+                
+                console.log(`\n🤖 System: ${answerStr}\n`);
+                
+                // Append system response to history
+                chatHistory += `System: ${answerStr}\n`;
+            } catch (error) {
+                console.error("\nWorkflow failed:", error.message);
+            }
+
+            // Loop back for the next question
+            promptUser();
+        });
+    };
+
+    promptUser();
 }
 
-// Example usage uncomment to test:
-// startAgentSystem("Write a python script to fetch weather of Delhi and test it.");
+// Start the terminal loop immediately when running `node index.js`
+startInteractiveTerminal();

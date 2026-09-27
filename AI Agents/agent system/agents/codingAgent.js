@@ -3,10 +3,11 @@ import { geminiModel } from "../models/gemini.js";
 import { codeTool } from "../tools/codeTool.js";
 import { tool } from "@langchain/core/tools";
 import { z } from "zod";
+import { handoffToSupervisor } from "../workflow/handoff.js";
 
 export const codingAgent = createAgent({
   model: geminiModel,
-  tools: [codeTool],
+  tools: [codeTool, handoffToSupervisor],
   instructions: `You are an expert software engineer.
 Your task is to write clean, efficient, and well-documented code.
 Always consider edge cases, performance, and security.

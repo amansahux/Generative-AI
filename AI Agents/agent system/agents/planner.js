@@ -2,10 +2,11 @@ import { createAgent } from "langchain";
 import { mistralModel } from "../models/mistral.js";
 import { tool } from "@langchain/core/tools";
 import { z } from "zod";
+import { handoffToSupervisor } from "../workflow/handoff.js";
 
 export const plannerAgent = createAgent({
   model: mistralModel,
-  tools: [],
+  tools: [handoffToSupervisor],
   instructions: `You are a strategic planner agent.
 Your task is to analyze complex requests and break them down into a step-by-step plan.
 Do not execute the steps, just provide the clear and logical plan.`,

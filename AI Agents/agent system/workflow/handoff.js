@@ -72,6 +72,7 @@ export const createHandoffTool = (targetAgentId, description) => {
             schema: z.object({
                 input_for_agent: z.string().describe(`The context, task, instructions, or question to send to the ${targetAgentId}`),
             }),
+            returnDirect: true,
         }
     );
 };
@@ -107,22 +108,46 @@ export async function runWorkflowWithHandoff(agentsMap, initialAgentId, initialP
         const logger = new RealTimeLogger(currentAgentId);
         const result = await agent.invoke(currentPayload, { callbacks: [logger] });
         
-        // Check if the result contains our special handoff payload.
-        // Some agents might return the raw stringified JSON of the tool if it was their last action.
+        // Check if result.messages contains a handoff tool output or call
         let isHandoff = false;
-        let parsedResult = result;
+        let parsedResult = null;
         
-        try {
-            const parsed = JSON.parse(result);
-            if (parsed && parsed.__is_handoff) {
-                isHandoff = true;
-                parsedResult = parsed;
+        const messages = result?.messages || [];
+        for (const msg of messages) {
+            // Check ToolMessage whose name starts with handoff_to_
+            if (msg.name && typeof msg.name === "string" && msg.name.startsWith("handoff_to_")) {
+                try {
+                    const parsed = JSON.parse(msg.content);
+                    if (parsed && parsed.__is_handoff) {
+                        isHandoff = true;
+                        parsedResult = parsed;
+                        break;
+                    }
+                } catch (e) {
+                    // Ignore JSON parse errors
+                }
             }
-        } catch (e) {
-            // Not a JSON string, which means it's normal text output. No handoff intercepted.
+            // Check AIMessage tool_calls if any
+            if (!isHandoff && msg.tool_calls && Array.isArray(msg.tool_calls)) {
+                for (const call of msg.tool_calls) {
+                    if (call.name && typeof call.name === "string" && call.name.startsWith("handoff_to_")) {
+                        // Check if args or tool call match handoff
+                        if (call.args && call.args.input_for_agent) {
+                            const targetAgentId = call.name.replace("handoff_to_", "");
+                            isHandoff = true;
+                            parsedResult = {
+                                __is_handoff: true,
+                                target_agent: targetAgentId,
+                                payload: call.args.input_for_agent
+                            };
+                            break;
+                        }
+                    }
+                }
+            }
         }
 
-        if (isHandoff) {
+        if (isHandoff && parsedResult) {
             console.log(`\n🚨 [HANDOFF OCCURRED] 🚨`);
             console.log(`   From:    ${currentAgentId.toUpperCase()}`);
             console.log(`   To:      ${parsedResult.target_agent.toUpperCase()}`);
@@ -149,8 +174,10 @@ export async function runWorkflowWithHandoff(agentsMap, initialAgentId, initialP
         } else {
             // No handoff was triggered; this agent provided a final answer
             console.log(`[Workflow] Workflow finished by ${currentAgentId}.`);
+            const lastMsg = messages[messages.length - 1];
+            const finalAnswerStr = lastMsg ? (lastMsg.content || JSON.stringify(lastMsg)) : (typeof result === "string" ? result : JSON.stringify(result));
             return {
-                final_answer: result,
+                final_answer: finalAnswerStr,
                 history: history,
                 last_agent: currentAgentId
             };

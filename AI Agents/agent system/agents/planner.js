@@ -2,6 +2,7 @@ import { createAgent } from "langchain";
 import { mistralModel } from "../models/mistral.js";
 import { tool } from "@langchain/core/tools";
 import { z } from "zod";
+import { HumanMessage } from "@langchain/core/messages";
 import { handoffToSupervisor } from "../workflow/handoff.js";
 
 export const plannerAgent = createAgent({
@@ -14,8 +15,9 @@ Do not execute the steps, just provide the clear and logical plan.`,
 
 export const plannerAgentAsTool = tool(
   async ({ query }) => {
-    const result = await plannerAgent.invoke({ input: query });
-    return JSON.stringify(result);
+    const result = await plannerAgent.invoke({ messages: [new HumanMessage(query)] });
+    const lastMsg = result?.messages?.[result.messages.length - 1];
+    return lastMsg?.content || JSON.stringify(result);
   },
   {
     name: "planner_agent",

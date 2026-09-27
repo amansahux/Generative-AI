@@ -3,6 +3,7 @@ import { groqModel } from "../models/groq.js";
 import { codeTool } from "../tools/codeTool.js";
 import { tool } from "@langchain/core/tools";
 import { z } from "zod";
+import { HumanMessage } from "@langchain/core/messages";
 import { handoffToSupervisor } from "../workflow/handoff.js";
 
 export const executerAgent = createAgent({
@@ -15,8 +16,9 @@ If an error occurs, report it clearly and concisely so that it can be fixed.`,
 
 export const executerAgentAsTool = tool(
   async ({ query }) => {
-    const result = await executerAgent.invoke({ input: query });
-    return JSON.stringify(result);
+    const result = await executerAgent.invoke({ messages: [new HumanMessage(query)] });
+    const lastMsg = result?.messages?.[result.messages.length - 1];
+    return lastMsg?.content || JSON.stringify(result);
   },
   {
     name: "executer_agent",

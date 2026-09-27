@@ -5,6 +5,7 @@ import { webSearchTool } from "../tools/webSearch.tool.js";
 import { WeatherTool } from "../tools/weatherTool.js";
 import { tool } from "@langchain/core/tools";
 import { z } from "zod";
+import { HumanMessage } from "@langchain/core/messages";
 import { handoffToSupervisor } from "../workflow/handoff.js";
 
 export const researchAgent = createAgent({
@@ -18,8 +19,9 @@ Always cite your sources if applicable and ensure the information is accurate.`,
 
 export const researchAgentAsTool = tool(
   async ({ query }) => {
-    const result = await researchAgent.invoke({ input: query });
-    return JSON.stringify(result);
+    const result = await researchAgent.invoke({ messages: [new HumanMessage(query)] });
+    const lastMsg = result?.messages?.[result.messages.length - 1];
+    return lastMsg?.content || JSON.stringify(result);
   },
   {
     name: "research_agent",

@@ -2,6 +2,7 @@ import { createAgent } from "langchain";
 import { openRouterModel } from "../models/openRouter.js";
 import { tool } from "@langchain/core/tools";
 import { z } from "zod";
+import { HumanMessage } from "@langchain/core/messages";
 import { handoffToSupervisor } from "../workflow/handoff.js";
 
 export const writingAgent = createAgent({
@@ -14,8 +15,9 @@ Translate technical jargon into easily understandable language when writing for 
 
 export const writingAgentAsTool = tool(
   async ({ query }) => {
-    const result = await writingAgent.invoke({ input: query });
-    return JSON.stringify(result);
+    const result = await writingAgent.invoke({ messages: [new HumanMessage(query)] });
+    const lastMsg = result?.messages?.[result.messages.length - 1];
+    return lastMsg?.content || JSON.stringify(result);
   },
   {
     name: "writing_agent",

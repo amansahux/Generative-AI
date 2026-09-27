@@ -1,16 +1,11 @@
 import { tool } from "@langchain/core/tools";
 import { z } from "zod";
+import { PineconeCompressionRetriever } from "../../../Rag/index.js";
 
-// Dummy Pinecone Retriever for syntax
-const PineconeCompressionRetriever = {
-    invoke: async (query) => {
-        return [{ pageContent: "Dummy vector result for " + query }];
-    }
-};
 
 export const vectorSearchTool = tool(
     async ({ query }) => {
-        return PineconeCompressionRetriever.invoke(query).then(docs => docs.map((d) => d.pageContent).join("\n\n"));
+        return PineconeCompressionRetriever?.invoke(query).then(docs => docs.map((d) => d.pageContent).join("\n\n"));
     },
     {
         name: "vector_search",

@@ -1,7 +1,7 @@
 import { tool } from "@langchain/core/tools";
 import { z } from "zod";
 
-export const weatherTool = tool(
+export const WeatherTool = tool(
     async ({ city }) => {
         try {
             // 1. Geocode city name to lat/long

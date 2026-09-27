@@ -1,6 +1,51 @@
 import { tool } from "@langchain/core/tools";
 import { z } from "zod";
 import { HumanMessage } from "@langchain/core/messages";
+import { BaseCallbackHandler } from "@langchain/core/callbacks/base";
+
+/**
+ * Real-time logger callback handler for tracing agent actions, tool calls, and LLM steps.
+ */
+class RealTimeLogger extends BaseCallbackHandler {
+    name = "RealTimeLogger";
+    
+    constructor(agentName) {
+        super();
+        this.agentName = agentName.toUpperCase();
+    }
+
+    async handleToolStart(tool, input) {
+        const toolName = tool.id[tool.id.length - 1];
+        console.log(`\n[${this.agentName}] 🛠️ USING TOOL: ${toolName}`);
+        console.log(`[${this.agentName}] 📥 INPUT:`, input);
+    }
+
+    async handleToolEnd(output) {
+        const displayOut = typeof output === 'string' && output.length > 250 
+            ? output.substring(0, 250) + '... (truncated)' 
+            : output;
+        console.log(`[${this.agentName}] ✅ TOOL RESULT:`, displayOut, `\n`);
+    }
+
+    async handleAgentAction(action) {
+        console.log(`\n[${this.agentName}] 🧠 PLANNING TO USE: "${action.tool}"`);
+        console.log(`[${this.agentName}] 🎯 INTENT:`, action.log || "No specific log provided");
+    }
+
+    async handleLLMStart(llm, prompts) {
+        console.log(`[${this.agentName}] 💭 LLM is thinking...`);
+    }
+
+    async handleLLMNewToken(token) {
+        // Stream each token in real-time as the LLM generates it
+        process.stdout.write(token);
+    }
+
+    async handleLLMEnd(output) {
+        // Print a newline after streaming is done
+        console.log();
+    }
+}
 
 /**
  * Creates a real handoff tool that signals the workflow runner to route execution
@@ -54,10 +99,13 @@ export async function runWorkflowWithHandoff(agentsMap, initialAgentId, initialP
             throw new Error(`[Workflow Error] Agent '${currentAgentId}' not found in agentsMap.`);
         }
 
-        console.log(`[Workflow] Routing to: ${currentAgentId}...`);
+        console.log(`\n======================================================`);
+        console.log(`🔄 [WORKFLOW ROUTING]: Active Agent -> ${currentAgentId.toUpperCase()}`);
+        console.log(`======================================================\n`);
         
-        // Execute the current agent with the payload object
-        const result = await agent.invoke(currentPayload);
+        // Execute the current agent with the payload object and our real-time logger
+        const logger = new RealTimeLogger(currentAgentId);
+        const result = await agent.invoke(currentPayload, { callbacks: [logger] });
         
         // Check if the result contains our special handoff payload.
         // Some agents might return the raw stringified JSON of the tool if it was their last action.
@@ -75,7 +123,10 @@ export async function runWorkflowWithHandoff(agentsMap, initialAgentId, initialP
         }
 
         if (isHandoff) {
-            console.log(`[Workflow] Handoff intercepted! Routing from ${currentAgentId} to ${parsedResult.target_agent}`);
+            console.log(`\n🚨 [HANDOFF OCCURRED] 🚨`);
+            console.log(`   From:    ${currentAgentId.toUpperCase()}`);
+            console.log(`   To:      ${parsedResult.target_agent.toUpperCase()}`);
+            console.log(`   Context: ${parsedResult.payload}\n`);
             
             // Log the handoff trace
             history.push({ 

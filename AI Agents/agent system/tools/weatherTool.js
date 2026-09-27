@@ -1,33 +1,36 @@
-export const WeatherTool = tool(
+const { tool } = require("@langchain/core/tools");
+const { z } = require("zod");
+
+const weatherTool = tool(
     async ({ city }) => {
         try {
             // 1. Geocode city name to lat/long
             const geoRes = await fetch(
-                `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(city)}&count=1&language=en&format=json`
+                \`https://geocoding-api.open-meteo.com/v1/search?name=\${encodeURIComponent(city)}&count=1&language=en&format=json\`
             );
             const geoData = await geoRes.json();
 
             if (!geoData.results || geoData.results.length === 0) {
-                return JSON.stringify({ error: `City '${city}' not found.` });
+                return JSON.stringify({ error: \`City '\${city}' not found.\` });
             }
 
             const { latitude, longitude, name, country } = geoData.results[0];
 
             // 2. Fetch current weather from Open-Meteo
             const weatherRes = await fetch(
-                `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=temperature_2m,relative_humidity_2m,weather_code,wind_speed_10m`
+                \`https://api.open-meteo.com/v1/forecast?latitude=\${latitude}&longitude=\${longitude}&current=temperature_2m,relative_humidity_2m,weather_code,wind_speed_10m\`
             );
             const weatherData = await weatherRes.json();
             const current = weatherData.current;
 
             return JSON.stringify({
-                city: `${name}, ${country}`,
-                temperature: `${current.temperature_2m}°C`,
-                humidity: `${current.relative_humidity_2m}%`,
-                windSpeed: `${current.wind_speed_10m} km/h`,
+                city: \`\${name}, \${country}\`,
+                temperature: \`\${current.temperature_2m}°C\`,
+                humidity: \`\${current.relative_humidity_2m}%\`,
+                windSpeed: \`\${current.wind_speed_10m} km/h\`,
             });
         } catch (error) {
-            return JSON.stringify({ error: `Failed to fetch weather: ${error.message}` });
+            return JSON.stringify({ error: \`Failed to fetch weather: \${error.message}\` });
         }
     },
     {
@@ -38,3 +41,5 @@ export const WeatherTool = tool(
         }),
     }
 );
+
+module.exports = { weatherTool };

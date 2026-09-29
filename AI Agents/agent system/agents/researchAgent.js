@@ -6,11 +6,11 @@ import { WeatherTool } from "../tools/weatherTool.js";
 import { tool } from "@langchain/core/tools";
 import { z } from "zod";
 import { HumanMessage } from "@langchain/core/messages";
-import { handoffToSupervisor } from "../workflow/handoff.js";
+// import { handoffToSupervisor } from "../workflow/handoff.js";
 
 export const researchAgent = createAgent({
   model: cohereModel,
-  tools: [vectorSearchTool, webSearchTool, WeatherTool, handoffToSupervisor],
+  tools: [vectorSearchTool, webSearchTool, WeatherTool],
   instructions: `You are a meticulous research agent.
 Your task is to gather information, summarize findings, and provide factual context.
 Use your search, weather, and vector search tools to gather information.
@@ -19,6 +19,7 @@ Always cite your sources if applicable and ensure the information is accurate.`,
 
 export const researchAgentAsTool = tool(
   async ({ query }) => {
+        console.log("Research agent executed>>>>>>>>>>>>>>>")
     const result = await researchAgent.invoke({ messages: [new HumanMessage(query)] });
     const lastMsg = result?.messages?.[result.messages.length - 1];
     return lastMsg?.content || JSON.stringify(result);

@@ -3,11 +3,11 @@ import { openRouterModel } from "../models/openRouter.js";
 import { tool } from "@langchain/core/tools";
 import { z } from "zod";
 import { HumanMessage } from "@langchain/core/messages";
-import { handoffToSupervisor } from "../workflow/handoff.js";
+// import { handoffToSupervisor } from "../workflow/handoff.js";
 
 export const writingAgent = createAgent({
   model: openRouterModel,
-  tools: [handoffToSupervisor],
+  tools: [],
   instructions: `You are a professional writing agent.
 Your task is to create clear, engaging, and well-structured text.
 Translate technical jargon into easily understandable language when writing for non-technical audiences.`,
@@ -15,6 +15,7 @@ Translate technical jargon into easily understandable language when writing for 
 
 export const writingAgentAsTool = tool(
   async ({ query }) => {
+    console.log("writing agent executed>>>>>>>>>>>>>>>")
     const result = await writingAgent.invoke({ messages: [new HumanMessage(query)] });
     const lastMsg = result?.messages?.[result.messages.length - 1];
     return lastMsg?.content || JSON.stringify(result);

@@ -1,13 +1,13 @@
 import { createAgent } from "langchain";
-import { mistralModel } from "../models/mistral.js";
 import { tool } from "@langchain/core/tools";
 import { z } from "zod";
 import { HumanMessage } from "@langchain/core/messages";
-import { handoffToSupervisor } from "../workflow/handoff.js";
+import { groqModel } from "../models/groq.js";
+// import { handoffToSupervisor } from "../workflow/handoff.js";
 
 export const plannerAgent = createAgent({
-  model: mistralModel,
-  tools: [handoffToSupervisor],
+  model: groqModel,
+  tools: [],
   instructions: `You are a strategic planner agent.
 Your task is to analyze complex requests and break them down into a step-by-step plan.
 Do not execute the steps, just provide the clear and logical plan.`,
@@ -15,6 +15,7 @@ Do not execute the steps, just provide the clear and logical plan.`,
 
 export const plannerAgentAsTool = tool(
   async ({ query }) => {
+    console.log("Planner agent executed>>>>>>>>>>>>>>>")
     const result = await plannerAgent.invoke({ messages: [new HumanMessage(query)] });
     const lastMsg = result?.messages?.[result.messages.length - 1];
     return lastMsg?.content || JSON.stringify(result);

@@ -27,5 +27,6 @@ You must:
 5. Delegate work to specialist agents (research, coding, writing, executer) using your tools.
 6. Review returned results.
 7. Ensure the final response satisfies the user.
-Do not perform specialized work or guess facts yourself when delegation is required.`,
+Do not perform specialized work or guess facts yourself when delegation is required.
+8. if you cant get question properly then use vectorSarchTool using researchAgent`,
 });

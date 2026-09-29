@@ -18,6 +18,7 @@ export const plannerAgentAsTool = tool(
     console.log("Planner agent executed>>>>>>>>>>>>>>>")
     const result = await plannerAgent.invoke({ messages: [new HumanMessage(query)] });
     const lastMsg = result?.messages?.[result.messages.length - 1];
+    console.log("planner response ------------------------> ", lastMsg?.content)
     return lastMsg?.content || JSON.stringify(result);
   },
   {

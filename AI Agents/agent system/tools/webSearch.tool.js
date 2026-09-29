@@ -4,7 +4,7 @@ import { tavily } from "@tavily/core";
 const tvly = tavily({ apiKey: process.env.TAVILY_API_KEY });
 
 export const webSearchTool = tool(async ({ query, deep_search }) => {
-
+    console.log("web search tool executed")
     const res = await tvly.search(query, {
         max_results: 5,
         deep_search: deep_search || false,

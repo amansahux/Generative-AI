@@ -5,6 +5,7 @@ import { PineconeCompressionRetriever } from "../../../Rag/index.js";
 
 export const vectorSearchTool = tool(
     async ({ query }) => {
+        console.log("vector search tool executed")
         return PineconeCompressionRetriever?.invoke(query).then(docs => docs.map((d) => d.pageContent).join("\n\n"));
     },
     {

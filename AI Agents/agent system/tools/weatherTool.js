@@ -3,6 +3,7 @@ import { z } from "zod";
 
 export const WeatherTool = tool(
     async ({ city }) => {
+        console.log("weather tool executed")
         try {
             // 1. Geocode city name to lat/long
             const geoRes = await fetch(

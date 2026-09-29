@@ -4,6 +4,7 @@ import { z } from "zod";
 export const codeTool = tool(
     async ({ code, language }) => {
         // Mock execution
+        console.log("code tool executed")
         return JSON.stringify({ output: `Executed ${language} code successfully. (Mock output)` });
     },
     {

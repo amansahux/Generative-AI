@@ -4,5 +4,6 @@ dotenv.config();
 
 export const groqModel = new ChatGroq({
   apiKey: process.env.GROQ_API_KEY,
-  model: "llama3-8b-8192",
+  model: "openai/gpt-oss-20b",
+  
 });

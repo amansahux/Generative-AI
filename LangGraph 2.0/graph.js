@@ -1,10 +1,23 @@
-import { StateGraph, StateSchema } from "@langchain/langgraph";
+import { StateGraph, StateSchema, START, END, MessagesValue, MemorySaver } from "@langchain/langgraph";
 import * as z from "zod";
-import { checkResearchNode, combineResearchNode, errorMessageNode, generateAnswerNode, humanApproval, reflectionNode, researchNode, retrySearchNode, vectorSearchNode, webSearchNode } from "./nodes";
+import {
+  checkResearchNode,
+  combineResearchNode,
+  generateAnswerNode,
+  humanApproval,
+  reflectionNode,
+  researchNode,
+  retrySearchNode,
+  vectorSearchNode,
+  webSearchNode
+} from "./nodes.js";
 
 export const State = new StateSchema({
+  // Conversation History
+  messages: MessagesValue,
+
   // User's original question
-  query: z.string(),
+  query: z.string().default(""),
 
   // Search results
   webResults: z.array(z.string()).default(() => []),
@@ -39,7 +52,6 @@ export const Graph = new StateGraph(State)
   .addNode("reflection", reflectionNode)
   .addNode("humanApproval", humanApproval)
   .addNode("retrySearch", retrySearchNode)
-  .addNode("errorMessage", errorMessageNode)
 
   // START
   .addEdge(START, "researchRouter")
@@ -101,7 +113,7 @@ export const Graph = new StateGraph(State)
       finish: END,
       regenerate: "generateAnswer",
     }
-  )
+  );
 
-  // Error
-  .addEdge("errorMessage", END)
+export const memory = new MemorySaver();
+export const graph = Graph.compile({ checkpointer: memory });

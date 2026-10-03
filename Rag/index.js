@@ -87,17 +87,17 @@ export const model = new ChatCohere({
 import { TextLoader } from "@langchain/classic/document_loaders/fs/text";
 import { PDFLoader } from "@langchain/community/document_loaders/fs/pdf";
 import { RecursiveCharacterTextSplitter } from "@langchain/textsplitters";
-import { MistralAIEmbeddings } from "@langchain/mistralai";
 import { Pinecone } from "@pinecone-database/pinecone";
 import { CloudClient } from "chromadb";
 import path from "path";
 
 
-const embeddings = new MistralAIEmbeddings({
-  model: "mistral-embed",
-  apiKey: process.env.MISTRAL_API_KEY,
-});
+import { CohereEmbeddings } from "@langchain/cohere";
 
+const embeddings = new CohereEmbeddings({
+  model: "embed-english-v3.0",
+  apiKey: process.env.COHERE_API_KEY
+});
 const pc = new Pinecone({
   apiKey: process.env.PINECONE_API_KEY,
 });

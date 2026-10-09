@@ -20,7 +20,6 @@ export default function Login() {
     setLoading(true);
 
     try {
-      // In a real app, you would validate password here
       if (!email || !password) {
         throw new Error("Please fill in all fields");
       }
@@ -35,23 +34,33 @@ export default function Login() {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gray-50 px-4 py-12 sm:px-6 lg:px-8 dark:bg-gray-900">
-      <div className="w-full max-w-md space-y-8 bg-white p-8 rounded-xl shadow-lg dark:bg-gray-800">
-        <div>
-          <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900 dark:text-white">
-            Sign in to your account
-          </h2>
+    <div className="relative flex min-h-screen items-center justify-center bg-black overflow-hidden px-4">
+      {/* Decorative blurred background shapes */}
+      <div className="absolute top-[-20%] left-[-10%] w-[500px] h-[500px] bg-blue-600/30 rounded-full mix-blend-screen filter blur-[100px] opacity-60"></div>
+      <div className="absolute bottom-[-20%] right-[-10%] w-[500px] h-[500px] bg-purple-600/30 rounded-full mix-blend-screen filter blur-[100px] opacity-60"></div>
+
+      <div className="relative z-10 w-full max-w-md p-10 bg-white/5 backdrop-blur-xl rounded-3xl border border-white/10 shadow-2xl">
+        <div className="mb-10 text-center">
+          <Link href="/" className="inline-block mb-6">
+             <h2 className="text-2xl font-bold tracking-tight text-white">
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400">CreatorFlow</span>
+             </h2>
+          </Link>
+          <h3 className="text-3xl font-light text-white tracking-wide">Welcome Back</h3>
+          <p className="mt-2 text-sm text-gray-400">Enter your credentials to continue</p>
         </div>
-        <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
+
+        <form className="space-y-6" onSubmit={handleSubmit}>
           {error && (
-            <div className="text-red-500 text-sm text-center bg-red-100 p-2 rounded">
+            <div className="p-3 text-sm text-center text-red-300 bg-red-900/30 border border-red-500/30 rounded-lg backdrop-blur-sm">
               {error}
             </div>
           )}
-          <div className="space-y-4 rounded-md shadow-sm">
+          
+          <div className="space-y-5">
             <div>
-              <label htmlFor="email-address" className="sr-only">
-                Email address
+              <label htmlFor="email-address" className="block text-sm font-medium text-gray-300 mb-1.5 ml-1">
+                Email Address
               </label>
               <input
                 id="email-address"
@@ -59,14 +68,14 @@ export default function Login() {
                 type="email"
                 autoComplete="email"
                 required
-                className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:placeholder-gray-400"
-                placeholder="Email address"
+                className="block w-full px-4 py-3.5 bg-black/40 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all sm:text-sm backdrop-blur-sm"
+                placeholder="you@example.com"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
               />
             </div>
             <div>
-              <label htmlFor="password" className="sr-only">
+              <label htmlFor="password" className="block text-sm font-medium text-gray-300 mb-1.5 ml-1">
                 Password
               </label>
               <input
@@ -75,27 +84,31 @@ export default function Login() {
                 type="password"
                 autoComplete="current-password"
                 required
-                className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:placeholder-gray-400"
-                placeholder="Password"
+                className="block w-full px-4 py-3.5 bg-black/40 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500/50 transition-all sm:text-sm backdrop-blur-sm"
+                placeholder="••••••••"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />
             </div>
           </div>
 
-          <div>
+          <div className="pt-2">
             <button
               type="submit"
               disabled={loading}
-              className="group relative flex w-full justify-center rounded-md border border-transparent bg-blue-600 py-2 px-4 text-sm font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:bg-blue-400"
+              className="relative flex w-full justify-center py-3.5 px-4 text-sm font-semibold rounded-xl text-white bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 focus:ring-offset-black transition-all shadow-[0_0_20px_rgba(124,58,237,0.3)] hover:shadow-[0_0_30px_rgba(124,58,237,0.5)] disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              {loading ? "Signing in..." : "Sign in"}
+              {loading ? "Authenticating..." : "Sign In"}
             </button>
           </div>
-          <div className="text-sm text-center">
-            <Link href="/signup" className="font-medium text-blue-600 hover:text-blue-500 dark:text-blue-400">
-              Don't have an account? Sign up
-            </Link>
+          
+          <div className="mt-8 text-center">
+            <p className="text-sm text-gray-400">
+              New to CreatorFlow?{" "}
+              <Link href="/signup" className="font-semibold text-white hover:text-blue-400 transition-colors">
+                Create an account
+              </Link>
+            </p>
           </div>
         </form>
       </div>
